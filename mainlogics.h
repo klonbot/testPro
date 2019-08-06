@@ -4,6 +4,7 @@
 #include <QtCore>
 
 #include "mainwindow.h"
+#include "cache.h"
 
 class MainLogics : public QObject
 {
@@ -23,8 +24,9 @@ private slots:
     void slotUploadToCash(void);
 
 private:
+    Cache cache;
 
-    void initTree(void);
+    void initTestTree(void);
 };
 
 #endif // MAILLOGICS_H

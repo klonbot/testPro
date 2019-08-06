@@ -17,12 +17,14 @@ SOURCES += main.cpp\
     database.cpp \
     cache.cpp \
     mainlogics.cpp \
-    databaseitem.cpp
+    databaseitem.cpp \
+    cashitem.cpp
 
 HEADERS  += mainwindow.h \
     database.h \
     cache.h \
     mainlogics.h \
-    databaseitem.h
+    databaseitem.h \
+    cacheitem.h
 
 FORMS    += mainwindow.ui
