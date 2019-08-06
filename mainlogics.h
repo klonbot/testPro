@@ -25,8 +25,12 @@ private slots:
 
 private:
     Cache cache;
+    MainWindow *window;
 
     void initTestTree(void);
+
+    void displayCache(void);
+    void displayChildren(QTreeWidgetItem *widgetItem, CacheItem *cacheItem);
 };
 
 #endif // MAILLOGICS_H

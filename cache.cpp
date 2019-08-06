@@ -30,3 +30,4 @@ void Cache::reset(void)
     }
     cacheItems.clear();
 }
+

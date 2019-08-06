@@ -12,6 +12,8 @@ public:
     //CashItem(DataBaseItem dbItem);
 
     void addChild(CacheItem *child);
+    int getNumChildren(void) {return children.size();}
+    CacheItem* getChild(int i) {return children.at(i);}
 private:
     bool isNew;                 // Признак нового элемента в кэше
 

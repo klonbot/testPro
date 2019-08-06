@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "qtreewidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -14,6 +15,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void refreshCachedTreeView();
+
+    QTreeWidget *getCachedTreeView();
 
 Q_SIGNALS:
     void signalNewItem(void);

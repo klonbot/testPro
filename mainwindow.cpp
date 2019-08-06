@@ -42,3 +42,21 @@ void MainWindow::on_UploadToCashBtn_clicked()
 {
    signalUploadToCash();
 }
+
+void MainWindow::refreshCachedTreeView()
+{
+    /*
+    ui->CachedTreeView->clear();
+    ui->CachedTreeView->setColumnCount(1);
+    QTreeWidgetItem *item = new QTreeWidgetItem();
+    item->setText(0, "тест");
+    ui->CachedTreeView->addTopLevelItem (item);
+    */
+
+    //ui->CachedTreeView->
+}
+
+QTreeWidget *MainWindow::getCachedTreeView()
+{
+    return ui->CachedTreeView;
+}
