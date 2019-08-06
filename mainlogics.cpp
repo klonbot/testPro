@@ -1,5 +1,6 @@
 #include "mainlogics.h"
 
+
 MainLogics::MainLogics(QObject *parent)
     : QObject(parent)
 {
@@ -41,7 +42,7 @@ void MainLogics::slotApply(void)
 void MainLogics::slotReset(void)
 {
     qDebug() << "slotReset!";
-    initTree();
+    initTestTree();
 }
 
 void MainLogics::slotUploadToCash(void)
@@ -49,9 +50,15 @@ void MainLogics::slotUploadToCash(void)
     qDebug() << "slotUploadToCash!";
 }
 
-void MainLogics::initTree(void)
+void MainLogics::initTestTree(void)
 {
+    cache.reset();
+
     // добавить
+    CacheItem *item_1 = cache.newRoot();
+    CacheItem *item_11 = cache.newItem(item_1);
+    CacheItem *item_12 = cache.newItem(item_1);
+    CacheItem *item_121 = cache.newItem(item_12);
 }
 
 
