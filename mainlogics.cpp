@@ -59,14 +59,13 @@ void MainLogics::initTestTree(void)
     cache.reset();
 
     // добавить
-    CacheItem *item_1 = cache.newRoot();
-    item_1->SetValue("t 1");
-    CacheItem *item_11 = cache.newItem(item_1);
-    item_11->SetValue("t 11");
-    CacheItem *item_12 = cache.newItem(item_1);
-    item_12->SetValue("t 12");
-    CacheItem *item_121 = cache.newItem(item_12);
-    item_121->SetValue("t 121");
+    CacheItem *item_1 = cache.newItem("t 1");
+    CacheItem *item_11 = cache.newItem(item_1, "t 11");
+    CacheItem *item_12 = cache.newItem(item_1, "t 12");
+    CacheItem *item_121 = cache.newItem(item_12, "t 121");
+    CacheItem *item_122 = cache.newItem(item_12, "t 122");
+    CacheItem *item_1221 = cache.newItem(item_122, "t 1221");
+    CacheItem *item_123 = cache.newItem(item_12, "t 123");
     displayCache();
 }
 
@@ -79,10 +78,9 @@ void MainLogics::displayCache(void)
     for (int i = 0; i < cache.size(); ++i)
     {
          CacheItem *cacheItem = cache.at(i);
-
          QTreeWidgetItem *widgetItem = new QTreeWidgetItem();
          widgetItem->setText(0, cacheItem->getValue());
-         if (cacheItem->GetIsRoot())
+         if (cacheItem->getIsRoot())
          {
             displayChildren(widgetItem, cacheItem);
             widgetItem->setExpanded(false);

@@ -1,24 +1,15 @@
 #include "cacheitem.h"
 
-CacheItem::CacheItem() :
-    DataBaseItem((idDataBaseItem_t)0)
+CacheItem::CacheItem(CacheItem *parent)
 {
     isNew = true;
-}
-
-CacheItem::CacheItem(CacheItem *parent) :
-    DataBaseItem((idDataBaseItem_t)0, (idDataBaseItem_t)0)
-{
-    isNew = true;
+    isRoot = (NULL == parent) ? isRoot_true : isRoot_false;
     Parent = parent;
-    parent->addChild(this);
+    if (false == isRoot)
+    {
+        parent->addChild(this);
+    }
 }
-
-/*CashItem::CashItem(DataBaseItem dbItem):
-    DataBaseItem(dbItem)
-{
-
-}*/
 
 void CacheItem::addChild(CacheItem *child)
 {
