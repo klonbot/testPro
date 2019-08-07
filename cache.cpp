@@ -3,13 +3,15 @@
 
 Cache::Cache()
 {    
-
+    cacheItemIDCnt = 0;
 }
 
 CacheItem* Cache::newItem(CacheItem *parent)
 {
-    CacheItem *item = (NULL == parent) ? new CacheItem() : new CacheItem(parent);
+    idCacheItem_t id = getCacheItemID();
+    CacheItem *item = (NULL == parent) ? new CacheItem(id) : new CacheItem(id, parent);
     cacheItems.append(item);
+
     return item;
 }
 
@@ -36,5 +38,6 @@ void Cache::reset(void)
          delete(item);
     }
     cacheItems.clear();
+    cacheItemIDCnt = 0;
 }
 

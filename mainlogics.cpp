@@ -26,6 +26,13 @@ void MainLogics::CreateSignals(MainWindow &w)
 void MainLogics::slotNewItem(void)
 {
     qDebug() << "slotNewItem!";
+    QTreeWidget *cachedTreeView = window->getCachedTreeView();
+    QTreeWidgetItem *widgetItem = cachedTreeView->currentItem();
+    if (NULL != widgetItem)
+    {
+        widgetItem->setText(0, "curr");
+        //qDebug() << "id" << id;
+    }
 }
 
 void MainLogics::slotDeleteItem(void)
@@ -80,6 +87,7 @@ void MainLogics::displayCache(void)
          CacheItem *cacheItem = cache.at(i);
          QTreeWidgetItem *widgetItem = new QTreeWidgetItem();
          widgetItem->setText(0, cacheItem->getValue());
+         widgetItem->setData(0, 127, cacheItem->getCashItemID());
          if (cacheItem->getIsRoot())
          {
             displayChildren(widgetItem, cacheItem);

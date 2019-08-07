@@ -2,6 +2,7 @@
 #define CACHE_H
 
 #include "cacheitem.h"
+#include "stdint.h"
 
 class Cache
 {
@@ -13,11 +14,14 @@ public:
     CacheItem* newItem(QString val);
 
     void reset(void);
-    CacheItem* at (int i) {return cacheItems.at(i);}
+    CacheItem* at (int32_t i) {return cacheItems.at(i);}
     int size(void) {return cacheItems.size();}
 
 private:
-    QVector<CacheItem*>cacheItems;
+    QVector<CacheItem*>cacheItems;    
+    idCacheItem_t cacheItemIDCnt;
+
+    idCacheItem_t getCacheItemID(void) {return cacheItemIDCnt++;}
 };
 
 #endif // CACHE_H

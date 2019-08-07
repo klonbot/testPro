@@ -1,8 +1,9 @@
 #include "cacheitem.h"
 
-CacheItem::CacheItem(CacheItem *parent)
+CacheItem::CacheItem(idCacheItem_t id, CacheItem *parent)
 {
     isNew = true;
+    cashItemID = id;
     isRoot = (NULL == parent) ? isRoot_true : isRoot_false;
     Parent = parent;
     if (false == isRoot)

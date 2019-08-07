@@ -41,6 +41,8 @@ private slots:
 
     void on_UploadToCashBtn_clicked();
 
+    void on_CachedTreeView_itemClicked(QTreeWidgetItem *item, int column);
+
 private:
     Ui::MainWindow *ui;
 };

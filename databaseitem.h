@@ -3,10 +3,12 @@
 
 #include "QString"
 #include "QVector"
+#include "stdint.h"
+
 
 typedef enum {isRoot_false, isRoot_true} isRoot_t;
 typedef enum {isDeleted_false, isDeleted_true} isDeleted_t;
-typedef unsigned int idDataBaseItem_t;
+typedef uint64_t idDataBaseItem_t;
 
 class DataBaseItem
 {
