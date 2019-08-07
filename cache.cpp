@@ -5,7 +5,7 @@ Cache::Cache()
 {    
 
 }
-
+/*
 CacheItem* Cache::newRoot(void)
 {
     CacheItem *item = new CacheItem();
@@ -30,4 +30,4 @@ void Cache::reset(void)
     }
     cacheItems.clear();
 }
-
+*/

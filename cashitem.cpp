@@ -14,11 +14,6 @@ CacheItem::CacheItem(CacheItem *parent) :
     parent->addChild(this);
 }
 
-/*CashItem::CashItem(DataBaseItem dbItem):
-    DataBaseItem(dbItem)
-{
-
-}*/
 
 void CacheItem::addChild(CacheItem *child)
 {

@@ -8,15 +8,15 @@ class Cache
 public:
     Cache();
 
-    CacheItem* newRoot(void);
-    CacheItem* newItem(CacheItem *parent);
+    //CacheItem* newRoot(void);
+    //CacheItem* newItem(CacheItem *parent);
 
-    void reset(void);
-    CacheItem* at (int i) {return cacheItems.at(i);}
-    int size(void) {return cacheItems.size();}
+    //void reset(void);
+    //CacheItem* at (int i) {return cacheItems.at(i);}
+    //int size(void) {return cacheItems.size();}
 
 private:
-    QVector<CacheItem*>cacheItems;
+    //QVector<CacheItem*>cacheItems;
 };
 
 #endif // CACHE_H

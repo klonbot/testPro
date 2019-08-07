@@ -3,13 +3,13 @@
 
 #include "databaseitem.h"
 #include "QVector"
+#include "QVariant"
 
 class CacheItem : public DataBaseItem
 {
 public:
     CacheItem();
     CacheItem(CacheItem *parent);
-    //CashItem(DataBaseItem dbItem);
 
     void addChild(CacheItem *child);
     int getNumChildren(void) {return children.size();}
@@ -20,5 +20,6 @@ private:
     CacheItem *Parent;
     QVector<CacheItem*>children;
 };
+Q_DECLARE_METATYPE(CacheItem);
 
 #endif // CASHITEM_H

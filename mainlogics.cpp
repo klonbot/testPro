@@ -56,9 +56,10 @@ void MainLogics::slotUploadToCash(void)
 
 void MainLogics::initTestTree(void)
 {
-    cache.reset();
+    //cache.reset();
 
     // добавить
+    /*
     CacheItem *item_1 = cache.newRoot();
     item_1->SetValue("t 1");
     CacheItem *item_11 = cache.newItem(item_1);
@@ -68,10 +69,12 @@ void MainLogics::initTestTree(void)
     CacheItem *item_121 = cache.newItem(item_12);
     item_121->SetValue("t 121");
     displayCache();
+    */
 }
 
 void MainLogics::displayCache(void)
 {
+    /*
     QTreeWidget *cachedTreeView = window->getCachedTreeView();
     cachedTreeView->clear();
     cachedTreeView->setColumnCount(1);
@@ -82,6 +85,7 @@ void MainLogics::displayCache(void)
 
          QTreeWidgetItem *widgetItem = new QTreeWidgetItem();
          widgetItem->setText(0, cacheItem->getValue());
+
          if (cacheItem->GetIsRoot())
          {
             displayChildren(widgetItem, cacheItem);
@@ -89,10 +93,12 @@ void MainLogics::displayCache(void)
             cachedTreeView->addTopLevelItem (widgetItem);
          }
     }
+    */
 }
 
 void MainLogics::displayChildren(QTreeWidgetItem *widgetItem, CacheItem *cacheItem)
 {
+    /*
     for (int j = 0; j < cacheItem->getNumChildren(); ++j)
     {
         QTreeWidgetItem *widgetChild = new QTreeWidgetItem();
@@ -101,6 +107,7 @@ void MainLogics::displayChildren(QTreeWidgetItem *widgetItem, CacheItem *cacheIt
         widgetItem->addChild(widgetChild);
         displayChildren(widgetChild, casheChild);
     }
+    */
 }
 
 
