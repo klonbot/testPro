@@ -56,12 +56,13 @@ void MainLogics::slotUploadToCash(void)
 
 void MainLogics::initTestTree(void)
 {
-    //cache.reset();
+    cache.reset();
 
     // добавить
-    /*
+
     CacheItem *item_1 = cache.newRoot();
     item_1->SetValue("t 1");
+    /*
     CacheItem *item_11 = cache.newItem(item_1);
     item_11->SetValue("t 11");
     CacheItem *item_12 = cache.newItem(item_1);

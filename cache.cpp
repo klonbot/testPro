@@ -3,31 +3,35 @@
 
 Cache::Cache()
 {    
-
+    root = NULL;
 }
-/*
+
 CacheItem* Cache::newRoot(void)
 {
-    CacheItem *item = new CacheItem();
-    cacheItems.append(item);
-    return item;
+    if (NULL == root)
+    {
+        CacheItem *item = new CacheItem();
+        root = item;
+    }
+    else
+        qDebug("Error addition new Root!");
+    return root;
 }
 
+/*
 CacheItem* Cache::newItem(CacheItem *parent)
 {
     CacheItem *item = new CacheItem(parent);
     cacheItems.append(item);
     return item;
 }
+*/
 
 void Cache::reset(void)
 {
-    for (int i = 0; i < cacheItems.size(); ++i)
+    if (NULL != root)
     {
-         CacheItem *item = cacheItems.at(i);
-
-         delete(item);
+        delete(root);
     }
-    cacheItems.clear();
 }
-*/
+
