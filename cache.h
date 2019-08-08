@@ -10,7 +10,7 @@ public:
 
     CacheItem* newItem(CacheItem *parent = NULL);
     CacheItem* newItem(CacheItem *parent, QString val);
-    CacheItem* newItem(QString val);
+    CacheItem* newItem(QString val);   
 
     void reset(void);
     CacheItem* at (int i) {return cacheItems.at(i);}

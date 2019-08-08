@@ -34,16 +34,26 @@ void MainLogics::slotNewItem(void)
     if(NULL != pCurrItem)
     {
         CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
-        QString text ="New ";
-        text += QString::number(newIndex++);
-        cache.newItem(pCurrCashItem, text);
-        refreshCasheTreeView();
+        if (isDeleted_false == pCurrCashItem->getIsDeleted())
+        {
+            QString text ="New ";
+            text += QString::number(newIndex++);
+            cache.newItem(pCurrCashItem, text);
+            refreshCasheTreeView();
+        }
     }
 }
 
 void MainLogics::slotDeleteItem(void)
 {
     qDebug() << "slotDeleteItem!";
+    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
+    QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
+    if(NULL != pCurrItem)
+    {
+        CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
+        pCurrCashItem->deleteItem();
+    }
 }
 
 void MainLogics::slotSetValueItem(void)
@@ -55,13 +65,12 @@ void MainLogics::slotSetValueItem(void)
     if(NULL != pCurrItem)
     {
         CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
-        if(NULL != pCurrCashItem)
+        if(isDeleted_false == pCurrCashItem->getIsDeleted())
         {
-            QString oldValue = pCurrCashItem->getValue();
-
             // запись текущего значения в кэш
             pCurrCashItem->setValue(pCurrItem->text(0));
 
+            QString oldValue = pCurrCashItem->getValue();
             qDebug () << oldValue << "->" << pCurrCashItem->getValue();
         }
     }
