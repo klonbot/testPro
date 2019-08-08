@@ -16,7 +16,7 @@ public:
     void setValue (QString val) {value = val;}
     QString getValue(void) {return value;}
     isRoot_t getIsRoot(void) {return isRoot;}
-    isDeleted_t getIsDeleted (void) {return isDeleted;}
+    isDeleted_t isDeleted (void) {return isDel;}
     void deleteItem(void);
 private:
     bool isNew;                         // Признак нового элемента в кэше
@@ -26,7 +26,7 @@ private:
     QVector<CacheItem*>children;        // Указатели на дочерние в кеше
     QVector<idDataBaseItem_t>childrenID;// Идентификаторы дочерних элементов из БД
     QString value;                      // Значение Поля
-    isDeleted_t isDeleted;               // Признак удаленого Поля
+    isDeleted_t isDel;                  // Признак удаленого Поля
 };
 
 #endif // CASHITEM_H

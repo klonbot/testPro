@@ -28,12 +28,17 @@ CacheItem* CacheConnector::getCacheItem(QTreeWidgetItem *widgetItem)
     return NULL;
 }
 
-void CacheConnector::refreshTreeWidgetData (void)
+void CacheConnector::refreshTreeWidgetData (void) // TODO: перенести в логику
 {
     for (int ind = 0; ind < connector.size(); ++ind)
     {
         connectWidgetWithCacheItem_t connect = connector.at(ind);
-        connect.widgetItem->setText(0, connect.casheItem->getValue());
+        QString value = connect.casheItem->getValue();
+        if (connect.casheItem->isDeleted())
+        {
+            value = "(Удален) " + value;
+        }
+        connect.widgetItem->setText(0, value);
     }
 }
 

@@ -34,7 +34,7 @@ void MainLogics::slotNewItem(void)
     if(NULL != pCurrItem)
     {
         CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
-        if (isDeleted_false == pCurrCashItem->getIsDeleted())
+        if (isDeleted_false == pCurrCashItem->isDeleted())
         {
             QString text ="New ";
             text += QString::number(newIndex++);
@@ -53,6 +53,7 @@ void MainLogics::slotDeleteItem(void)
     {
         CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
         pCurrCashItem->deleteItem();
+        refreshCasheTreeView();
     }
 }
 
@@ -65,7 +66,7 @@ void MainLogics::slotSetValueItem(void)
     if(NULL != pCurrItem)
     {
         CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
-        if(isDeleted_false == pCurrCashItem->getIsDeleted())
+        if(isDeleted_false == pCurrCashItem->isDeleted())
         {
             // запись текущего значения в кэш
             pCurrCashItem->setValue(pCurrItem->text(0));
@@ -115,12 +116,6 @@ void MainLogics::slotControlEdit(void)
     }
 }
 
-/*
-void MainLogics::newCacheItem(QString value, QTreeWidgetItem parent = 0)
-{
-
-}*/
-
 void MainLogics::initTestTree(void)
 {
     cache.reset();
@@ -167,14 +162,18 @@ void MainLogics::refreshItem(QTreeWidgetItem *pWidgetItem, CacheItem *pCasheChil
 {
     QTreeWidget *pCachedTreeView = window->getCachedTreeView();
     QTreeWidgetItem *pWidgetChild = new QTreeWidgetItem();
-    pWidgetChild->setText(0, pCasheChild->getValue());
     pWidgetChild->setFlags( pWidgetChild->flags() | Qt::ItemIsEditable);
+
+    Qt::ItemFlags flags = (pCasheChild->isDeleted()) ?
+                pWidgetChild->flags() & (~Qt::ItemIsEditable) : pWidgetChild->flags() | Qt::ItemIsEditable;
+    pWidgetChild->setFlags(flags);
 
     if (NULL != pWidgetItem)
         pWidgetItem->addChild(pWidgetChild);
     else
         pCachedTreeView->addTopLevelItem (pWidgetChild);
-    cacheConnector.add(pWidgetChild, pCasheChild); // образует связь между элементами моего кэша и QTreeWidgetItem
+    cacheConnector.add(pWidgetChild, pCasheChild);  // образует связь между элементами моего кэша и QTreeWidgetItem
+    cacheConnector.refreshTreeWidgetData();         // обновляет на основе связи данные
 
     refreshChildren(pWidgetChild, pCasheChild); // рекурсивно
     pCachedTreeView->expandItem(pWidgetChild);
