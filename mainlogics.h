@@ -30,11 +30,14 @@ private:
     Cache cache;
     MainWindow *window;
     CacheConnector cacheConnector;
+    int newIndex;
 
+    //void newCacheItem(QString value, QTreeWidgetItem parent = 0);
     void initTestTree(void);
 
-    void displayCache(void);
-    void displayChildren(QTreeWidgetItem *widgetItem, CacheItem *cacheItem);
+    void refreshCasheTreeView(void);
+    void refreshChildren(QTreeWidgetItem *widgetItem, CacheItem *cacheItem);
+    void refreshItem(QTreeWidgetItem *widgetItem, CacheItem *cacheItem);
 };
 
 #endif // MAILLOGICS_H

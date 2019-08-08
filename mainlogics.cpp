@@ -34,14 +34,10 @@ void MainLogics::slotNewItem(void)
     if(NULL != pCurrItem)
     {
         CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
-        CacheItem *pNewItem = cache.newItem(pCurrCashItem, "new");
-        QTreeWidgetItem *pWidgetItem = new QTreeWidgetItem();
-        pWidgetItem->setText(0, pCurrCashItem->getValue());
-        pWidgetItem->setFlags( pWidgetItem->flags() | Qt::ItemIsEditable);
-        pCurrItem->addChild(pWidgetItem);
-        pCachedTreeView->expandItem(pWidgetItem);
-        cacheConnector.add(pWidgetItem, pNewItem);
-        cacheConnector.refreshTreeWidgetData();
+        QString text ="New ";
+        text += QString::number(newIndex++);
+        cache.newItem(pCurrCashItem, text);
+        refreshCasheTreeView();
     }
 }
 
@@ -52,7 +48,7 @@ void MainLogics::slotDeleteItem(void)
 
 void MainLogics::slotSetValueItem(void)
 {
-    qDebug() << "slotSetValueItem!";
+    //qDebug() << "slotSetValueItem!";
 
     QTreeWidget *pCachedTreeView = window->getCachedTreeView();
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
@@ -110,10 +106,16 @@ void MainLogics::slotControlEdit(void)
     }
 }
 
+/*
+void MainLogics::newCacheItem(QString value, QTreeWidgetItem parent = 0)
+{
+
+}*/
+
 void MainLogics::initTestTree(void)
 {
     cache.reset();
-    cacheConnector.clear();
+    newIndex = 1;
 
     // добавить
     CacheItem *item_1 = cache.newItem("t 1");
@@ -123,51 +125,50 @@ void MainLogics::initTestTree(void)
     CacheItem *item_122 = cache.newItem(item_12, "t 122");
     CacheItem *item_1221 = cache.newItem(item_122, "t 1221");
     CacheItem *item_123 = cache.newItem(item_12, "t 123");
-    displayCache();
+    refreshCasheTreeView();
 }
 
-void MainLogics::displayCache(void)
+void MainLogics::refreshCasheTreeView(void)
 {
+    cacheConnector.clear();
     QTreeWidget *pCachedTreeView = window->getCachedTreeView();
     pCachedTreeView->clear();
     pCachedTreeView->setColumnCount(1);
 
     for (int ind = 0; ind < cache.size(); ++ind)
     {
-         CacheItem *pCacheItem = cache.at(ind);
-         QTreeWidgetItem *pWidgetItem = new QTreeWidgetItem();
-         pWidgetItem->setText(0, pCacheItem->getValue());
-         pWidgetItem->setFlags( pWidgetItem->flags() | Qt::ItemIsEditable);
-         cacheConnector.add(pWidgetItem, pCacheItem);
-
-         if (pCacheItem->getIsRoot()) // непонятное условие
-         {
-            displayChildren(pWidgetItem, pCacheItem);
-            pCachedTreeView->addTopLevelItem (pWidgetItem);
-         }
-         pCachedTreeView->expandItem(pWidgetItem);
+        CacheItem *pCacheItem = cache.at(ind);
+        if (pCacheItem->getIsRoot())
+        {
+            refreshItem(NULL, pCacheItem);
+        }
     }
-
 }
 
-void MainLogics::displayChildren(QTreeWidgetItem *widgetItem, CacheItem *cacheItem)
+void MainLogics::refreshChildren(QTreeWidgetItem *pWidgetItem, CacheItem *pCacheItem)
 {
-    for (int ind = 0; ind < cacheItem->getNumChildren(); ++ind)
+    for (int ind = 0; ind < pCacheItem->getNumChildren(); ++ind)
     {
-        QTreeWidgetItem *pWidgetChild = new QTreeWidgetItem();
-        CacheItem *pCasheChild = cacheItem->getChild(ind);
-        pWidgetChild->setText(0, pCasheChild->getValue());
-        pWidgetChild->setFlags( pWidgetChild->flags() | Qt::ItemIsEditable);
-        //pWidgetChild->setExpanded(true);
-
-        widgetItem->addChild(pWidgetChild);
-        cacheConnector.add(pWidgetChild, pCasheChild);
-
-        displayChildren(pWidgetChild, pCasheChild);
-
-        QTreeWidget *pCachedTreeView = window->getCachedTreeView();
-        pCachedTreeView->expandItem(pWidgetChild);
+        CacheItem *pCasheChild = pCacheItem->getChild(ind);
+        refreshItem(pWidgetItem, pCasheChild);
     }
+}
+
+void MainLogics::refreshItem(QTreeWidgetItem *pWidgetItem, CacheItem *pCasheChild)
+{
+    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
+    QTreeWidgetItem *pWidgetChild = new QTreeWidgetItem();
+    pWidgetChild->setText(0, pCasheChild->getValue());
+    pWidgetChild->setFlags( pWidgetChild->flags() | Qt::ItemIsEditable);
+
+    if (NULL != pWidgetItem)
+        pWidgetItem->addChild(pWidgetChild);
+    else
+        pCachedTreeView->addTopLevelItem (pWidgetChild);
+    cacheConnector.add(pWidgetChild, pCasheChild); // образует связь между элементами моего кэша и QTreeWidgetItem
+
+    refreshChildren(pWidgetChild, pCasheChild); // рекурсивно
+    pCachedTreeView->expandItem(pWidgetChild);
 }
 
 
