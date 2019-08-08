@@ -26,6 +26,7 @@ void MainWindow::on_DeleteItemBtn_clicked()
 void MainWindow::on_SetValueItemBtn_clicked()
 {
     signalSetValueItem();
+    ui->SetValueItemBtn->setEnabled(false);
 }
 
 void MainWindow::on_ApplyBtn_clicked()
@@ -56,6 +57,11 @@ void MainWindow::refreshCachedTreeView()
     //ui->CachedTreeView->
 }
 
+void MainWindow::setValueItemBtnEnabled(bool en)
+{
+    ui->SetValueItemBtn->setEnabled(en);
+}
+
 QTreeWidget *MainWindow::getCachedTreeView()
 {
     return ui->CachedTreeView;
@@ -63,5 +69,18 @@ QTreeWidget *MainWindow::getCachedTreeView()
 
 void MainWindow::on_CachedTreeView_clicked(const QModelIndex &index)
 {
+
+}
+
+void MainWindow::on_CachedTreeView_itemChanged(QTreeWidgetItem *item, int column)
+{
+    signalControlEdit();
+}
+
+void MainWindow::on_CachedTreeView_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    ui->SetValueItemBtn->setEnabled(false);
     signalRefreshCashTree();
 }
+
+

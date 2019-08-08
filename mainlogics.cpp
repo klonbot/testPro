@@ -23,6 +23,7 @@ void MainLogics::CreateSignals(void)
     connect(window, SIGNAL(signalReset()), this, SLOT(slotReset()));
     connect(window, SIGNAL(signalUploadToCash()), this, SLOT(slotUploadToCash()));
     connect(window, SIGNAL(signalRefreshCashTree()), this, SLOT(slotRefreshCashTree()));
+    connect(window, SIGNAL(signalControlEdit()), this, SLOT(slotControlEdit()));
 }
 
 void MainLogics::slotNewItem(void)
@@ -77,7 +78,22 @@ void MainLogics::slotUploadToCash(void)
 void MainLogics::slotRefreshCashTree(void)
 {
     qDebug() << "slotRefreshCashTree!";
-    displayCache();
+    cacheConnector.refresh();
+}
+
+void MainLogics::slotControlEdit(void)
+{
+    qDebug() << "slotControlEdit!";
+    if(cacheConnector.isDifferent())
+    {
+        qDebug("btn Disable");
+        window->setValueItemBtnEnabled(false);
+    }
+    else
+    {
+        qDebug("btn Enable");
+        window->setValueItemBtnEnabled(true);
+    }
 }
 
 void MainLogics::initTestTree(void)

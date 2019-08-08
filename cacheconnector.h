@@ -12,6 +12,9 @@ public:
     void add(QTreeWidgetItem *wItem, CacheItem *cItem);
     void clear(void) {connector.clear();}
     CacheItem* getCacheItem(QTreeWidgetItem *widgetItem);
+    void refresh (void);
+    int getSize(void) {return connector.size();}
+    bool isDifferent(void);
 private:
     typedef struct
     {

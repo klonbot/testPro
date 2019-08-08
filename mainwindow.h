@@ -17,6 +17,7 @@ public:
     ~MainWindow();
 
     void refreshCachedTreeView();
+    void setValueItemBtnEnabled(bool en);
 
     QTreeWidget *getCachedTreeView();
 
@@ -28,6 +29,7 @@ Q_SIGNALS:
     void signalReset(void);
     void signalUploadToCash(void);
     void signalRefreshCashTree(void);
+    void signalControlEdit(void);
 
 private slots:
     void on_NewItemBtn_clicked();
@@ -43,6 +45,10 @@ private slots:
     void on_UploadToCashBtn_clicked();
 
     void on_CachedTreeView_clicked(const QModelIndex &index);
+
+    void on_CachedTreeView_itemChanged(QTreeWidgetItem *item, int column);
+
+    void on_CachedTreeView_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
 private:
     Ui::MainWindow *ui;
