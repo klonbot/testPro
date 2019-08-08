@@ -2,9 +2,10 @@
 #define MAILLOGICS_H
 
 #include <QtCore>
-
+#include <QVector>
 #include "mainwindow.h"
 #include "cache.h"
+#include "cacheconnector.h"
 
 class MainLogics : public QObject
 {
@@ -26,6 +27,7 @@ private slots:
 private:
     Cache cache;
     MainWindow *window;
+    CacheConnector cacheConnector;
 
     void initTestTree(void);
 
