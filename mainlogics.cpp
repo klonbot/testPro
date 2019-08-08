@@ -29,6 +29,20 @@ void MainLogics::CreateSignals(void)
 void MainLogics::slotNewItem(void)
 {
     qDebug() << "slotNewItem!";
+    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
+    QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
+    if(NULL != pCurrItem)
+    {
+        CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
+        CacheItem *pNewItem = cache.newItem(pCurrCashItem, "new");
+        QTreeWidgetItem *pWidgetItem = new QTreeWidgetItem();
+        pWidgetItem->setText(0, pCurrCashItem->getValue());
+        pWidgetItem->setFlags( pWidgetItem->flags() | Qt::ItemIsEditable);
+        pCurrItem->addChild(pWidgetItem);
+        pCachedTreeView->expandItem(pWidgetItem);
+        cacheConnector.add(pWidgetItem, pNewItem);
+        cacheConnector.refreshTreeWidgetData();
+    }
 }
 
 void MainLogics::slotDeleteItem(void)
@@ -77,21 +91,21 @@ void MainLogics::slotUploadToCash(void)
 
 void MainLogics::slotRefreshCashTree(void)
 {
-    qDebug() << "slotRefreshCashTree!";
-    cacheConnector.refresh();
+    //qDebug() << "slotRefreshCashTree!";
+    cacheConnector.refreshTreeWidgetData();
 }
 
 void MainLogics::slotControlEdit(void)
 {
-    qDebug() << "slotControlEdit!";
+    //qDebug() << "slotControlEdit!";
     if(cacheConnector.isDifferent())
     {
-        qDebug("btn Disable");
+        //qDebug("btn Disable");
         window->setValueItemBtnEnabled(false);
     }
     else
     {
-        qDebug("btn Enable");
+        //qDebug("btn Enable");
         window->setValueItemBtnEnabled(true);
     }
 }

@@ -28,7 +28,7 @@ CacheItem* CacheConnector::getCacheItem(QTreeWidgetItem *widgetItem)
     return NULL;
 }
 
-void CacheConnector::refresh (void)
+void CacheConnector::refreshTreeWidgetData (void)
 {
     for (int ind = 0; ind < connector.size(); ++ind)
     {

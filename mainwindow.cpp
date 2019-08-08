@@ -46,15 +46,7 @@ void MainWindow::on_UploadToCashBtn_clicked()
 
 void MainWindow::refreshCachedTreeView()
 {
-    /*
-    ui->CachedTreeView->clear();
-    ui->CachedTreeView->setColumnCount(1);
-    QTreeWidgetItem *item = new QTreeWidgetItem();
-    item->setText(0, "тест");
-    ui->CachedTreeView->addTopLevelItem (item);
-    */
 
-    //ui->CachedTreeView->
 }
 
 void MainWindow::setValueItemBtnEnabled(bool en)
@@ -83,4 +75,7 @@ void MainWindow::on_CachedTreeView_currentItemChanged(QTreeWidgetItem *current, 
     signalRefreshCashTree();
 }
 
-
+void MainWindow::on_CachedTreeView_itemEntered(QTreeWidgetItem *item, int column)
+{
+    ui->SetValueItemBtn->setEnabled(true);
+}

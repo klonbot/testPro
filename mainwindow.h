@@ -50,6 +50,8 @@ private slots:
 
     void on_CachedTreeView_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
+    void on_CachedTreeView_itemEntered(QTreeWidgetItem *item, int column);
+
 private:
     Ui::MainWindow *ui;
 };
