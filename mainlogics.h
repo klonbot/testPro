@@ -12,9 +12,9 @@ class MainLogics : public QObject
     Q_OBJECT
 
 public:
-    MainLogics(QObject *parent = 0);
+    MainLogics(MainWindow &w, QObject *parent = 0);
 
-    void CreateSignals(MainWindow &w);
+    void CreateSignals(void);
 
 private slots:
     void slotNewItem(void);
@@ -23,6 +23,7 @@ private slots:
     void slotApply(void);
     void slotReset(void);
     void slotUploadToCash(void);
+    void slotRefreshCashTree(void);
 
 private:
     Cache cache;

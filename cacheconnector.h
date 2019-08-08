@@ -11,6 +11,7 @@ public:
 
     void add(QTreeWidgetItem *wItem, CacheItem *cItem);
     void clear(void) {connector.clear();}
+    CacheItem* getCacheItem(QTreeWidgetItem *widgetItem);
 private:
     typedef struct
     {

@@ -9,10 +9,8 @@ int main(int argc, char *argv[])
 
     Database db;
 
-    MainLogics mainLogics;
-
     MainWindow w;
-    mainLogics.CreateSignals(w);
+    MainLogics mainLogics(w);
     w.show();
 
     return a.exec();

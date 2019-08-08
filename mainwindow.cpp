@@ -60,3 +60,8 @@ QTreeWidget *MainWindow::getCachedTreeView()
 {
     return ui->CachedTreeView;
 }
+
+void MainWindow::on_CachedTreeView_clicked(const QModelIndex &index)
+{
+    signalRefreshCashTree();
+}

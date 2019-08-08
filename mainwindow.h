@@ -27,6 +27,7 @@ Q_SIGNALS:
     void signalApply(void);
     void signalReset(void);
     void signalUploadToCash(void);
+    void signalRefreshCashTree(void);
 
 private slots:
     void on_NewItemBtn_clicked();
@@ -40,6 +41,8 @@ private slots:
     void on_ResetBtn_clicked();
 
     void on_UploadToCashBtn_clicked();
+
+    void on_CachedTreeView_clicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;
