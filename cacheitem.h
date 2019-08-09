@@ -21,6 +21,8 @@ public:
 
     void deleteItem(void);
     bool isNewItem(void) {return isNew;}
+
+    DataBaseItem* getDataBaseItem(void) {return &cacheData;}
 private:
     DataBaseItem cacheData;
     bool isNew;                         // Признак нового элемента в кэше

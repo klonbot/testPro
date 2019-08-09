@@ -3,12 +3,18 @@
 
 #include "databaseitem.h"
 
-class Database
+class DataBase
 {
 public:
-    Database();
+    DataBase();
 
+    void addItemFromCashe(DataBaseItem *dbItem);
+    void refreshItemFromCashe(DataBaseItem *dbItem);
 private:
+    QVector<DataBaseItem*>dataBaseItems;
+    idDataBaseItem_t idCounter;
+
+    idDataBaseItem_t getNextID() {return idCounter++;}
 };
 
 #endif // DATABASE_H

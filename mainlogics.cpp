@@ -76,13 +76,6 @@ void MainLogics::slotSetValueItem(void)
     }
 }
 
-void MainLogics::slotApply(void)
-{
-    qDebug() << "slotApply!";
-
-
-}
-
 void MainLogics::slotReset(void)
 {
     qDebug() << "slotReset!";
@@ -180,5 +173,38 @@ void MainLogics::refreshItem(QTreeWidgetItem *pWidgetItem, CacheItem *pCasheChil
     pCachedTreeView->expandItem(pWidgetChild);
 }
 
+// Применение кэша к базе данных
+void MainLogics::slotApply(void)
+{
+    for (int ind = 0; ind < cache.size(); ++ind)
+    {
+        CacheItem *pCacheItem = cache.at(ind);
+        if (pCacheItem->getIsRoot()) // найти все топы
+        {
+            applyItem(pCacheItem);
+        }
+    }
+    qDebug() << "slotApply!";
+}
 
+void MainLogics::applyItem(CacheItem *pCacheItem)
+{
+    if(pCacheItem->isNewItem())
+    {
+        dataBase.addItemFromCashe(pCacheItem->getDataBaseItem());
+    }
+    else
+    {
+        dataBase.refreshItemFromCashe(pCacheItem->getDataBaseItem());
+    }
+    applyChildren(pCacheItem);
+}
 
+void MainLogics::applyChildren(CacheItem *pCacheItem)
+{
+    for (int ind = 0; ind < pCacheItem->getNumChildren(); ++ind)
+    {
+        CacheItem *pCasheChild = pCacheItem->getChild(ind);
+        applyItem(pCasheChild);
+    }
+}

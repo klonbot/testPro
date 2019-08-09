@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Database db;
+    DataBase db;
 
     MainWindow w;
     MainLogics mainLogics(w);
