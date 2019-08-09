@@ -21,7 +21,7 @@ void DataBaseItem::init(idDataBaseItem_t id, idDataBaseItem_t idP, isRoot_t isR)
     value.clear();
 }
 
-void DataBaseItem::SetValue(QString val)
+void DataBaseItem::setValue(QString val)
 {
     value = val;
 }

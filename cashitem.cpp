@@ -1,25 +1,22 @@
 #include "cacheitem.h"
 
-CacheItem::CacheItem(CacheItem *parent)
+CacheItem::CacheItem(CacheItem *parent):
+    cacheData(0)
 {
     isNew = true;
-    isRoot = (NULL == parent) ? isRoot_true : isRoot_false;
+    isRoot_t isRoot = (NULL == parent) ? isRoot_true : isRoot_false;
+    cacheData.setIsRoot(isRoot);
     Parent = parent;
-    isDel = isDeleted_false;
+    cacheData.setIsDeleted(isDeleted_false);
     if (false == isRoot)
     {
         parent->addChild(this);
     }
 }
 
-void CacheItem::addChild(CacheItem *child)
-{
-    children.append(child);
-}
-
 void CacheItem::deleteItem(void)
 {
-    isDel = isDeleted_true;
+    cacheData.setIsDeleted(isDeleted_true);
     for (int ind = 0; ind < getNumChildren(); ++ind)
     {
         CacheItem *pCasheChild = getChild(ind);

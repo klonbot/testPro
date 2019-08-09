@@ -14,9 +14,13 @@ public:
     DataBaseItem(idDataBaseItem_t id, idDataBaseItem_t idP);
     DataBaseItem(idDataBaseItem_t id);
 
-    void SetValue(QString val);
+    void setValue(QString val);
     QString getValue(void);
-    isRoot_t GetIsRoot(void) { return isRoot; }
+    isRoot_t getIsRoot(void) {return isRoot;}
+    void setIsRoot(isRoot_t root) {isRoot = root;}
+    isDeleted_t getIsDeleted (void) {return isDeleted;}
+    void setIsDeleted(isDeleted_t del) {isDeleted = del;}
+
 private:
     idDataBaseItem_t idThis;
 
