@@ -20,3 +20,13 @@ void DataBaseItem::init(idDataBaseItem_t id, idDataBaseItem_t idP, isRoot_t isR)
     isDeleted = isDeleted_false;
     value.clear();
 }
+
+void DataBaseItem::SetValue(QString val)
+{
+    value = val;
+}
+
+QString DataBaseItem::getValue(void)
+{
+    return value;
+}

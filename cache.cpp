@@ -6,17 +6,24 @@ Cache::Cache()
 
 }
 
-CacheItem* Cache::newRoot(void)
+CacheItem* Cache::newItem(CacheItem *parent)
 {
-    CacheItem *item = new CacheItem();
+    CacheItem *item = (NULL == parent) ? new CacheItem() : new CacheItem(parent);
     cacheItems.append(item);
     return item;
 }
 
-CacheItem* Cache::newItem(CacheItem *parent)
+CacheItem* Cache::newItem(CacheItem *parent, QString val)
 {
-    CacheItem *item = new CacheItem(parent);
-    cacheItems.append(item);
+    CacheItem *item = newItem(parent);
+    item->setValue(val);
+    return item;
+}
+
+CacheItem* Cache::newItem(QString val)
+{
+    CacheItem *item = newItem();
+    item->setValue(val);
     return item;
 }
 

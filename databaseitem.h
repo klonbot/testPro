@@ -14,6 +14,9 @@ public:
     DataBaseItem(idDataBaseItem_t id, idDataBaseItem_t idP);
     DataBaseItem(idDataBaseItem_t id);
 
+    void SetValue(QString val);
+    QString getValue(void);
+    isRoot_t GetIsRoot(void) { return isRoot; }
 private:
     idDataBaseItem_t idThis;
 

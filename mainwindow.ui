@@ -50,7 +50,7 @@
     </property>
     <column>
      <property name="text">
-      <string notr="true">1</string>
+      <string>Кэш</string>
      </property>
     </column>
    </widget>
@@ -94,6 +94,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="SetValueItemBtn">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>80</x>
