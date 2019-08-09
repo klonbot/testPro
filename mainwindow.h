@@ -52,6 +52,10 @@ private slots:
 
     void on_CachedTreeView_itemEntered(QTreeWidgetItem *item, int column);
 
+    void on_CachedTreeView_itemClicked(QTreeWidgetItem *item, int column);
+
+    void on_CachedTreeView_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
 private:
     Ui::MainWindow *ui;
 };
