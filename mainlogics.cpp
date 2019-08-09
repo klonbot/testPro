@@ -179,32 +179,37 @@ void MainLogics::slotApply(void)
     for (int ind = 0; ind < cache.size(); ++ind)
     {
         CacheItem *pCacheItem = cache.at(ind);
-        if (pCacheItem->getIsRoot()) // найти все топы
+        if (pCacheItem->getIsRoot())
         {
-            applyItem(pCacheItem);
+            applyItem(pCacheItem, 0);
+        }
+        else
+        {
+            // также со всеми топами
         }
     }
     qDebug() << "slotApply!";
 }
 
-void MainLogics::applyItem(CacheItem *pCacheItem)
+void MainLogics::applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent)
 {
+    idDataBaseItem_t id = 0;
     if(pCacheItem->isNewItem())
     {
-        dataBase.addItemFromCashe(pCacheItem->getDataBaseItem());
+        id = dataBase.addItemFromCashe(pCacheItem->getDataBaseItem(), idParent);
     }
     else
     {
-        dataBase.refreshItemFromCashe(pCacheItem->getDataBaseItem());
+        id = dataBase.refreshItemFromCashe(pCacheItem->getDataBaseItem());
     }
-    applyChildren(pCacheItem);
+    applyChildren(pCacheItem, id);
 }
 
-void MainLogics::applyChildren(CacheItem *pCacheItem)
+void MainLogics::applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent)
 {
     for (int ind = 0; ind < pCacheItem->getNumChildren(); ++ind)
     {
         CacheItem *pCasheChild = pCacheItem->getChild(ind);
-        applyItem(pCasheChild);
+        applyItem(pCasheChild, idParent);
     }
 }

@@ -5,20 +5,35 @@ DataBase::DataBase()
     idCounter = 0;
 }
 
-void DataBase::addItemFromCashe(DataBaseItem *dbItem)
+idDataBaseItem_t DataBase::addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem_t idParent)
 {
     idDataBaseItem_t id = getNextID();
+    if (dataBaseItems.size() > id)
+    {
+        qDebug("addItemFromCashe: ERROR id for DataBase!");
+        return id;
+    }
     dbItem->setID(id);
+    if(isRoot_false == dbItem->getIsRoot())
+    {
+        dbItem->setIdParent(idParent);
+    }
     dataBaseItems.append(dbItem);
+    if(isRoot_false == dbItem->getIsRoot())
+    {
+        DataBaseItem *item = dataBaseItems.at(idParent);
+        item->setIdChildren(id);
+    }
+    return id;
 }
 
-void DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
+idDataBaseItem_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
 {
     idDataBaseItem_t id = dbItem->getId();
     if (dataBaseItems.size() > id)
     {
-        qDebug("ERROR id for DataBase!");
-        return;
+        qDebug("refreshItemFromCashe: ERROR id for DataBase!");
+        return id;
     }
     DataBaseItem *item = dataBaseItems.at(id);
     *item = *dbItem;
@@ -27,5 +42,6 @@ void DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
     {
         // пометить на удаление все дочерние
     }
+    return id;
 }
 

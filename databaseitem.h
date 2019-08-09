@@ -16,12 +16,20 @@ public:
 
     void setID(idDataBaseItem_t id) {idThis = id;}
     idDataBaseItem_t getId(void) {return idThis;}
+
     void setValue(QString val);
     QString getValue(void);
+
     isRoot_t getIsRoot(void) {return isRoot;}
     void setIsRoot(isRoot_t root) {isRoot = root;}
+
     isDeleted_t getIsDeleted (void) {return isDeleted;}
     void setIsDeleted(isDeleted_t del) {isDeleted = del;}
+
+    idDataBaseItem_t getIdParent() {return idParent;}
+    void setIdParent(idDataBaseItem_t id) {idParent = id;}
+
+    void setIdChildren(idDataBaseItem_t id) {idChildren.append(id);}
 
 private:
     idDataBaseItem_t idThis;

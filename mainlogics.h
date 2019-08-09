@@ -41,8 +41,8 @@ private:
     void refreshChildren(QTreeWidgetItem *widgetItem, CacheItem *cacheItem);
     void refreshItem(QTreeWidgetItem *widgetItem, CacheItem *cacheItem);
 
-    void applyItem(CacheItem *pCacheItem);
-    void applyChildren(CacheItem *pCacheItem);
+    void applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent);
+    void applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent);
 };
 
 #endif // MAILLOGICS_H
