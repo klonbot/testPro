@@ -8,7 +8,7 @@ DataBase::DataBase()
 idDataBaseItem_t DataBase::addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem_t idParent)
 {
     idDataBaseItem_t id = getNextID();
-    if (dataBaseItems.size() > id)
+    if (dataBaseItems.size() < id)
     {
         qDebug("addItemFromCashe: ERROR id for DataBase!");
         return id;
@@ -30,7 +30,7 @@ idDataBaseItem_t DataBase::addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem
 idDataBaseItem_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
 {
     idDataBaseItem_t id = dbItem->getId();
-    if (dataBaseItems.size() > id)
+    if (dataBaseItems.size() < id)
     {
         qDebug("refreshItemFromCashe: ERROR id for DataBase!");
         return id;
@@ -45,3 +45,8 @@ idDataBaseItem_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
     return id;
 }
 
+void DataBase::clear (void)
+{
+    dataBaseItems.clear();
+    idCounter = 0;
+}

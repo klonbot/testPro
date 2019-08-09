@@ -34,7 +34,6 @@ private:
     CacheConnector cacheConnector;
     int newIndex;
 
-    //void newCacheItem(QString value, QTreeWidgetItem parent = 0);
     void initTestTree(void);
 
     void refreshCasheTreeView(void);
@@ -43,6 +42,8 @@ private:
 
     void applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent);
     void applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent);
+
+    void clearCache();
 };
 
 #endif // MAILLOGICS_H

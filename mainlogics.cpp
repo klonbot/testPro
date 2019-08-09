@@ -77,9 +77,9 @@ void MainLogics::slotSetValueItem(void)
 }
 
 void MainLogics::slotReset(void)
-{
-    qDebug() << "slotReset!";
+{    
     initTestTree();
+    qDebug() << "slotReset!";
 }
 
 void MainLogics::slotUploadToCash(void)
@@ -112,6 +112,7 @@ void MainLogics::slotControlEdit(void)
 
 void MainLogics::initTestTree(void)
 {
+    dataBase.clear();
     cache.reset();
     newIndex = 1;
 
@@ -188,6 +189,8 @@ void MainLogics::slotApply(void)
             // также со всеми топами
         }
     }
+
+    clearCache();
     qDebug() << "slotApply!";
 }
 
@@ -212,4 +215,11 @@ void MainLogics::applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent)
         CacheItem *pCasheChild = pCacheItem->getChild(ind);
         applyItem(pCasheChild, idParent);
     }
+}
+
+void MainLogics::clearCache()
+{
+    cacheConnector.clear();
+    cache.reset();
+    refreshCasheTreeView();
 }
