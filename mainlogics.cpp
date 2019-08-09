@@ -68,10 +68,9 @@ void MainLogics::slotSetValueItem(void)
         CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
         if(isDeleted_false == pCurrCashItem->isDeleted())
         {
-            // запись текущего значения в кэш
-            pCurrCashItem->setValue(pCurrItem->text(0));
-
             QString oldValue = pCurrCashItem->getValue();
+            // запись текущего значения в кэш
+            pCurrCashItem->setValue(pCurrItem->text(0));            
             qDebug () << oldValue << "->" << pCurrCashItem->getValue();
         }
     }
@@ -104,6 +103,8 @@ void MainLogics::slotRefreshCashTree(void)
 void MainLogics::slotControlEdit(void)
 {
     //qDebug() << "slotControlEdit!";
+    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
+    QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
     if(cacheConnector.isDifferent())
     {
         //qDebug("btn Disable");
