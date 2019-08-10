@@ -189,13 +189,9 @@ void MainLogics::slotApply(void)
     for (int ind = 0; ind < cache.size(); ++ind)
     {
         CacheItem *pCacheItem = cache.at(ind);
-        if (pCacheItem->getIsRoot())
+        if (pCacheItem->isTop())
         {
             applyItem(pCacheItem, 0);
-        }
-        else
-        {
-            // также со всеми топами
         }
     }
 
