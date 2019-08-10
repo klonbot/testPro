@@ -7,7 +7,7 @@ template <typename Item>
 class Connector
 {
 public:
-    Connector() {}
+    Connector(QTreeWidget &tw):treeWiget(tw) {}
     void clear(void) {connector.clear();}
     int getSize(void) {return connector.size();}
 
@@ -15,6 +15,8 @@ public:
     void refreshTreeWidgetData (void);
     Item* getItem(QTreeWidgetItem *widgetItem);
     bool isDifferent(void);
+
+    void connectTree(Item *pItem) {connectItem(NULL, pItem);}
 private:
     typedef struct
     {
@@ -23,6 +25,11 @@ private:
     } connectItem_t;
 
     QVector<connectItem_t> connector;
+    QTreeWidget &treeWiget;
+
+    void connectItem(QTreeWidgetItem *pWidgetItem, Item *pCasheChild);
+    void connectChildren(QTreeWidgetItem *pWidgetItem, Item *pCacheItem);
+    void refreshTreeWidgetItemData (QTreeWidgetItem *wItem, Item *item);
 };
 
 template<typename Item>
@@ -51,17 +58,23 @@ Item* Connector<Item>::getItem(QTreeWidgetItem *widgetItem)
 }
 
 template<typename Item>
+void Connector<Item>::refreshTreeWidgetItemData (QTreeWidgetItem *wItem, Item *item)
+{
+        QString value = item->getValue();
+        if (item->isDeleted())
+        {
+            value = "(Удален) " + value;
+        }
+        wItem->setText(0, value);
+}
+
+template<typename Item>
 void Connector<Item>::refreshTreeWidgetData (void)
 {
     for (int ind = 0; ind < connector.size(); ++ind)
     {
         connectItem_t connect = connector.at(ind);
-        QString value = connect.item->getValue();
-        if (connect.item->isDeleted()) // !!!!
-        {
-            value = "(Удален) " + value;
-        }
-        connect.widgetItem->setText(0, value);
+        refreshTreeWidgetItemData (connect.widgetItem, connect.item);
     }
 }
 
@@ -71,12 +84,43 @@ bool Connector<Item>::isDifferent(void)
     for (int ind = 0; ind < connector.size(); ++ind)
     {
         connectItem_t connect = connector.at(ind);
-        if (connect.widgetItem->text(0) != connect.item->getValue())// !!
+        if (connect.widgetItem->text(0) != connect.item->getValue())
         {
             return false;
         }
     }
     return true;
+}
+
+template<typename Item>
+void Connector<Item>::connectItem(QTreeWidgetItem *pWidgetItem, Item *pCasheChild)
+{
+    QTreeWidgetItem *pWidgetChild = new QTreeWidgetItem();
+    pWidgetChild->setFlags( pWidgetChild->flags() | Qt::ItemIsEditable);
+
+    Qt::ItemFlags flags = (pCasheChild->isDeleted()) ?
+                pWidgetChild->flags() & (~Qt::ItemIsEditable) : pWidgetChild->flags() | Qt::ItemIsEditable;
+    pWidgetChild->setFlags(flags);
+
+    if (NULL != pWidgetItem)
+        pWidgetItem->addChild(pWidgetChild);
+    else
+        treeWiget.addTopLevelItem (pWidgetChild);
+    add(pWidgetChild, pCasheChild);
+    refreshTreeWidgetItemData (pWidgetChild, pCasheChild);
+
+    connectChildren(pWidgetChild, pCasheChild); // рекурсивно
+    treeWiget.expandItem(pWidgetChild);
+}
+
+template<typename Item>
+void Connector<Item>::connectChildren(QTreeWidgetItem *pWidgetItem, Item *pCacheItem)
+{
+    for (int ind = 0; ind < pCacheItem->getNumChildren(); ++ind)
+    {
+        CacheItem *pCasheChild = pCacheItem->getChild(ind);
+        connectItem(pWidgetItem, pCasheChild);
+    }
 }
 
 #endif // CONNECTOR_H

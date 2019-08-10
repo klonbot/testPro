@@ -4,7 +4,9 @@
 
 
 MainLogics::MainLogics(MainWindow &w, QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      cacheConnector(*w.getCachedTreeView()),
+      dbConnector(*w.getCachedTreeView())
 {
     qDebug() << "init mainLogic!";    
     window = &w;
@@ -139,39 +141,9 @@ void MainLogics::refreshCasheTreeView(void)
         CacheItem *pCacheItem = cache.at(ind);
         if (pCacheItem->getIsRoot())
         {
-            refreshItem(NULL, pCacheItem);
+            cacheConnector.connectTree(pCacheItem);
         }
     }
-}
-
-void MainLogics::refreshChildren(QTreeWidgetItem *pWidgetItem, CacheItem *pCacheItem)
-{
-    for (int ind = 0; ind < pCacheItem->getNumChildren(); ++ind)
-    {
-        CacheItem *pCasheChild = pCacheItem->getChild(ind);
-        refreshItem(pWidgetItem, pCasheChild);
-    }
-}
-
-void MainLogics::refreshItem(QTreeWidgetItem *pWidgetItem, CacheItem *pCasheChild)
-{
-    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
-    QTreeWidgetItem *pWidgetChild = new QTreeWidgetItem();
-    pWidgetChild->setFlags( pWidgetChild->flags() | Qt::ItemIsEditable);
-
-    Qt::ItemFlags flags = (pCasheChild->isDeleted()) ?
-                pWidgetChild->flags() & (~Qt::ItemIsEditable) : pWidgetChild->flags() | Qt::ItemIsEditable;
-    pWidgetChild->setFlags(flags);
-
-    if (NULL != pWidgetItem)
-        pWidgetItem->addChild(pWidgetChild);
-    else
-        pCachedTreeView->addTopLevelItem (pWidgetChild);
-    cacheConnector.add(pWidgetChild, pCasheChild);  // образует связь между элементами моего кэша и QTreeWidgetItem
-    cacheConnector.refreshTreeWidgetData();         // обновляет на основе связи данные
-
-    refreshChildren(pWidgetChild, pCasheChild); // рекурсивно
-    pCachedTreeView->expandItem(pWidgetChild);
 }
 
 // Применение кэша к базе данных

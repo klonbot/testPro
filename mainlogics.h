@@ -38,8 +38,6 @@ private:
     void initTestTree(void);
 
     void refreshCasheTreeView(void);
-    void refreshChildren(QTreeWidgetItem *widgetItem, CacheItem *cacheItem);
-    void refreshItem(QTreeWidgetItem *widgetItem, CacheItem *cacheItem);
 
     void applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent);
     void applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent);
