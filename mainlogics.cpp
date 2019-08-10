@@ -87,6 +87,30 @@ void MainLogics::slotReset(void)
 void MainLogics::slotUploadToCash(void)
 {
     qDebug() << "slotUploadToCash!";
+
+    QTreeWidget *pDBTreeView = window->getDBTreeView();
+    QTreeWidgetItem *pCurrItem = pDBTreeView->currentItem();
+
+    if (NULL != pCurrItem)
+    {
+        // найти в кэше такойже элемент
+        DataBaseItem *pCurrBaseItem = dbConnector.getItem(pCurrItem);
+        CacheItem *cashItem = cache.searchInCache(pCurrBaseItem);
+        if(NULL != cashItem)
+        {
+            // обновить элемент из базы
+            DataBaseItem *cacheBaseItem = cashItem->getDataBaseItem();
+            *cacheBaseItem = *pCurrBaseItem;
+        }
+        else
+        {// если такого же элемента нету
+            // создать элемент в в кэше на основе элемента из базы
+            CacheItem* newItem = cache.newItem(pCurrBaseItem);
+        }
+
+        // обновить виджет
+        refreshCasheTreeView();
+    }
 }
 
 void MainLogics::slotRefreshCashTree(void)
@@ -126,6 +150,7 @@ void MainLogics::initTestTree(void)
     CacheItem *item_122 = cache.newItem(item_12, "t 122");
     CacheItem *item_1221 = cache.newItem(item_122, "t 1221");
     CacheItem *item_123 = cache.newItem(item_12, "t 123");
+    slotApply();
     refreshCasheTreeView();
     refreshDBTreeView();
 }
@@ -136,7 +161,7 @@ void MainLogics::refreshCasheTreeView(void)
     for (int ind = 0; ind < cache.size(); ++ind)
     {
         CacheItem *pCacheItem = cache.at(ind);
-        if (pCacheItem->getIsRoot()) // добавить для топа
+        if (pCacheItem->isTop())
         {
             cacheConnector.connectTree(pCacheItem);
         }

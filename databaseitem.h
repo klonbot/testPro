@@ -16,7 +16,7 @@ public:
     DataBaseItem(DataBaseItem *item);
 
     void setID(idDataBaseItem_t id) {idThis = id;}
-    idDataBaseItem_t getId(void) {return idThis;}
+    idDataBaseItem_t getID(void) {return idThis;}
 
     void setValue(QString val);
     QString getValue(void);

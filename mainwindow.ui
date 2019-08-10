@@ -25,7 +25,7 @@
     </property>
     <column>
      <property name="text">
-      <string/>
+      <string>DBTreeView</string>
      </property>
     </column>
     <item>
@@ -50,7 +50,7 @@
     </property>
     <column>
      <property name="text">
-      <string>Кэш</string>
+      <string>CachedTreeView</string>
      </property>
     </column>
    </widget>

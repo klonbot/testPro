@@ -18,9 +18,12 @@ public:
     QString getValue(void) {return cacheData.getValue();}
     isRoot_t getIsRoot(void) {return cacheData.getIsRoot();}
     isDeleted_t getIsDeleted (void) {return cacheData.getIsDeleted();}
+    void setParent(CacheItem *parent) {Parent = parent;}
 
     void deleteItem(void);
     bool isNewItem(void) {return isNew;}
+    void setIsOldItem(void) {isNew = false;}
+    bool isTop (void) {return (NULL == Parent);}
 
     DataBaseItem* getDataBaseItem(void) {return &cacheData;}
 private:

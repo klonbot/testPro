@@ -27,6 +27,37 @@ CacheItem* Cache::newItem(QString val)
     return item;
 }
 
+CacheItem* Cache::newItem(DataBaseItem *dataBaseItem)
+{
+    CacheItem *item = newItem();
+    DataBaseItem *cacheBaseItem = item->getDataBaseItem();
+    *cacheBaseItem = *dataBaseItem;
+    item->setIsOldItem();
+
+    // найти родственников элемента в кэше и
+    // прописаться к родственникам в кэше
+    CacheItem *parent = searchParent(dataBaseItem);
+    if(NULL != parent)
+    {
+        parent->addChild(item);
+        item->setParent(parent);
+    }
+
+    CacheItem* child = NULL;
+    do
+    {
+        child = searchLostChildren(dataBaseItem);
+        if (NULL != child)
+        {
+            child->setParent(item);
+            item->addChild(child);
+        }
+    }
+    while (NULL != child);
+
+    return item;
+}
+
 void Cache::reset(void)
 {
     for (int i = 0; i < cacheItems.size(); ++i)
@@ -49,4 +80,68 @@ CacheItem* Cache::getChild(CacheItem *parent, int ind)
     CacheItem *item = parent->getChild(ind);
     return item;
 }
+
+CacheItem* Cache::searchInCache(DataBaseItem* baseItem)
+{
+    for (int i = 0; i < cacheItems.size(); ++i)
+    {
+         CacheItem *item = cacheItems.at(i);
+         DataBaseItem* cacheDbItem = item->getDataBaseItem();
+         idDataBaseItem_t casheID = cacheDbItem->getID();
+         idDataBaseItem_t baseID = baseItem->getID();
+         if (casheID == baseID)
+         {
+             return item;
+         }
+    }
+    return NULL;
+}
+
+CacheItem* Cache::searchParent(DataBaseItem *dataBaseItem)
+{
+    for (int i = 0; i < cacheItems.size(); ++i)
+    {
+        CacheItem *item = cacheItems.at(i);
+        if(item->isNewItem())
+            continue;
+        int numChildren = item->getDataBaseItem()->getNumChildren();
+        for (int j = 0; j < numChildren; ++j)
+        {
+            CacheItem *childItem = item->getChild(j);
+            idDataBaseItem_t childID = childItem->getDataBaseItem()->getCildID(j);
+            if (childID == dataBaseItem->getID())
+            {
+                return item;
+            }
+        }
+    }
+    return NULL;
+}
+
+CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
+{
+    int numChildren = dataBaseItem->getNumChildren();
+    for (int i = 0; i < numChildren; ++i)
+    {
+        idDataBaseItem_t childID = dataBaseItem->getCildID(i);
+        for (int j = 0; j < cacheItems.size(); ++j)
+        {
+            CacheItem *item = cacheItems.at(j);
+            if(item->isNewItem())
+                continue;
+            idDataBaseItem_t parentID = item->getDataBaseItem()->getIdParent();
+            if (childID == parentID)
+            {
+                return item;
+            }
+        }
+    }
+    return NULL;
+}
+
+
+
+
+
+
 
