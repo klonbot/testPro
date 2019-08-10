@@ -106,7 +106,6 @@ CacheItem* Cache::searchParent(DataBaseItem *dataBaseItem)
             continue;
         DataBaseItem *baseItem = item->getDataBaseItem();
         int numChildren = baseItem->getNumChildren();
-        // дети которые числятся по бД
         for (int j = 0; j < numChildren; ++j)
         {
             idDataBaseItem_t childID = baseItem->getCildID(j);
@@ -128,6 +127,8 @@ CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
         for (int j = 0; j < cacheItems.size(); ++j)
         {
             CacheItem *item = cacheItems.at(j);
+            if(false == item->isTop())
+                continue;
             if(item->isNewItem())
                 continue;
             idDataBaseItem_t ID = item->getDataBaseItem()->getID();
