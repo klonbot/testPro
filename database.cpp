@@ -7,20 +7,22 @@ DataBase::DataBase()
 
 idDataBaseItem_t DataBase::addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem_t idParent)
 {
+    DataBaseItem *newItem = new DataBaseItem(dbItem);
     idDataBaseItem_t id = getNextID();
     if (dataBaseItems.size() < id)
     {
         qDebug("addItemFromCashe: ERROR id for DataBase!");
         return id;
     }
-    dbItem->setID(id);
-    if(isRoot_false == dbItem->getIsRoot())
+    newItem->setID(id);
+    if(isRoot_false == newItem->getIsRoot())
     {
         dbItem->setIdParent(idParent);
     }
-    dataBaseItems.append(dbItem);
-    if(isRoot_false == dbItem->getIsRoot())
-    {
+
+    dataBaseItems.append(newItem);
+    if(isRoot_false == newItem->getIsRoot())
+    {   // прописаться к родителю
         DataBaseItem *item = dataBaseItems.at(idParent);
         item->setIdChildren(id);
     }
@@ -49,4 +51,17 @@ void DataBase::clear (void)
 {
     dataBaseItems.clear();
     idCounter = 0;
+}
+
+DataBaseItem* DataBase::getChild(DataBaseItem *parent, int ind)
+{
+    int numChildren = parent->getNumChildren();
+    if (ind >= numChildren)
+    {
+        qDebug("ERROR getChild: child ID in database!");
+        return NULL;
+    }
+    idDataBaseItem_t childId = parent->getCildID(ind);
+    DataBaseItem *item = dataBaseItems.at(childId);
+    return item;
 }

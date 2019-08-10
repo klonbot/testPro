@@ -3,14 +3,14 @@
 
 #include "QTreeWidgetItem"
 
-template <typename Item>
+template <typename Item, typename Bd>
 class Connector
 {
 public:
-    Connector(QTreeWidget &tw):treeWiget(tw) {}
-    void clear(void) {connector.clear();}
+    Connector(QTreeWidget &tw, Bd &b):treeWiget(tw), bd(b) {}
     int getSize(void) {return connector.size();}
 
+    void clear(void);
     void add(QTreeWidgetItem *wItem, Item *cItem);
     void refreshTreeWidgetData (void);
     Item* getItem(QTreeWidgetItem *widgetItem);
@@ -25,15 +25,25 @@ private:
     } connectItem_t;
 
     QVector<connectItem_t> connector;
+
     QTreeWidget &treeWiget;
+    Bd &bd;
 
     void connectItem(QTreeWidgetItem *pWidgetItem, Item *pCasheChild);
     void connectChildren(QTreeWidgetItem *pWidgetItem, Item *pCacheItem);
     void refreshTreeWidgetItemData (QTreeWidgetItem *wItem, Item *item);
 };
 
-template<typename Item>
-void Connector<Item>::add(QTreeWidgetItem *wItem, Item *item)
+template<typename Item, typename Bd>
+void Connector<Item, Bd>::clear(void)
+{
+    connector.clear();
+    treeWiget.clear();
+    treeWiget.setColumnCount(1);
+}
+
+template<typename Item, typename Bd>
+void Connector<Item, Bd>::add(QTreeWidgetItem *wItem, Item *item)
 {
     connectItem_t connect;
     connect.item = item;
@@ -41,8 +51,8 @@ void Connector<Item>::add(QTreeWidgetItem *wItem, Item *item)
     connector.append(connect);
 }
 
-template<typename Item>
-Item* Connector<Item>::getItem(QTreeWidgetItem *widgetItem)
+template<typename Item, typename Bd>
+Item* Connector<Item, Bd>::getItem(QTreeWidgetItem *widgetItem)
 {
     for (int ind = 0; ind < connector.size(); ++ind)
     {
@@ -57,19 +67,19 @@ Item* Connector<Item>::getItem(QTreeWidgetItem *widgetItem)
     return NULL;
 }
 
-template<typename Item>
-void Connector<Item>::refreshTreeWidgetItemData (QTreeWidgetItem *wItem, Item *item)
+template<typename Item, typename Bd>
+void Connector<Item, Bd>::refreshTreeWidgetItemData (QTreeWidgetItem *wItem, Item *item)
 {
         QString value = item->getValue();
-        if (item->isDeleted())
+        if (item->getIsDeleted())
         {
             value = "(Удален) " + value;
         }
         wItem->setText(0, value);
 }
 
-template<typename Item>
-void Connector<Item>::refreshTreeWidgetData (void)
+template<typename Item, typename Bd>
+void Connector<Item, Bd>::refreshTreeWidgetData (void)
 {
     for (int ind = 0; ind < connector.size(); ++ind)
     {
@@ -78,8 +88,8 @@ void Connector<Item>::refreshTreeWidgetData (void)
     }
 }
 
-template<typename Item>
-bool Connector<Item>::isDifferent(void)
+template<typename Item, typename Bd>
+bool Connector<Item, Bd>::isDifferent(void)
 {
     for (int ind = 0; ind < connector.size(); ++ind)
     {
@@ -92,13 +102,13 @@ bool Connector<Item>::isDifferent(void)
     return true;
 }
 
-template<typename Item>
-void Connector<Item>::connectItem(QTreeWidgetItem *pWidgetItem, Item *pCasheChild)
+template<typename Item, typename Bd>
+void Connector<Item, Bd>::connectItem(QTreeWidgetItem *pWidgetItem, Item *pCasheChild)
 {
     QTreeWidgetItem *pWidgetChild = new QTreeWidgetItem();
     pWidgetChild->setFlags( pWidgetChild->flags() | Qt::ItemIsEditable);
 
-    Qt::ItemFlags flags = (pCasheChild->isDeleted()) ?
+    Qt::ItemFlags flags = (pCasheChild->getIsDeleted()) ?
                 pWidgetChild->flags() & (~Qt::ItemIsEditable) : pWidgetChild->flags() | Qt::ItemIsEditable;
     pWidgetChild->setFlags(flags);
 
@@ -113,13 +123,14 @@ void Connector<Item>::connectItem(QTreeWidgetItem *pWidgetItem, Item *pCasheChil
     treeWiget.expandItem(pWidgetChild);
 }
 
-template<typename Item>
-void Connector<Item>::connectChildren(QTreeWidgetItem *pWidgetItem, Item *pCacheItem)
+template<typename Item, typename Bd>
+void Connector<Item, Bd>::connectChildren(QTreeWidgetItem *pWidgetItem, Item *pItem)
 {
-    for (int ind = 0; ind < pCacheItem->getNumChildren(); ++ind)
+    for (int ind = 0; ind < pItem->getNumChildren(); ++ind)
     {
-        CacheItem *pCasheChild = pCacheItem->getChild(ind);
-        connectItem(pWidgetItem, pCasheChild);
+        // детей можно узнать только с помощью БД
+        Item *pChild = bd.getChild(pItem, ind);
+        connectItem(pWidgetItem, pChild);
     }
 }
 

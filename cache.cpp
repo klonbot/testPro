@@ -37,3 +37,16 @@ void Cache::reset(void)
     }
     cacheItems.clear();
 }
+
+CacheItem* Cache::getChild(CacheItem *parent, int ind)
+{
+    int numChildren = parent->getNumChildren();
+    if (ind >= numChildren)
+    {
+        qDebug("ERROR getChild: child ID in cache!");
+        return NULL;
+    }
+    CacheItem *item = parent->getChild(ind);
+    return item;
+}
+

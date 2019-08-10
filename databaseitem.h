@@ -13,6 +13,7 @@ class DataBaseItem
 public:
     DataBaseItem(idDataBaseItem_t id, idDataBaseItem_t idP);
     DataBaseItem(idDataBaseItem_t id);
+    DataBaseItem(DataBaseItem *item);
 
     void setID(idDataBaseItem_t id) {idThis = id;}
     idDataBaseItem_t getId(void) {return idThis;}
@@ -30,6 +31,10 @@ public:
     void setIdParent(idDataBaseItem_t id) {idParent = id;}
 
     void setIdChildren(idDataBaseItem_t id) {idChildren.append(id);}
+
+    int getNumChildren(void) {return idChildren.size();}
+    DataBaseItem* getChild(int i);
+    idDataBaseItem_t getCildID(int i) {return idChildren.at(i);}
 
 private:
     idDataBaseItem_t idThis;

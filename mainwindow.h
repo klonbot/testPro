@@ -20,6 +20,7 @@ public:
     void setValueItemBtnEnabled(bool en);
 
     QTreeWidget *getCachedTreeView();
+    QTreeWidget *getDBTreeView();
 
 Q_SIGNALS:
     void signalNewItem(void);

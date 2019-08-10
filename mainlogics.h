@@ -31,13 +31,14 @@ private:
     Cache cache;
     DataBase dataBase;
     MainWindow *window;
-    Connector<CacheItem> cacheConnector;
-    Connector<DataBaseItem> dbConnector;
+    Connector<CacheItem, Cache> cacheConnector;
+    Connector<DataBaseItem, DataBase> dbConnector;
     int newIndex;
 
     void initTestTree(void);
 
     void refreshCasheTreeView(void);
+    void refreshDBTreeView(void);
 
     void applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent);
     void applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent);

@@ -5,8 +5,8 @@
 
 MainLogics::MainLogics(MainWindow &w, QObject *parent)
     : QObject(parent),
-      cacheConnector(*w.getCachedTreeView()),
-      dbConnector(*w.getCachedTreeView())
+      cacheConnector(*w.getCachedTreeView(), cache),
+      dbConnector(*w.getDBTreeView(), dataBase)
 {
     qDebug() << "init mainLogic!";    
     window = &w;
@@ -36,7 +36,7 @@ void MainLogics::slotNewItem(void)
     if(NULL != pCurrItem)
     {
         CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-        if (isDeleted_false == pCurrCashItem->isDeleted())
+        if (isDeleted_false == pCurrCashItem->getIsDeleted())
         {
             QString text ="New ";
             text += QString::number(newIndex++);
@@ -68,7 +68,7 @@ void MainLogics::slotSetValueItem(void)
     if(NULL != pCurrItem)
     {
         CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-        if(isDeleted_false == pCurrCashItem->isDeleted())
+        if(isDeleted_false == pCurrCashItem->getIsDeleted())
         {
             QString oldValue = pCurrCashItem->getValue();
             // запись текущего значения в кэш
@@ -127,21 +127,33 @@ void MainLogics::initTestTree(void)
     CacheItem *item_1221 = cache.newItem(item_122, "t 1221");
     CacheItem *item_123 = cache.newItem(item_12, "t 123");
     refreshCasheTreeView();
+    refreshDBTreeView();
 }
 
 void MainLogics::refreshCasheTreeView(void)
 {
     cacheConnector.clear();
-    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
-    pCachedTreeView->clear();
-    pCachedTreeView->setColumnCount(1);
-
     for (int ind = 0; ind < cache.size(); ++ind)
     {
         CacheItem *pCacheItem = cache.at(ind);
-        if (pCacheItem->getIsRoot())
+        if (pCacheItem->getIsRoot()) // добавить для топа
         {
             cacheConnector.connectTree(pCacheItem);
+        }
+    }
+}
+
+void MainLogics::refreshDBTreeView(void)
+{
+    dbConnector.clear();
+
+    for (int ind = 0; ind < dataBase.size(); ++ind)
+    {
+        DataBaseItem *pDbItem = dataBase.at(ind);
+        if (pDbItem->getIsRoot())
+        {
+            dbConnector.connectTree(pDbItem);
+            return;
         }
     }
 }
@@ -163,6 +175,7 @@ void MainLogics::slotApply(void)
     }
 
     clearCache();
+    refreshDBTreeView();
     qDebug() << "slotApply!";
 }
 

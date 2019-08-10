@@ -59,6 +59,11 @@ QTreeWidget *MainWindow::getCachedTreeView()
     return ui->CachedTreeView;
 }
 
+QTreeWidget *MainWindow::getDBTreeView()
+{
+    return ui->DBTreeView;
+}
+
 void MainWindow::on_CachedTreeView_clicked(const QModelIndex &index)
 {
 

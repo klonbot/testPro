@@ -15,7 +15,7 @@ public:
     void reset(void);
     CacheItem* at (int i) {return cacheItems.at(i);}
     int size(void) {return cacheItems.size();}
-
+    CacheItem* getChild(CacheItem *parent, int ind);
 private:
     QVector<CacheItem*>cacheItems;
 };

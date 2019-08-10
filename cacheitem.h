@@ -17,7 +17,7 @@ public:
     void setValue (QString val) {cacheData.setValue(val);}
     QString getValue(void) {return cacheData.getValue();}
     isRoot_t getIsRoot(void) {return cacheData.getIsRoot();}
-    isDeleted_t isDeleted (void) {return cacheData.getIsDeleted();}
+    isDeleted_t getIsDeleted (void) {return cacheData.getIsDeleted();}
 
     void deleteItem(void);
     bool isNewItem(void) {return isNew;}

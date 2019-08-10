@@ -11,6 +11,10 @@ public:
     idDataBaseItem_t addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem_t idParent);
     idDataBaseItem_t refreshItemFromCashe(DataBaseItem *dbItem);
     void clear (void);
+    DataBaseItem* at (int i) {return dataBaseItems.at(i);}
+    int size(void) {return dataBaseItems.size();}
+
+    DataBaseItem* getChild(DataBaseItem *parent, int ind);
 private:
     QVector<DataBaseItem*>dataBaseItems;
     idDataBaseItem_t idCounter;
