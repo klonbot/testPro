@@ -33,7 +33,7 @@ void MainLogics::slotNewItem(void)
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
     if(NULL != pCurrItem)
     {
-        CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
+        CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
         if (isDeleted_false == pCurrCashItem->isDeleted())
         {
             QString text ="New ";
@@ -51,7 +51,7 @@ void MainLogics::slotDeleteItem(void)
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
     if(NULL != pCurrItem)
     {
-        CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
+        CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
         pCurrCashItem->deleteItem();
         refreshCasheTreeView();
     }
@@ -65,7 +65,7 @@ void MainLogics::slotSetValueItem(void)
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
     if(NULL != pCurrItem)
     {
-        CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
+        CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
         if(isDeleted_false == pCurrCashItem->isDeleted())
         {
             QString oldValue = pCurrCashItem->getValue();

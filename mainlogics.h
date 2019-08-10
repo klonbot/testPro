@@ -5,8 +5,8 @@
 #include <QVector>
 #include "mainwindow.h"
 #include "cache.h"
-#include "cacheconnector.h"
 #include "database.h"
+#include "connector.h"
 
 class MainLogics : public QObject
 {
@@ -31,7 +31,8 @@ private:
     Cache cache;
     DataBase dataBase;
     MainWindow *window;
-    CacheConnector cacheConnector;
+    Connector<CacheItem> cacheConnector;
+    Connector<DataBaseItem> dbConnector;
     int newIndex;
 
     void initTestTree(void);
