@@ -104,11 +104,12 @@ CacheItem* Cache::searchParent(DataBaseItem *dataBaseItem)
         CacheItem *item = cacheItems.at(i);
         if(item->isNewItem())
             continue;
-        int numChildren = item->getDataBaseItem()->getNumChildren();
+        DataBaseItem *baseItem = item->getDataBaseItem();
+        int numChildren = baseItem->getNumChildren();
+        // дети которые числятся по бД
         for (int j = 0; j < numChildren; ++j)
         {
-            CacheItem *childItem = item->getChild(j);
-            idDataBaseItem_t childID = childItem->getDataBaseItem()->getCildID(j);
+            idDataBaseItem_t childID = baseItem->getCildID(j);
             if (childID == dataBaseItem->getID())
             {
                 return item;
@@ -129,8 +130,8 @@ CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
             CacheItem *item = cacheItems.at(j);
             if(item->isNewItem())
                 continue;
-            idDataBaseItem_t parentID = item->getDataBaseItem()->getIdParent();
-            if (childID == parentID)
+            idDataBaseItem_t ID = item->getDataBaseItem()->getID();
+            if (childID == ID)
             {
                 return item;
             }
