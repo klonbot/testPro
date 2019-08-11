@@ -40,6 +40,7 @@ private:
     void refreshCasheTreeView(void);
     void refreshDBTreeView(void);
 
+    void apply(void);
     void applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent);
     void applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent);
 

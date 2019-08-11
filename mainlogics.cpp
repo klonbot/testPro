@@ -150,7 +150,7 @@ void MainLogics::initTestTree(void)
     CacheItem *item_122 = cache.newItem(item_12, "t 122");
     CacheItem *item_1221 = cache.newItem(item_122, "t 1221");
     CacheItem *item_123 = cache.newItem(item_12, "t 123");
-    slotApply();
+    apply();
     refreshCasheTreeView();
     refreshDBTreeView();
 }
@@ -186,6 +186,12 @@ void MainLogics::refreshDBTreeView(void)
 // Применение кэша к базе данных
 void MainLogics::slotApply(void)
 {
+    apply();
+    qDebug() << "slotApply!";
+}
+
+void MainLogics::apply(void)
+{
     for (int ind = 0; ind < cache.size(); ++ind)
     {
         CacheItem *pCacheItem = cache.at(ind);
@@ -197,7 +203,6 @@ void MainLogics::slotApply(void)
 
     clearCache();
     refreshDBTreeView();
-    qDebug() << "slotApply!";
 }
 
 void MainLogics::applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent)
