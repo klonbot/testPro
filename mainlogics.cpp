@@ -32,18 +32,27 @@ void MainLogics::CreateSignals(void)
 void MainLogics::slotNewItem(void)
 {
     qDebug() << "slotNewItem!";
-    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
-    QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
-    if(NULL != pCurrItem)
+    if(false == cache.getIsDeletedRoot())
     {
-        CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-        if (isDeleted_false == pCurrCashItem->getIsDeleted())
+        QTreeWidget *pCachedTreeView = window->getCachedTreeView();
+        QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
+        if(NULL != pCurrItem)
         {
-            QString text ="New node ";
-            text += QString::number(newIndex++);
-            cache.newItem(pCurrCashItem, text);
-            refreshCasheTreeView();
+            CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
+            if (isDeleted_false == pCurrCashItem->getIsDeleted())
+            {
+                QString text ="New node ";
+                text += QString::number(newIndex++);
+                cache.newItem(pCurrCashItem, text);
+                refreshCasheTreeView();
+            }
         }
+    }
+    else
+    {
+        cache.newItem("New root");
+        cache.resetIsDeletedRoot();
+        refreshCasheTreeView();
     }
 }
 
@@ -55,7 +64,7 @@ void MainLogics::slotDeleteItem(void)
     if(NULL != pCurrItem)
     {
         CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-        pCurrCashItem->deleteItem();
+        cache.deleteItem(pCurrCashItem);
         refreshCasheTreeView();
     }
 }
@@ -144,17 +153,24 @@ void MainLogics::slotControlEdit(void)
 
 void MainLogics::slotControlAddDelete(void)
 {
-    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
-    QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
-    if(NULL != pCurrItem)
+    if (false == cache.getIsDeletedRoot())
     {
-        CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-        bool enBtn = (isDeleted_false ==pCurrCashItem->getIsDeleted());
-        window->setCtrlBtnEnabled(enBtn);
+        QTreeWidget *pCachedTreeView = window->getCachedTreeView();
+        QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
+        if(NULL != pCurrItem)
+        {
+            CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
+            bool enBtn = (isDeleted_false ==pCurrCashItem->getIsDeleted());
+            window->setCtrlBtnEnabled(enBtn);
+        }
+        else
+        {
+            window->setCtrlBtnEnabled(false);
+        }
     }
     else
     {
-        window->setCtrlBtnEnabled(false);
+        window->setCtrlBtnEnabled();
     }
 }
 
@@ -200,7 +216,6 @@ void MainLogics::refreshDBTreeView(void)
         if (pDbItem->getIsRoot())
         {
             dbConnector.connectTree(pDbItem);
-            return;
         }
     }
 }

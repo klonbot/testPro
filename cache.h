@@ -19,8 +19,12 @@ public:
     CacheItem* getChild(CacheItem *parent, int ind);
 
     CacheItem* searchInCache(DataBaseItem* baseItem);
+    bool getIsDeletedRoot(void) {return isDeletedRoot;}
+    void deleteItem(CacheItem*  item);
+    void resetIsDeletedRoot(void) {isDeletedRoot = false;}
 private:
     QVector<CacheItem*>cacheItems;
+    bool isDeletedRoot;
 
     CacheItem* searchParent(DataBaseItem *dataBaseItem);
     CacheItem* searchLostChildren(DataBaseItem *dataBaseItem);

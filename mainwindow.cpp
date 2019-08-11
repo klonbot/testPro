@@ -56,6 +56,12 @@ void MainWindow::setCtrlBtnEnabled(bool en)
     ui->DeleteItemBtn->setEnabled(en);
 }
 
+void MainWindow::setCtrlBtnEnabled(void)
+{
+    ui->NewItemBtn->setEnabled(true);
+    ui->DeleteItemBtn->setEnabled(false);
+}
+
 QTreeWidget *MainWindow::getCachedTreeView()
 {
     return ui->CachedTreeView;

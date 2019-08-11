@@ -18,6 +18,7 @@ public:
 
     void setValueItemBtnEnabled(bool en);
     void setCtrlBtnEnabled(bool en);
+    void setCtrlBtnEnabled(void);
 
     QTreeWidget *getCachedTreeView();
     QTreeWidget *getDBTreeView();

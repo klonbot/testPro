@@ -3,7 +3,7 @@
 CacheItem::CacheItem(CacheItem *parent):
     cacheData(0)
 {
-    isNew = true;
+    isNew = true;    
     isRoot_t isRoot = (NULL == parent) ? isRoot_true : isRoot_false;
     cacheData.setIsRoot(isRoot);
     Parent = parent;

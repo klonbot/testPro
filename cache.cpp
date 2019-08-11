@@ -3,7 +3,7 @@
 
 Cache::Cache()
 {    
-
+    isDeletedRoot = false;
 }
 
 CacheItem* Cache::newItem(CacheItem *parent)
@@ -139,6 +139,15 @@ CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
         }
     }
     return NULL;
+}
+
+void Cache::deleteItem(CacheItem* item)
+{
+     item->deleteItem();
+     if (isRoot_true == item->getIsRoot())
+     {
+         isDeletedRoot = true;
+     }
 }
 
 
