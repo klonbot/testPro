@@ -100,8 +100,11 @@ void MainLogics::slotUploadToCash(void)
             CacheItem *cashItem = cache.searchInCache(pCurrBaseItem);
             if(NULL != cashItem)
             {
-                DataBaseItem *cacheBaseItem = cashItem->getDataBaseItem();
-                *cacheBaseItem = *pCurrBaseItem;
+                if(isDeleted_false == cashItem->getIsDeleted())
+                {
+                    DataBaseItem *cacheBaseItem = cashItem->getDataBaseItem();
+                    *cacheBaseItem = *pCurrBaseItem;
+                }
             }
             else
             {

@@ -19,6 +19,7 @@ public:
     isRoot_t getIsRoot(void) {return cacheData.getIsRoot();}
     isDeleted_t getIsDeleted (void) {return cacheData.getIsDeleted();}
     void setParent(CacheItem *parent) {Parent = parent;}
+    CacheItem *getParent(void) {return Parent;}
 
     void deleteItem(void);
     bool isNewItem(void) {return isNew;}
