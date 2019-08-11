@@ -188,6 +188,14 @@ void MainLogics::initTestTree(void)
     CacheItem *item_122 = cache.newItem(item_12, "Node 122");
     CacheItem *item_1221 = cache.newItem(item_122, "Node 1221");
     CacheItem *item_123 = cache.newItem(item_12, "Node 123");
+    CacheItem *item_124 = cache.newItem(item_12, "Node 124");
+    CacheItem *item_13 = cache.newItem(item_1, "Node 13");
+    CacheItem *item_131 = cache.newItem(item_13, "Node 131");
+    CacheItem *item_132 = cache.newItem(item_13, "Node 132");
+    CacheItem *item_133 = cache.newItem(item_13, "Node 133");
+    CacheItem *item_1331 = cache.newItem(item_133, "Node 1331");
+    CacheItem *item_1332 = cache.newItem(item_133, "Node 1332");
+    CacheItem *item_134 = cache.newItem(item_13, "Node 134");
     apply();
     refreshCasheTreeView();
     refreshDBTreeView();
