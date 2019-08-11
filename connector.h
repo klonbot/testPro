@@ -119,7 +119,7 @@ void Connector<Item, Bd>::connectItem(QTreeWidgetItem *pWidgetItem, Item *pCashe
     add(pWidgetChild, pCasheChild);
     refreshTreeWidgetItemData (pWidgetChild, pCasheChild);
 
-    connectChildren(pWidgetChild, pCasheChild); // рекурсивно
+    connectChildren(pWidgetChild, pCasheChild);
     treeWiget.expandItem(pWidgetChild);
 }
 
@@ -128,7 +128,6 @@ void Connector<Item, Bd>::connectChildren(QTreeWidgetItem *pWidgetItem, Item *pI
 {
     for (int ind = 0; ind < pItem->getNumChildren(); ++ind)
     {
-        // детей можно узнать только с помощью БД
         Item *pChild = bd.getChild(pItem, ind);
         connectItem(pWidgetItem, pChild);
     }
