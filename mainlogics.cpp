@@ -107,7 +107,7 @@ void MainLogics::slotUploadToCash(void)
             }
             else
             {
-                CacheItem* newItem = cache.newItem(pCurrBaseItem);
+                cache.newItem(pCurrBaseItem);
             }
 
             refreshCasheTreeView();
