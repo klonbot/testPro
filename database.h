@@ -8,6 +8,8 @@ class DataBase
 public:
     DataBase();
 
+    const bool isEditable;
+
     idDataBaseItem_t addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem_t idParent);
     idDataBaseItem_t refreshItemFromCashe(DataBaseItem *dbItem);
     void clear (void);

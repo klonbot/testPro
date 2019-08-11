@@ -8,6 +8,8 @@ class Cache
 public:
     Cache();
 
+    const bool isEditable;
+
     CacheItem* newItem(CacheItem *parent = NULL);
     CacheItem* newItem(CacheItem *parent, QString val);
     CacheItem* newItem(QString val);   

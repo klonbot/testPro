@@ -108,7 +108,7 @@ void Connector<Item, Bd>::connectItem(QTreeWidgetItem *pWidgetItem, Item *pCashe
     QTreeWidgetItem *pWidgetChild = new QTreeWidgetItem();
     pWidgetChild->setFlags( pWidgetChild->flags() | Qt::ItemIsEditable);
 
-    Qt::ItemFlags flags = (pCasheChild->getIsDeleted()) ?
+    Qt::ItemFlags flags = (pCasheChild->getIsDeleted() || (false == bd.isEditable)) ?
                 pWidgetChild->flags() & (~Qt::ItemIsEditable) : pWidgetChild->flags() | Qt::ItemIsEditable;
     pWidgetChild->setFlags(flags);
 

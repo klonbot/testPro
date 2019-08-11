@@ -1,6 +1,7 @@
 #include "database.h"
 
-DataBase::DataBase()
+DataBase::DataBase() :
+    isEditable(false)
 {
     idCounter = 0;
 }

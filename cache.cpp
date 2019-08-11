@@ -1,7 +1,8 @@
 #include "cache.h"
 
 
-Cache::Cache()
+Cache::Cache() :
+    isEditable(true)
 {    
     isDeletedRoot = false;
 }
