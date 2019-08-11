@@ -22,7 +22,7 @@ idDataBaseItem_t DataBase::addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem
 
     dataBaseItems.append(newItem);
     if(isRoot_false == newItem->getIsRoot())
-    {   // прописаться к родителю
+    {
         DataBaseItem *item = dataBaseItems.at(idParent);
         item->setIdChildren(id);
     }

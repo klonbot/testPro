@@ -34,8 +34,6 @@ CacheItem* Cache::newItem(DataBaseItem *dataBaseItem)
     *cacheBaseItem = *dataBaseItem;
     item->setIsOldItem();
 
-    // найти родственников элемента в кэше и
-    // прописаться к родственникам в кэше
     CacheItem *parent = searchParent(dataBaseItem);
     if(NULL != parent)
     {

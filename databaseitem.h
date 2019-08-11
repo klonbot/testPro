@@ -44,8 +44,8 @@ private:
     isRoot_t isRoot;
     isDeleted_t isDeleted;
 
-    QVector<idDataBaseItem_t> idChildren;     // список индексов дочерних элементов
-    idDataBaseItem_t idParent;                // Индекс родителя
+    QVector<idDataBaseItem_t> idChildren;
+    idDataBaseItem_t idParent;
 
     void init(idDataBaseItem_t id, idDataBaseItem_t idP, isRoot_t isR);
 };

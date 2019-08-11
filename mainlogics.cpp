@@ -7,8 +7,7 @@ MainLogics::MainLogics(MainWindow &w, QObject *parent)
     : QObject(parent),
       cacheConnector(*w.getCachedTreeView(), cache),
       dbConnector(*w.getDBTreeView(), dataBase)
-{
-    qDebug() << "init mainLogic!";    
+{   
     window = &w;
     CreateSignals();
     initTestTree();
@@ -16,8 +15,6 @@ MainLogics::MainLogics(MainWindow &w, QObject *parent)
 
 void MainLogics::CreateSignals(void)
 {
-    qDebug() << "CreateSignals!";
-
     connect(window, SIGNAL(signalNewItem()), this, SLOT(slotNewItem()));
     connect(window, SIGNAL(signalDeleteItem()), this, SLOT(slotDeleteItem()));
     connect(window, SIGNAL(signalSetValueItem()), this, SLOT(slotSetValueItem()));
@@ -31,7 +28,6 @@ void MainLogics::CreateSignals(void)
 
 void MainLogics::slotNewItem(void)
 {
-    qDebug() << "slotNewItem!";
     if(false == cache.getIsDeletedRoot())
     {
         QTreeWidget *pCachedTreeView = window->getCachedTreeView();
@@ -58,7 +54,6 @@ void MainLogics::slotNewItem(void)
 
 void MainLogics::slotDeleteItem(void)
 {
-    qDebug() << "slotDeleteItem!";
     QTreeWidget *pCachedTreeView = window->getCachedTreeView();
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
     if(NULL != pCurrItem)
@@ -71,8 +66,6 @@ void MainLogics::slotDeleteItem(void)
 
 void MainLogics::slotSetValueItem(void)
 {
-    //qDebug() << "slotSetValueItem!";
-
     QTreeWidget *pCachedTreeView = window->getCachedTreeView();
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
     if(NULL != pCurrItem)
@@ -81,7 +74,7 @@ void MainLogics::slotSetValueItem(void)
         if(isDeleted_false == pCurrCashItem->getIsDeleted())
         {
             QString oldValue = pCurrCashItem->getValue();
-            // запись текущего значения в кэш
+
             pCurrCashItem->setValue(pCurrItem->text(0));            
             qDebug () << oldValue << "->" << pCurrCashItem->getValue();
         }
@@ -91,13 +84,10 @@ void MainLogics::slotSetValueItem(void)
 void MainLogics::slotReset(void)
 {    
     initTestTree();
-    qDebug() << "slotReset!";
 }
 
 void MainLogics::slotUploadToCash(void)
 {
-    qDebug() << "slotUploadToCash!";
-
     QTreeWidget *pDBTreeView = window->getDBTreeView();
     QTreeWidgetItem *pCurrItem = pDBTreeView->currentItem();
 
@@ -180,22 +170,21 @@ void MainLogics::initTestTree(void)
     cache.reset();
     newIndex = 1;
 
-    // добавить
     CacheItem *item_1 = cache.newItem("Node 1");
-    CacheItem *item_11 = cache.newItem(item_1, "Node 11");
+    /*CacheItem *item_11 =*/cache.newItem(item_1, "Node 11");
     CacheItem *item_12 = cache.newItem(item_1, "Node 12");
-    CacheItem *item_121 = cache.newItem(item_12, "Node 121");
+    /*CacheItem *item_121 =*/cache.newItem(item_12, "Node 121");
     CacheItem *item_122 = cache.newItem(item_12, "Node 122");
-    CacheItem *item_1221 = cache.newItem(item_122, "Node 1221");
-    CacheItem *item_123 = cache.newItem(item_12, "Node 123");
-    CacheItem *item_124 = cache.newItem(item_12, "Node 124");
+    /*CacheItem *item_1221 =*/cache.newItem(item_122, "Node 1221");
+    /*CacheItem *item_123 =*/cache.newItem(item_12, "Node 123");
+    /*CacheItem *item_124 =*/cache.newItem(item_12, "Node 124");
     CacheItem *item_13 = cache.newItem(item_1, "Node 13");
-    CacheItem *item_131 = cache.newItem(item_13, "Node 131");
-    CacheItem *item_132 = cache.newItem(item_13, "Node 132");
+    /*CacheItem *item_131 =*/cache.newItem(item_13, "Node 131");
+    /*CacheItem *item_132 =*/cache.newItem(item_13, "Node 132");
     CacheItem *item_133 = cache.newItem(item_13, "Node 133");
-    CacheItem *item_1331 = cache.newItem(item_133, "Node 1331");
-    CacheItem *item_1332 = cache.newItem(item_133, "Node 1332");
-    CacheItem *item_134 = cache.newItem(item_13, "Node 134");
+    /*CacheItem *item_1331 =*/cache.newItem(item_133, "Node 1331");
+    /*CacheItem *item_1332 =*/cache.newItem(item_133, "Node 1332");
+    /*CacheItem *item_134 =*/cache.newItem(item_13, "Node 134");
     apply();
     refreshCasheTreeView();
     refreshDBTreeView();
@@ -232,7 +221,6 @@ void MainLogics::refreshDBTreeView(void)
 void MainLogics::slotApply(void)
 {
     apply();
-    qDebug() << "slotApply!";
 }
 
 void MainLogics::apply(void)
