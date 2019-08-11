@@ -26,6 +26,7 @@ private slots:
     void slotUploadToCash(void);
     void slotRefreshCashTree(void);
     void slotControlEdit(void);
+    void slotControlAddDelete(void);
 
 private:
     Cache cache;

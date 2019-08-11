@@ -16,8 +16,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void refreshCachedTreeView();
     void setValueItemBtnEnabled(bool en);
+    void setCtrlBtnEnabled(bool en);
 
     QTreeWidget *getCachedTreeView();
     QTreeWidget *getDBTreeView();
@@ -31,6 +31,7 @@ Q_SIGNALS:
     void signalUploadToCash(void);
     void signalRefreshCashTree(void);
     void signalControlEdit(void);
+    void signalControlAddDelete(void);
 
 private slots:
     void on_NewItemBtn_clicked();
