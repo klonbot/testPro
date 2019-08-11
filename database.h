@@ -20,6 +20,7 @@ private:
     idDataBaseItem_t idCounter;
 
     idDataBaseItem_t getNextID() {return idCounter++;}
+    void deleteCildrenInDB(DataBaseItem *dbItem);
 };
 
 #endif // DATABASE_H

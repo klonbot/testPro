@@ -42,9 +42,22 @@ idDataBaseItem_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
 
     if (item->getIsDeleted())
     {
-        // пометить на удаление все дочерние
+       deleteCildrenInDB(dbItem);
     }
     return id;
+}
+
+void DataBase::deleteCildrenInDB(DataBaseItem *dbItem)
+{
+    int numChildren = dbItem->getNumChildren();
+    for (int i = 0; i < numChildren; ++i)
+    {
+        DataBaseItem *child = getChild(dbItem, i);
+        if (isDeleted_true == child->getIsDeleted())
+            break;
+        child->setIsDeleted(isDeleted_true);
+        deleteCildrenInDB(child);
+    }
 }
 
 void DataBase::clear (void)
