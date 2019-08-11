@@ -44,14 +44,15 @@ void MainWindow::on_UploadToCashBtn_clicked()
    signalUploadToCash();
 }
 
-void MainWindow::refreshCachedTreeView()
-{
-
-}
-
 void MainWindow::setValueItemBtnEnabled(bool en)
 {
     ui->SetValueItemBtn->setEnabled(en);
+}
+
+void MainWindow::setCtrlBtnEnabled(bool en)
+{
+    ui->NewItemBtn->setEnabled(en);
+    ui->DeleteItemBtn->setEnabled(en);
 }
 
 QTreeWidget *MainWindow::getCachedTreeView()
@@ -59,26 +60,27 @@ QTreeWidget *MainWindow::getCachedTreeView()
     return ui->CachedTreeView;
 }
 
+QTreeWidget *MainWindow::getDBTreeView()
+{
+    return ui->DBTreeView;
+}
+
 void MainWindow::on_CachedTreeView_clicked(const QModelIndex &index)
 {
 
 }
 
-// изменил элемент
 void MainWindow::on_CachedTreeView_itemChanged(QTreeWidgetItem *item, int column)
 {
     signalControlEdit();
+    signalControlAddDelete();
 }
 
-// изменил выбраный элемент
 void MainWindow::on_CachedTreeView_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
+    signalControlAddDelete();
     ui->SetValueItemBtn->setEnabled(false);
     signalRefreshCashTree();
-
-    bool btnEnable = (NULL != current);
-    ui->NewItemBtn->setEnabled(btnEnable);
-    ui->DeleteItemBtn->setEnabled(btnEnable);
 }
 
 void MainWindow::on_CachedTreeView_itemEntered(QTreeWidgetItem *item, int column)

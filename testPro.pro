@@ -18,8 +18,7 @@ SOURCES += main.cpp\
     cache.cpp \
     mainlogics.cpp \
     databaseitem.cpp \
-    cashitem.cpp \
-    cacheconnector.cpp
+    cashitem.cpp
 
 HEADERS  += mainwindow.h \
     database.h \
@@ -27,6 +26,6 @@ HEADERS  += mainwindow.h \
     mainlogics.h \
     databaseitem.h \
     cacheitem.h \
-    cacheconnector.h
+    connector.h
 
 FORMS    += mainwindow.ui

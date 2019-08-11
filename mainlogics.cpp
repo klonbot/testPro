@@ -4,7 +4,9 @@
 
 
 MainLogics::MainLogics(MainWindow &w, QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      cacheConnector(*w.getCachedTreeView(), cache),
+      dbConnector(*w.getDBTreeView(), dataBase)
 {
     qDebug() << "init mainLogic!";    
     window = &w;
@@ -24,6 +26,7 @@ void MainLogics::CreateSignals(void)
     connect(window, SIGNAL(signalUploadToCash()), this, SLOT(slotUploadToCash()));
     connect(window, SIGNAL(signalRefreshCashTree()), this, SLOT(slotRefreshCashTree()));
     connect(window, SIGNAL(signalControlEdit()), this, SLOT(slotControlEdit()));
+    connect(window, SIGNAL(signalControlAddDelete()), this, SLOT(slotControlAddDelete()));
 }
 
 void MainLogics::slotNewItem(void)
@@ -33,10 +36,10 @@ void MainLogics::slotNewItem(void)
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
     if(NULL != pCurrItem)
     {
-        CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
-        if (isDeleted_false == pCurrCashItem->isDeleted())
+        CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
+        if (isDeleted_false == pCurrCashItem->getIsDeleted())
         {
-            QString text ="New ";
+            QString text ="New node ";
             text += QString::number(newIndex++);
             cache.newItem(pCurrCashItem, text);
             refreshCasheTreeView();
@@ -51,7 +54,7 @@ void MainLogics::slotDeleteItem(void)
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
     if(NULL != pCurrItem)
     {
-        CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
+        CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
         pCurrCashItem->deleteItem();
         refreshCasheTreeView();
     }
@@ -65,8 +68,8 @@ void MainLogics::slotSetValueItem(void)
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
     if(NULL != pCurrItem)
     {
-        CacheItem *pCurrCashItem = cacheConnector.getCacheItem(pCurrItem);
-        if(isDeleted_false == pCurrCashItem->isDeleted())
+        CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
+        if(isDeleted_false == pCurrCashItem->getIsDeleted())
         {
             QString oldValue = pCurrCashItem->getValue();
             // запись текущего значения в кэш
@@ -76,109 +79,177 @@ void MainLogics::slotSetValueItem(void)
     }
 }
 
-void MainLogics::slotApply(void)
-{
-    qDebug() << "slotApply!";
-
-
-}
-
 void MainLogics::slotReset(void)
-{
-    qDebug() << "slotReset!";
+{    
     initTestTree();
+    qDebug() << "slotReset!";
 }
 
 void MainLogics::slotUploadToCash(void)
 {
     qDebug() << "slotUploadToCash!";
+
+    QTreeWidget *pDBTreeView = window->getDBTreeView();
+    QTreeWidgetItem *pCurrItem = pDBTreeView->currentItem();
+
+    if (NULL != pCurrItem)
+    {
+        DataBaseItem *pCurrBaseItem = dbConnector.getItem(pCurrItem);
+        if (isDeleted_false == pCurrBaseItem->getIsDeleted())
+        {
+            CacheItem *cashItem = cache.searchInCache(pCurrBaseItem);
+            if(NULL != cashItem)
+            {
+                DataBaseItem *cacheBaseItem = cashItem->getDataBaseItem();
+                *cacheBaseItem = *pCurrBaseItem;
+            }
+            else
+            {
+                CacheItem* newItem = cache.newItem(pCurrBaseItem);
+            }
+
+            refreshCasheTreeView();
+        }
+    }
 }
 
 void MainLogics::slotRefreshCashTree(void)
 {
-    //qDebug() << "slotRefreshCashTree!";
     cacheConnector.refreshTreeWidgetData();
 }
 
 void MainLogics::slotControlEdit(void)
 {
-    //qDebug() << "slotControlEdit!";
     QTreeWidget *pCachedTreeView = window->getCachedTreeView();
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
-    if(cacheConnector.isDifferent())
+    if(NULL != pCurrItem)
     {
-        //qDebug("btn Disable");
-        window->setValueItemBtnEnabled(false);
+        if(cacheConnector.isDifferent())
+        {
+            window->setValueItemBtnEnabled(false);
+        }
+        else
+        {
+            window->setValueItemBtnEnabled(true);
+        }
     }
     else
     {
-        //qDebug("btn Enable");
-        window->setValueItemBtnEnabled(true);
+        window->setValueItemBtnEnabled(false);
+    }
+}
+
+void MainLogics::slotControlAddDelete(void)
+{
+    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
+    QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
+    if(NULL != pCurrItem)
+    {
+        CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
+        bool enBtn = (isDeleted_false ==pCurrCashItem->getIsDeleted());
+        window->setCtrlBtnEnabled(enBtn);
+    }
+    else
+    {
+        window->setCtrlBtnEnabled(false);
     }
 }
 
 void MainLogics::initTestTree(void)
 {
+    dataBase.clear();
     cache.reset();
     newIndex = 1;
 
     // добавить
-    CacheItem *item_1 = cache.newItem("t 1");
-    CacheItem *item_11 = cache.newItem(item_1, "t 11");
-    CacheItem *item_12 = cache.newItem(item_1, "t 12");
-    CacheItem *item_121 = cache.newItem(item_12, "t 121");
-    CacheItem *item_122 = cache.newItem(item_12, "t 122");
-    CacheItem *item_1221 = cache.newItem(item_122, "t 1221");
-    CacheItem *item_123 = cache.newItem(item_12, "t 123");
+    CacheItem *item_1 = cache.newItem("Node 1");
+    CacheItem *item_11 = cache.newItem(item_1, "Node 11");
+    CacheItem *item_12 = cache.newItem(item_1, "Node 12");
+    CacheItem *item_121 = cache.newItem(item_12, "Node 121");
+    CacheItem *item_122 = cache.newItem(item_12, "Node 122");
+    CacheItem *item_1221 = cache.newItem(item_122, "Node 1221");
+    CacheItem *item_123 = cache.newItem(item_12, "Node 123");
+    apply();
     refreshCasheTreeView();
+    refreshDBTreeView();
 }
 
 void MainLogics::refreshCasheTreeView(void)
 {
     cacheConnector.clear();
-    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
-    pCachedTreeView->clear();
-    pCachedTreeView->setColumnCount(1);
-
     for (int ind = 0; ind < cache.size(); ++ind)
     {
         CacheItem *pCacheItem = cache.at(ind);
-        if (pCacheItem->getIsRoot())
+        if (pCacheItem->isTop())
         {
-            refreshItem(NULL, pCacheItem);
+            cacheConnector.connectTree(pCacheItem);
         }
     }
 }
 
-void MainLogics::refreshChildren(QTreeWidgetItem *pWidgetItem, CacheItem *pCacheItem)
+void MainLogics::refreshDBTreeView(void)
+{
+    dbConnector.clear();
+
+    for (int ind = 0; ind < dataBase.size(); ++ind)
+    {
+        DataBaseItem *pDbItem = dataBase.at(ind);
+        if (pDbItem->getIsRoot())
+        {
+            dbConnector.connectTree(pDbItem);
+            return;
+        }
+    }
+}
+
+// Применение кэша к базе данных
+void MainLogics::slotApply(void)
+{
+    apply();
+    qDebug() << "slotApply!";
+}
+
+void MainLogics::apply(void)
+{
+    for (int ind = 0; ind < cache.size(); ++ind)
+    {
+        CacheItem *pCacheItem = cache.at(ind);
+        if (pCacheItem->isTop())
+        {
+            applyItem(pCacheItem, 0);
+        }
+    }
+
+    clearCache();
+    refreshDBTreeView();
+}
+
+void MainLogics::applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent)
+{
+    idDataBaseItem_t id = 0;
+    if(pCacheItem->isNewItem())
+    {
+        id = dataBase.addItemFromCashe(pCacheItem->getDataBaseItem(), idParent);
+    }
+    else
+    {
+        id = dataBase.refreshItemFromCashe(pCacheItem->getDataBaseItem());
+    }
+    applyChildren(pCacheItem, id);
+}
+
+void MainLogics::applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent)
 {
     for (int ind = 0; ind < pCacheItem->getNumChildren(); ++ind)
     {
         CacheItem *pCasheChild = pCacheItem->getChild(ind);
-        refreshItem(pWidgetItem, pCasheChild);
+        applyItem(pCasheChild, idParent);
     }
 }
 
-void MainLogics::refreshItem(QTreeWidgetItem *pWidgetItem, CacheItem *pCasheChild)
+void MainLogics::clearCache()
 {
-    QTreeWidget *pCachedTreeView = window->getCachedTreeView();
-    QTreeWidgetItem *pWidgetChild = new QTreeWidgetItem();
-    pWidgetChild->setFlags( pWidgetChild->flags() | Qt::ItemIsEditable);
-
-    Qt::ItemFlags flags = (pCasheChild->isDeleted()) ?
-                pWidgetChild->flags() & (~Qt::ItemIsEditable) : pWidgetChild->flags() | Qt::ItemIsEditable;
-    pWidgetChild->setFlags(flags);
-
-    if (NULL != pWidgetItem)
-        pWidgetItem->addChild(pWidgetChild);
-    else
-        pCachedTreeView->addTopLevelItem (pWidgetChild);
-    cacheConnector.add(pWidgetChild, pCasheChild);  // образует связь между элементами моего кэша и QTreeWidgetItem
-    cacheConnector.refreshTreeWidgetData();         // обновляет на основе связи данные
-
-    refreshChildren(pWidgetChild, pCasheChild); // рекурсивно
-    pCachedTreeView->expandItem(pWidgetChild);
+    cacheConnector.clear();
+    cache.reset();
+    refreshCasheTreeView();
 }
-
-
-

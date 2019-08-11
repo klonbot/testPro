@@ -11,6 +11,11 @@ DataBaseItem::DataBaseItem(idDataBaseItem_t id) // для создания ко�
     init(id, idP, isRoot_true);
 }
 
+DataBaseItem::DataBaseItem(DataBaseItem *item)
+{
+    *this = *item;
+}
+
 void DataBaseItem::init(idDataBaseItem_t id, idDataBaseItem_t idP, isRoot_t isR)
 {
     isRoot = isR;
@@ -21,7 +26,7 @@ void DataBaseItem::init(idDataBaseItem_t id, idDataBaseItem_t idP, isRoot_t isR)
     value.clear();
 }
 
-void DataBaseItem::SetValue(QString val)
+void DataBaseItem::setValue(QString val)
 {
     value = val;
 }
@@ -29,4 +34,10 @@ void DataBaseItem::SetValue(QString val)
 QString DataBaseItem::getValue(void)
 {
     return value;
+}
+
+DataBaseItem* DataBaseItem::getChild(int i)
+{
+    idDataBaseItem_t id = idChildren.at(i);
+    return NULL;
 }

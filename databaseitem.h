@@ -6,17 +6,36 @@
 
 typedef enum {isRoot_false, isRoot_true} isRoot_t;
 typedef enum {isDeleted_false, isDeleted_true} isDeleted_t;
-typedef unsigned int idDataBaseItem_t;
+typedef int idDataBaseItem_t;
 
 class DataBaseItem
 {
 public:
     DataBaseItem(idDataBaseItem_t id, idDataBaseItem_t idP);
     DataBaseItem(idDataBaseItem_t id);
+    DataBaseItem(DataBaseItem *item);
 
-    void SetValue(QString val);
+    void setID(idDataBaseItem_t id) {idThis = id;}
+    idDataBaseItem_t getID(void) {return idThis;}
+
+    void setValue(QString val);
     QString getValue(void);
-    isRoot_t GetIsRoot(void) { return isRoot; }
+
+    isRoot_t getIsRoot(void) {return isRoot;}
+    void setIsRoot(isRoot_t root) {isRoot = root;}
+
+    isDeleted_t getIsDeleted (void) {return isDeleted;}
+    void setIsDeleted(isDeleted_t del) {isDeleted = del;}
+
+    idDataBaseItem_t getIdParent() {return idParent;}
+    void setIdParent(idDataBaseItem_t id) {idParent = id;}
+
+    void setIdChildren(idDataBaseItem_t id) {idChildren.append(id);}
+
+    int getNumChildren(void) {return idChildren.size();}
+    DataBaseItem* getChild(int i);
+    idDataBaseItem_t getCildID(int i) {return idChildren.at(i);}
+
 private:
     idDataBaseItem_t idThis;
 

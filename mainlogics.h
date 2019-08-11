@@ -5,7 +5,8 @@
 #include <QVector>
 #include "mainwindow.h"
 #include "cache.h"
-#include "cacheconnector.h"
+#include "database.h"
+#include "connector.h"
 
 class MainLogics : public QObject
 {
@@ -25,19 +26,26 @@ private slots:
     void slotUploadToCash(void);
     void slotRefreshCashTree(void);
     void slotControlEdit(void);
+    void slotControlAddDelete(void);
 
 private:
     Cache cache;
+    DataBase dataBase;
     MainWindow *window;
-    CacheConnector cacheConnector;
+    Connector<CacheItem, Cache> cacheConnector;
+    Connector<DataBaseItem, DataBase> dbConnector;
     int newIndex;
 
-    //void newCacheItem(QString value, QTreeWidgetItem parent = 0);
     void initTestTree(void);
 
     void refreshCasheTreeView(void);
-    void refreshChildren(QTreeWidgetItem *widgetItem, CacheItem *cacheItem);
-    void refreshItem(QTreeWidgetItem *widgetItem, CacheItem *cacheItem);
+    void refreshDBTreeView(void);
+
+    void apply(void);
+    void applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent);
+    void applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent);
+
+    void clearCache();
 };
 
 #endif // MAILLOGICS_H
