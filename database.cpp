@@ -58,7 +58,7 @@ void DataBase::deleteCildrenInDB(DataBaseItem *dbItem)
     {
         DataBaseItem *child = getChild(dbItem, i);
         if (isDeleted_true == child->getIsDeleted())
-            break;
+            continue;
         child->setIsDeleted(isDeleted_true);
         deleteCildrenInDB(child);
     }
