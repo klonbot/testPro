@@ -192,6 +192,7 @@ void MainLogics::initTestTree(void)
     /*CacheItem *item_1332 =*/cache.newItem(item_133, "Node 1332");
     /*CacheItem *item_134 =*/cache.newItem(item_13, "Node 134");
     apply();
+    clearCache();
     refreshCasheTreeView();
     refreshDBTreeView();
 }
@@ -239,8 +240,6 @@ void MainLogics::apply(void)
             applyItem(pCacheItem, 0);
         }
     }
-
-    clearCache();
     refreshDBTreeView();
 }
 
