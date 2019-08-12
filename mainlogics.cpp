@@ -84,6 +84,7 @@ void MainLogics::slotSetValueItem(void)
 void MainLogics::slotReset(void)
 {    
     initTestTree();
+    window->setCtrlBtnEnabled(false);
 }
 
 void MainLogics::slotUploadToCash(void)
@@ -99,15 +100,20 @@ void MainLogics::slotUploadToCash(void)
             CacheItem *cashItem = cache.searchInCache(pCurrBaseItem);
             if(NULL != cashItem)
             {
+#if 0 // запретил обнавлятся
                 if(isDeleted_false == cashItem->getIsDeleted())
                 {
                     DataBaseItem *cacheBaseItem = cashItem->getDataBaseItem();
                     *cacheBaseItem = *pCurrBaseItem;
                 }
+#endif
             }
             else
             {
-                cache.newItem(pCurrBaseItem);
+                if (false == cache.isDelitedAncestors(pCurrBaseItem))
+                {
+                    cache.newItem(pCurrBaseItem);
+                }
             }
 
             refreshCasheTreeView();
