@@ -28,6 +28,28 @@ CacheItem* Cache::newItem(QString val)
     return item;
 }
 
+bool Cache::isDelitedAncestors(DataBaseItem *dataBaseItem)
+{
+    int numAncestors = dataBaseItem->getNumAncestors();
+    for (int i = 0; i < cacheItems.size(); ++i)
+    {
+        CacheItem *item = cacheItems.at(i);
+        idDataBaseItem_t id = item->getDataBaseItem()->getID();
+        for (int i = 0; i < numAncestors; ++i)
+        {
+            idDataBaseItem_t idAncestor = dataBaseItem->getAncestor(i);
+            if(idAncestor == id)
+            {
+                if (item->getIsDeleted())
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 CacheItem* Cache::newItem(DataBaseItem *dataBaseItem)
 {
     CacheItem *item = newItem();
