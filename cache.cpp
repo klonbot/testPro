@@ -66,6 +66,7 @@ void Cache::reset(void)
          delete(item);
     }
     cacheItems.clear();
+    isDeletedRoot = false;
 }
 
 CacheItem* Cache::getChild(CacheItem *parent, int ind)
@@ -140,16 +141,41 @@ CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
     return NULL;
 }
 
-void Cache::deleteItem(CacheItem* item)
+void Cache::deleteItem(CacheItem* delItem)
 {
-     item->deleteItem();
-     if (isRoot_true == item->getIsRoot())
-     {
-         isDeletedRoot = true;
-     }
+    // найти возможных дальних потомков из не связанных веток кэша
+    // и тоже отметить как удаленые
+    idDataBaseItem_t id = delItem->getDataBaseItem()->getID();
+    deleteAllDescendants(id);
+
+    delItem->deleteItem();
+
+    if (isRoot_true == delItem->getIsRoot())
+    {
+       isDeletedRoot = true;
+    }
 }
 
-
+void Cache::deleteAllDescendants(idDataBaseItem_t id)
+{
+    for (int i = 0; i < cacheItems.size(); ++i)
+    {
+        CacheItem *item = cacheItems.at(i);
+        idDataBaseItem_t idCurrent = item->getDataBaseItem()->getID();
+        if (id == idCurrent)
+            continue;
+        // пройтись по всем предкам и удалить элемент
+        int numAncestors = item->getDataBaseItem()->getNumAncestors();
+        for (int i = 0; i < numAncestors; ++i)
+        {
+            idDataBaseItem_t idAncestor = item->getDataBaseItem()->getAncestor(i);
+            if(idAncestor == id)
+            {
+                item->deleteItem();
+            }
+        }
+    }
+}
 
 
 
