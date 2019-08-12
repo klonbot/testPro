@@ -36,6 +36,13 @@ public:
     DataBaseItem* getChild(int i);
     idDataBaseItem_t getCildID(int i) {return idChildren.at(i);}
 
+    void addAncestors(QVector<idDataBaseItem_t>* ancestors, idDataBaseItem_t id);
+    void addAncestors(DataBaseItem *parent)
+        {addAncestors(parent->getAncestors(), parent->getID());}
+    int getNumAncestors(void) {return idAncestors.size();}
+    idDataBaseItem_t getAncestor(int i) {return idAncestors.at(i);}
+    QVector<idDataBaseItem_t>* getAncestors(void) {return &idAncestors;}
+
 private:
     idDataBaseItem_t idThis;
 
@@ -46,6 +53,7 @@ private:
 
     QVector<idDataBaseItem_t> idChildren;
     idDataBaseItem_t idParent;
+    QVector<idDataBaseItem_t> idAncestors; // Все дерево предков данного элемента из БД
 
     void init(idDataBaseItem_t id, idDataBaseItem_t idP, isRoot_t isR);
 };

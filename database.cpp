@@ -18,7 +18,10 @@ idDataBaseItem_t DataBase::addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem
     newItem->setID(id);
     if(isRoot_false == newItem->getIsRoot())
     {
-        dbItem->setIdParent(idParent);
+        newItem->setIdParent(idParent);
+        //родителя взять предков и добавить ребенку
+        DataBaseItem *parent = dataBaseItems.at(idParent);
+        newItem->addAncestors(parent);
     }
 
     dataBaseItems.append(newItem);
