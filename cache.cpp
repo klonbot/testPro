@@ -108,6 +108,8 @@ CacheItem* Cache::searchInCache(DataBaseItem* baseItem)
     for (int i = 0; i < cacheItems.size(); ++i)
     {
          CacheItem *item = cacheItems.at(i);
+         if (item->isNewItem())
+             continue;
          DataBaseItem* cacheDbItem = item->getDataBaseItem();
          idDataBaseItem_t casheID = cacheDbItem->getID();
          idDataBaseItem_t baseID = baseItem->getID();
