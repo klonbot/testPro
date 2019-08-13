@@ -10,8 +10,8 @@ public:
 
     const bool isEditable;
 
-    idDataBaseItem_t addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem_t idParent);
-    idDataBaseItem_t refreshItemFromCashe(DataBaseItem *dbItem);
+    ID_t addItemFromCashe(DataBaseItem *dbItem, ID_t idParent);
+    ID_t refreshItemFromCashe(DataBaseItem *dbItem);
     void clear (void);
     DataBaseItem* at (int i) {return dataBaseItems.at(i);}
     int size(void) {return dataBaseItems.size();}
@@ -19,9 +19,9 @@ public:
     DataBaseItem* getChild(DataBaseItem *parent, int ind);
 private:
     QVector<DataBaseItem*>dataBaseItems;
-    idDataBaseItem_t idCounter;
+    ID_t idCounter;
 
-    idDataBaseItem_t getNextID() {return idCounter++;}
+    ID_t getNextID() {return idCounter++;}
     void deleteCildrenInDB(DataBaseItem *dbItem);
 };
 

@@ -4,10 +4,10 @@ CacheItem::CacheItem(CacheItem *parent):
     cacheData(0)
 {
     isNew = true;    
-    isRoot_t isRoot = (NULL == parent) ? isRoot_true : isRoot_false;
+    bool isRoot = (NULL == parent) ? true : false;
     cacheData.setIsRoot(isRoot);
     Parent = parent;
-    cacheData.setIsDeleted(isDeleted_false);
+    cacheData.setIsDeleted(false);
     if (false == isRoot)
     {
         parent->addChild(this);
@@ -16,7 +16,7 @@ CacheItem::CacheItem(CacheItem *parent):
 
 void CacheItem::deleteItem(void)
 {
-    cacheData.setIsDeleted(isDeleted_true);
+    cacheData.setIsDeleted(true);
     for (int ind = 0; ind < getNumChildren(); ++ind)
     {
         CacheItem *pCasheChild = getChild(ind);

@@ -47,15 +47,9 @@ private slots:
 
     void on_UploadToCashBtn_clicked();
 
-    void on_CachedTreeView_clicked(const QModelIndex &index);
-
     void on_CachedTreeView_itemChanged(QTreeWidgetItem *item, int column);
 
     void on_CachedTreeView_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
-
-    void on_CachedTreeView_itemEntered(QTreeWidgetItem *item, int column);
-
-    void on_CachedTreeView_itemClicked(QTreeWidgetItem *item, int column);
 
     void on_CachedTreeView_itemDoubleClicked(QTreeWidgetItem *item, int column);
 

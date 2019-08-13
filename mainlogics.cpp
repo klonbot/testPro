@@ -35,7 +35,7 @@ void MainLogics::slotNewItem(void)
         if(NULL != pCurrItem)
         {
             CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-            if (isDeleted_false == pCurrCashItem->getIsDeleted())
+            if (false == pCurrCashItem->getIsDeleted())
             {
                 QString text ="New node ";
                 text += QString::number(newIndex++);
@@ -71,7 +71,7 @@ void MainLogics::slotSetValueItem(void)
     if(NULL != pCurrItem)
     {
         CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-        if(isDeleted_false == pCurrCashItem->getIsDeleted())
+        if(false == pCurrCashItem->getIsDeleted())
         {
             QString oldValue = pCurrCashItem->getValue();
 
@@ -95,7 +95,7 @@ void MainLogics::slotUploadToCash(void)
     if (NULL != pCurrItem)
     {
         DataBaseItem *pCurrBaseItem = dbConnector.getItem(pCurrItem);
-        if (isDeleted_false == pCurrBaseItem->getIsDeleted())
+        if (false == pCurrBaseItem->getIsDeleted())
         {
             CacheItem *cashItem = cache.searchInCache(pCurrBaseItem);
             if(NULL != cashItem)
@@ -130,21 +130,8 @@ void MainLogics::slotControlEdit(void)
 {
     QTreeWidget *pCachedTreeView = window->getCachedTreeView();
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
-    if(NULL != pCurrItem)
-    {
-        if(cacheConnector.isDifferent())
-        {
-            window->setValueItemBtnEnabled(false);
-        }
-        else
-        {
-            window->setValueItemBtnEnabled(true);
-        }
-    }
-    else
-    {
-        window->setValueItemBtnEnabled(false);
-    }
+    bool isEnabe = ((NULL != pCurrItem)&&(!cacheConnector.isDifferent()));
+    window->setValueItemBtnEnabled(isEnabe);
 }
 
 void MainLogics::slotControlAddDelete(void)
@@ -156,7 +143,7 @@ void MainLogics::slotControlAddDelete(void)
         if(NULL != pCurrItem)
         {
             CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-            bool enBtn = (isDeleted_false ==pCurrCashItem->getIsDeleted());
+            bool enBtn = (false ==pCurrCashItem->getIsDeleted());
             window->setCtrlBtnEnabled(enBtn);
         }
         else
@@ -243,9 +230,9 @@ void MainLogics::apply(void)
     refreshDBTreeView();
 }
 
-void MainLogics::applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent)
+void MainLogics::applyItem(CacheItem *pCacheItem, ID_t idParent)
 {
-    idDataBaseItem_t id = 0;
+    ID_t id = 0;
     if(pCacheItem->isNewItem())
     {
         id = dataBase.addItemFromCashe(pCacheItem->getDataBaseItem(), idParent);
@@ -257,7 +244,7 @@ void MainLogics::applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent)
     applyChildren(pCacheItem, id);
 }
 
-void MainLogics::applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent)
+void MainLogics::applyChildren(CacheItem *pCacheItem, ID_t idParent)
 {
     for (int ind = 0; ind < pCacheItem->getNumChildren(); ++ind)
     {

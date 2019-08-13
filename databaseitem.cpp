@@ -1,14 +1,14 @@
 #include "databaseitem.h"
 
-DataBaseItem::DataBaseItem(idDataBaseItem_t id, idDataBaseItem_t idP)
+DataBaseItem::DataBaseItem(ID_t id, ID_t idP)
 {
-    init(id, idP, isRoot_false);
+    init(id, idP, false);
 }
 
-DataBaseItem::DataBaseItem(idDataBaseItem_t id) // для создания корня
+DataBaseItem::DataBaseItem(ID_t id) // для создания корня
 {
-    idDataBaseItem_t idP = 0;
-    init(id, idP, isRoot_true);
+    ID_t idP = 0;
+    init(id, idP, true);
 }
 
 DataBaseItem::DataBaseItem(DataBaseItem *item)
@@ -16,13 +16,13 @@ DataBaseItem::DataBaseItem(DataBaseItem *item)
     *this = *item;
 }
 
-void DataBaseItem::init(idDataBaseItem_t id, idDataBaseItem_t idP, isRoot_t isR)
+void DataBaseItem::init(ID_t id, ID_t idP, bool isR)
 {
     isRoot = isR;
     idThis = id;
     setIdParent(idP);
     idChildren.clear();
-    isDeleted = isDeleted_false;
+    isDeleted = false;
     value.clear();
 }
 
@@ -36,13 +36,7 @@ QString DataBaseItem::getValue(void)
     return value;
 }
 
-DataBaseItem* DataBaseItem::getChild(int i)
-{
-    idDataBaseItem_t id = idChildren.at(i);
-    return NULL;
-}
-
-void DataBaseItem::addAncestors(QVector<idDataBaseItem_t>* ancestors, idDataBaseItem_t id)
+void DataBaseItem::addAncestors(QVector<ID_t>* ancestors, ID_t id)
 {
     for(int i = 0; i < ancestors->size(); ++i)
     {

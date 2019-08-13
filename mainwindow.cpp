@@ -72,11 +72,6 @@ QTreeWidget *MainWindow::getDBTreeView()
     return ui->DBTreeView;
 }
 
-void MainWindow::on_CachedTreeView_clicked(const QModelIndex &index)
-{
-
-}
-
 void MainWindow::on_CachedTreeView_itemChanged(QTreeWidgetItem *item, int column)
 {
     signalControlEdit();
@@ -88,16 +83,6 @@ void MainWindow::on_CachedTreeView_currentItemChanged(QTreeWidgetItem *current, 
     signalControlAddDelete();
     ui->SetValueItemBtn->setEnabled(false);
     signalRefreshCashTree();
-}
-
-void MainWindow::on_CachedTreeView_itemEntered(QTreeWidgetItem *item, int column)
-{
-
-}
-
-void MainWindow::on_CachedTreeView_itemClicked(QTreeWidgetItem *item, int column)
-{
-
 }
 
 void MainWindow::on_CachedTreeView_itemDoubleClicked(QTreeWidgetItem *item, int column)

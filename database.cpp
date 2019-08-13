@@ -6,17 +6,17 @@ DataBase::DataBase() :
     idCounter = 0;
 }
 
-idDataBaseItem_t DataBase::addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem_t idParent)
+ID_t DataBase::addItemFromCashe(DataBaseItem *dbItem, ID_t idParent)
 {
     DataBaseItem *newItem = new DataBaseItem(dbItem);
-    idDataBaseItem_t id = getNextID();
+    ID_t id = getNextID();
     if (dataBaseItems.size() < id)
     {
         qDebug("addItemFromCashe: ERROR id for DataBase!");
         return id;
     }
     newItem->setID(id);
-    if(isRoot_false == newItem->getIsRoot())
+    if(false == newItem->getIsRoot())
     {
         newItem->setIdParent(idParent);
         //родителя взять предков и добавить ребенку
@@ -25,7 +25,7 @@ idDataBaseItem_t DataBase::addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem
     }
 
     dataBaseItems.append(newItem);
-    if(isRoot_false == newItem->getIsRoot())
+    if(false == newItem->getIsRoot())
     {
         DataBaseItem *item = dataBaseItems.at(idParent);
         item->setIdChildren(id);
@@ -33,9 +33,9 @@ idDataBaseItem_t DataBase::addItemFromCashe(DataBaseItem *dbItem, idDataBaseItem
     return id;
 }
 
-idDataBaseItem_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
+ID_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
 {
-    idDataBaseItem_t id = dbItem->getID();
+    ID_t id = dbItem->getID();
     if (dataBaseItems.size() < id)
     {
         qDebug("refreshItemFromCashe: ERROR id for DataBase!");
@@ -57,9 +57,9 @@ void DataBase::deleteCildrenInDB(DataBaseItem *dbItem)
     for (int i = 0; i < numChildren; ++i)
     {
         DataBaseItem *child = getChild(dbItem, i);
-        if (isDeleted_true == child->getIsDeleted())
+        if (true == child->getIsDeleted())
             continue;
-        child->setIsDeleted(isDeleted_true);
+        child->setIsDeleted(true);
         deleteCildrenInDB(child);
     }
 }
@@ -78,7 +78,7 @@ DataBaseItem* DataBase::getChild(DataBaseItem *parent, int ind)
         qDebug("ERROR getChild: child ID in database!");
         return NULL;
     }
-    idDataBaseItem_t childId = parent->getCildID(ind);
+    ID_t childId = parent->getCildID(ind);
     DataBaseItem *item = dataBaseItems.at(childId);
     return item;
 }

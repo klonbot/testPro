@@ -25,7 +25,7 @@ public:
     CacheItem* searchInCache(DataBaseItem* baseItem);
     bool getIsDeletedRoot(void) {return isDeletedRoot;}
     void deleteItem(CacheItem*  item);
-    void deleteAllDescendants(idDataBaseItem_t id);
+    void deleteAllDescendants(ID_t id);
     void resetIsDeletedRoot(void) {isDeletedRoot = false;}
 private:
     QVector<CacheItem*>cacheItems;
