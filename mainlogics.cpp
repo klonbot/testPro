@@ -130,21 +130,8 @@ void MainLogics::slotControlEdit(void)
 {
     QTreeWidget *pCachedTreeView = window->getCachedTreeView();
     QTreeWidgetItem *pCurrItem = pCachedTreeView->currentItem();
-    if(NULL != pCurrItem)
-    {
-        if(cacheConnector.isDifferent())
-        {
-            window->setValueItemBtnEnabled(false);
-        }
-        else
-        {
-            window->setValueItemBtnEnabled(true);
-        }
-    }
-    else
-    {
-        window->setValueItemBtnEnabled(false);
-    }
+    bool isEnabe = ((NULL != pCurrItem)&&(!cacheConnector.isDifferent()));
+    window->setValueItemBtnEnabled(isEnabe);
 }
 
 void MainLogics::slotControlAddDelete(void)
