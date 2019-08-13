@@ -13,9 +13,7 @@ class MainLogics : public QObject
     Q_OBJECT
 
 public:
-    MainLogics(MainWindow &w, QObject *parent = 0);
-
-    void CreateSignals(void);
+    MainLogics(MainWindow &w, QObject *parent = 0);    
 
 private slots:
     void slotNewItem(void);
@@ -36,6 +34,7 @@ private:
     Connector<DataBaseItem, DataBase> dbConnector;
     int newIndex;
 
+    void connectSignals(void);
     void initTestTree(void);
 
     void refreshCasheTreeView(void);

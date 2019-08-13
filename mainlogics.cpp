@@ -9,11 +9,11 @@ MainLogics::MainLogics(MainWindow &w, QObject *parent)
       dbConnector(*w.getDBTreeView(), dataBase)
 {   
     window = &w;
-    CreateSignals();
+    connectSignals();
     initTestTree();
 }
 
-void MainLogics::CreateSignals(void)
+void MainLogics::connectSignals(void)
 {
     connect(window, SIGNAL(signalNewItem()), this, SLOT(slotNewItem()));
     connect(window, SIGNAL(signalDeleteItem()), this, SLOT(slotDeleteItem()));
@@ -211,7 +211,6 @@ void MainLogics::refreshDBTreeView(void)
     }
 }
 
-// Применение кэша к базе данных
 void MainLogics::slotApply(void)
 {
     apply();
