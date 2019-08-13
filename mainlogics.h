@@ -42,8 +42,8 @@ private:
     void refreshDBTreeView(void);
 
     void apply(void);
-    void applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent);
-    void applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent);
+    void applyItem(CacheItem *pCacheItem, ID_t idParent);
+    void applyChildren(CacheItem *pCacheItem, ID_t idParent);
 
     void clearCache();
 };

@@ -243,9 +243,9 @@ void MainLogics::apply(void)
     refreshDBTreeView();
 }
 
-void MainLogics::applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent)
+void MainLogics::applyItem(CacheItem *pCacheItem, ID_t idParent)
 {
-    idDataBaseItem_t id = 0;
+    ID_t id = 0;
     if(pCacheItem->isNewItem())
     {
         id = dataBase.addItemFromCashe(pCacheItem->getDataBaseItem(), idParent);
@@ -257,7 +257,7 @@ void MainLogics::applyItem(CacheItem *pCacheItem, idDataBaseItem_t idParent)
     applyChildren(pCacheItem, id);
 }
 
-void MainLogics::applyChildren(CacheItem *pCacheItem, idDataBaseItem_t idParent)
+void MainLogics::applyChildren(CacheItem *pCacheItem, ID_t idParent)
 {
     for (int ind = 0; ind < pCacheItem->getNumChildren(); ++ind)
     {
