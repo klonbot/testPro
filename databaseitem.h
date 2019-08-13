@@ -4,7 +4,6 @@
 #include "QString"
 #include "QVector"
 
-typedef enum {isRoot_false, isRoot_true} isRoot_t;
 typedef int idDataBaseItem_t;
 
 class DataBaseItem
@@ -20,8 +19,8 @@ public:
     void setValue(QString val);
     QString getValue(void);
 
-    isRoot_t getIsRoot(void) {return isRoot;}
-    void setIsRoot(isRoot_t root) {isRoot = root;}
+    bool getIsRoot(void) {return isRoot;}
+    void setIsRoot(bool root) {isRoot = root;}
 
     bool getIsDeleted (void) {return isDeleted;}
     void setIsDeleted(bool del) {isDeleted = del;}
@@ -47,14 +46,14 @@ private:
 
     QString value;
 
-    isRoot_t isRoot;
+    bool isRoot;
     bool isDeleted;
 
     QVector<idDataBaseItem_t> idChildren;
     idDataBaseItem_t idParent;
     QVector<idDataBaseItem_t> idAncestors; // Все дерево предков данного элемента из БД
 
-    void init(idDataBaseItem_t id, idDataBaseItem_t idP, isRoot_t isR);
+    void init(idDataBaseItem_t id, idDataBaseItem_t idP, bool isR);
 };
 
 #endif // DATABASEITEM_H

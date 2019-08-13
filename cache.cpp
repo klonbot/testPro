@@ -174,7 +174,7 @@ void Cache::deleteItem(CacheItem* delItem)
 
     delItem->deleteItem();
 
-    if (isRoot_true == delItem->getIsRoot())
+    if (true == delItem->getIsRoot())
     {
        isDeletedRoot = true;
     }

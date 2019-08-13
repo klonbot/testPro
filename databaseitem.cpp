@@ -2,13 +2,13 @@
 
 DataBaseItem::DataBaseItem(idDataBaseItem_t id, idDataBaseItem_t idP)
 {
-    init(id, idP, isRoot_false);
+    init(id, idP, false);
 }
 
 DataBaseItem::DataBaseItem(idDataBaseItem_t id) // для создания корня
 {
     idDataBaseItem_t idP = 0;
-    init(id, idP, isRoot_true);
+    init(id, idP, true);
 }
 
 DataBaseItem::DataBaseItem(DataBaseItem *item)
@@ -16,7 +16,7 @@ DataBaseItem::DataBaseItem(DataBaseItem *item)
     *this = *item;
 }
 
-void DataBaseItem::init(idDataBaseItem_t id, idDataBaseItem_t idP, isRoot_t isR)
+void DataBaseItem::init(idDataBaseItem_t id, idDataBaseItem_t idP, bool isR)
 {
     isRoot = isR;
     idThis = id;
