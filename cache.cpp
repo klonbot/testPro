@@ -9,7 +9,7 @@ Cache::Cache() :
 
 CacheItem* Cache::newItem(CacheItem *parent)
 {
-    CacheItem *item = (NULL == parent) ? new CacheItem() : new CacheItem(parent);
+    CacheItem* item = new CacheItem(parent);
     cacheItems.append(item);
     return item;
 }
