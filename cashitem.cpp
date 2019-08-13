@@ -4,7 +4,7 @@ CacheItem::CacheItem(CacheItem *parent):
     cacheData(0)
 {
     isNew = true;    
-    bool isRoot = (NULL == parent) ? true : false;
+    bool isRoot = (NULL == parent);
     cacheData.setIsRoot(isRoot);
     Parent = parent;
     cacheData.setIsDeleted(false);

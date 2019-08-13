@@ -17,14 +17,14 @@ public:
     void setValue (QString val) {cacheData.setValue(val);}
     QString getValue(void) {return cacheData.getValue();}
     bool getIsRoot(void) {return cacheData.getIsRoot();}
-    bool getIsDeleted (void) {return cacheData.getIsDeleted();}
+    bool getIsDeleted(void) {return cacheData.getIsDeleted();}
     void setParent(CacheItem *parent) {Parent = parent;}
     CacheItem *getParent(void) {return Parent;}
 
     void deleteItem(void);
     bool isNewItem(void) {return isNew;}
     void setIsOldItem(void) {isNew = false;}
-    bool isTop (void) {return (NULL == Parent);}
+    bool isTop(void) {return (NULL == Parent);}
 
     DataBaseItem* getDataBaseItem(void) {return &cacheData;}
 private:
