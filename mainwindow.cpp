@@ -72,20 +72,20 @@ QTreeWidget *MainWindow::getDBTreeView()
     return ui->DBTreeView;
 }
 
-void MainWindow::on_CachedTreeView_itemChanged(QTreeWidgetItem *item, int column)
+void MainWindow::on_CachedTreeView_itemChanged(QTreeWidgetItem*, int)
 {
     signalControlEdit();
     signalControlAddDelete();
 }
 
-void MainWindow::on_CachedTreeView_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+void MainWindow::on_CachedTreeView_currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)
 {
     signalControlAddDelete();
     ui->SetValueItemBtn->setEnabled(false);
     signalRefreshCashTree();
 }
 
-void MainWindow::on_CachedTreeView_itemDoubleClicked(QTreeWidgetItem *item, int column)
+void MainWindow::on_CachedTreeView_itemDoubleClicked(QTreeWidgetItem*, int)
 {
     ui->SetValueItemBtn->setEnabled(true);
 }
