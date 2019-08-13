@@ -35,7 +35,7 @@ void MainLogics::slotNewItem(void)
         if(NULL != pCurrItem)
         {
             CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-            if (isDeleted_false == pCurrCashItem->getIsDeleted())
+            if (false == pCurrCashItem->getIsDeleted())
             {
                 QString text ="New node ";
                 text += QString::number(newIndex++);
@@ -71,7 +71,7 @@ void MainLogics::slotSetValueItem(void)
     if(NULL != pCurrItem)
     {
         CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-        if(isDeleted_false == pCurrCashItem->getIsDeleted())
+        if(false == pCurrCashItem->getIsDeleted())
         {
             QString oldValue = pCurrCashItem->getValue();
 
@@ -95,7 +95,7 @@ void MainLogics::slotUploadToCash(void)
     if (NULL != pCurrItem)
     {
         DataBaseItem *pCurrBaseItem = dbConnector.getItem(pCurrItem);
-        if (isDeleted_false == pCurrBaseItem->getIsDeleted())
+        if (false == pCurrBaseItem->getIsDeleted())
         {
             CacheItem *cashItem = cache.searchInCache(pCurrBaseItem);
             if(NULL != cashItem)
@@ -156,7 +156,7 @@ void MainLogics::slotControlAddDelete(void)
         if(NULL != pCurrItem)
         {
             CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-            bool enBtn = (isDeleted_false ==pCurrCashItem->getIsDeleted());
+            bool enBtn = (false ==pCurrCashItem->getIsDeleted());
             window->setCtrlBtnEnabled(enBtn);
         }
         else

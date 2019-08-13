@@ -57,9 +57,9 @@ void DataBase::deleteCildrenInDB(DataBaseItem *dbItem)
     for (int i = 0; i < numChildren; ++i)
     {
         DataBaseItem *child = getChild(dbItem, i);
-        if (isDeleted_true == child->getIsDeleted())
+        if (true == child->getIsDeleted())
             continue;
-        child->setIsDeleted(isDeleted_true);
+        child->setIsDeleted(true);
         deleteCildrenInDB(child);
     }
 }

@@ -17,7 +17,7 @@ public:
     void setValue (QString val) {cacheData.setValue(val);}
     QString getValue(void) {return cacheData.getValue();}
     isRoot_t getIsRoot(void) {return cacheData.getIsRoot();}
-    isDeleted_t getIsDeleted (void) {return cacheData.getIsDeleted();}
+    bool getIsDeleted (void) {return cacheData.getIsDeleted();}
     void setParent(CacheItem *parent) {Parent = parent;}
     CacheItem *getParent(void) {return Parent;}
 

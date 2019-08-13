@@ -5,7 +5,6 @@
 #include "QVector"
 
 typedef enum {isRoot_false, isRoot_true} isRoot_t;
-typedef enum {isDeleted_false, isDeleted_true} isDeleted_t;
 typedef int idDataBaseItem_t;
 
 class DataBaseItem
@@ -24,8 +23,8 @@ public:
     isRoot_t getIsRoot(void) {return isRoot;}
     void setIsRoot(isRoot_t root) {isRoot = root;}
 
-    isDeleted_t getIsDeleted (void) {return isDeleted;}
-    void setIsDeleted(isDeleted_t del) {isDeleted = del;}
+    bool getIsDeleted (void) {return isDeleted;}
+    void setIsDeleted(bool del) {isDeleted = del;}
 
     idDataBaseItem_t getIdParent() {return idParent;}
     void setIdParent(idDataBaseItem_t id) {idParent = id;}
@@ -49,7 +48,7 @@ private:
     QString value;
 
     isRoot_t isRoot;
-    isDeleted_t isDeleted;
+    bool isDeleted;
 
     QVector<idDataBaseItem_t> idChildren;
     idDataBaseItem_t idParent;

@@ -22,7 +22,7 @@ void DataBaseItem::init(idDataBaseItem_t id, idDataBaseItem_t idP, isRoot_t isR)
     idThis = id;
     setIdParent(idP);
     idChildren.clear();
-    isDeleted = isDeleted_false;
+    isDeleted = false;
     value.clear();
 }
 
