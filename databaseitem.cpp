@@ -36,13 +36,3 @@ QString DataBaseItem::getValue(void)
     return value;
 }
 
-/*
-void DataBaseItem::addAncestors(QVector<ID_t>* ancestors, ID_t id)
-{
-    for(int i = 0; i < ancestors->size(); ++i)
-    {
-        idAncestors.append(ancestors->at(i));
-    }
-    idAncestors.append(id);
-}
-*/

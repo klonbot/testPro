@@ -55,7 +55,7 @@ bool Cache::isDelitedAncestors(DataBaseItem *dataBaseItem)
 CacheItem* Cache::newItem(DataBaseItem *dataBaseItem)
 {
     CacheItem *item = newItem();
-    DataBaseItem *cacheBaseItem = item->getDataBaseItem();
+    DataBaseItem *cacheBaseItem = item->geCasheData();
     *cacheBaseItem = *dataBaseItem;
     item->setIsOldItem();
 
@@ -112,7 +112,7 @@ CacheItem* Cache::searchInCache(DataBaseItem* baseItem)
          CacheItem *item = cacheItems.at(i);
          if (item->isNewItem())
              continue;
-         DataBaseItem* cacheDbItem = item->getDataBaseItem();
+         DataBaseItem* cacheDbItem = item->geCasheData();
          ID_t casheID = cacheDbItem->getID();
          ID_t baseID = baseItem->getID();
          if (casheID == baseID)
@@ -130,7 +130,7 @@ CacheItem* Cache::searchParent(DataBaseItem *dataBaseItem)
         CacheItem *item = cacheItems.at(i);
         if(item->isNewItem())
             continue;
-        DataBaseItem *baseItem = item->getDataBaseItem();
+        DataBaseItem *baseItem = item->geCasheData();
         int numChildren = baseItem->getNumChildren();
         for (int j = 0; j < numChildren; ++j)
         {
@@ -157,7 +157,7 @@ CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
                 continue;
             if(item->isNewItem())
                 continue;
-            ID_t ID = item->getDataBaseItem()->getID();
+            ID_t ID = item->geCasheData()->getID();
             if (childID == ID)
             {
                 return item;
@@ -167,42 +167,31 @@ CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
     return NULL;
 }
 
-void Cache::deleteItem(CacheItem* delItem)
+void Cache::deleteItem(CacheItem* item)
 {
-    // найти возможных дальних потомков из не связанных веток кэша
-    // и тоже отметить как удаленые
-    ID_t id = delItem->getDataBaseItem()->getID();
-    deleteAllDescendants(id);
+    Key_t lk = item->geCasheData()->getLeftKey();
+    Key_t rk = item->geCasheData()->getRightKey();
+    deleteAllDescendants(lk, rk);
+    item->deleteItem();
 
-    delItem->deleteItem();
-
-    if (true == delItem->getIsRoot())
+    if (true == item->getIsRoot())
     {
        isDeletedRoot = true;
     }
 }
 
-void Cache::deleteAllDescendants(ID_t id)
+void Cache::deleteAllDescendants(Key_t left, Key_t right)
 {
-    /*
     for (int i = 0; i < cacheItems.size(); ++i)
     {
         CacheItem *item = cacheItems.at(i);
-        ID_t idCurrent = item->getDataBaseItem()->getID();
-        if (id == idCurrent)
-            continue;
-        // пройтись по всем предкам и удалить элемент
-        int numAncestors = item->getDataBaseItem()->getNumAncestors();
-        for (int i = 0; i < numAncestors; ++i)
+        Key_t lk = item->geCasheData()->getLeftKey();
+        Key_t rk = item->geCasheData()->getRightKey();
+        if((left < lk)&&(rk < right))
         {
-            ID_t idAncestor = item->getDataBaseItem()->getAncestor(i);
-            if(idAncestor == id)
-            {
-                item->deleteItem();
-            }
+            item->deleteItem();
         }
     }
-    */
 }
 
 

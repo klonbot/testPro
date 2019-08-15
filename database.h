@@ -23,6 +23,8 @@ private:
 
     ID_t getNextID() {return idCounter++;}
     void deleteCildrenInDB(DataBaseItem *dbItem);
+    void updateKeysRightItems(Key_t rk);
+    void updateKeysAncestors(Key_t rk);
 };
 
 #endif // DATABASE_H

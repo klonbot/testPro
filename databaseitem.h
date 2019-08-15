@@ -5,6 +5,7 @@
 #include "QVector"
 
 typedef int ID_t;
+typedef int Key_t;
 
 class DataBaseItem
 {
@@ -33,14 +34,10 @@ public:
     int getNumChildren(void) {return idChildren.size();}
     ID_t getCildID(int i) {return idChildren.at(i);}
 
-    /*
-    void addAncestors(QVector<ID_t>* ancestors, ID_t id);
-    void addAncestors(DataBaseItem *parent)
-        {addAncestors(parent->getAncestors(), parent->getID());}
-    int getNumAncestors(void) {return idAncestors.size();}
-    ID_t getAncestor(int i) {return idAncestors.at(i);}
-    QVector<ID_t>* getAncestors(void) {return &idAncestors;}
-*/
+    void setLeftKey(Key_t lk) {leftKey = lk;}
+    Key_t getLeftKey(void) const {return leftKey;}
+    void setRightKey(Key_t rk) {rightKey = rk;}
+    Key_t getRightKey(void) const {return rightKey;}
 private:
     ID_t idThis;
 
@@ -51,6 +48,8 @@ private:
 
     QVector<ID_t> idChildren;
     ID_t idParent;
+    Key_t leftKey;
+    Key_t rightKey;
 
     void init(ID_t id, ID_t idP, bool isR);
 };

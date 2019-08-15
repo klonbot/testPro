@@ -19,9 +19,27 @@ ID_t DataBase::addItemFromCashe(DataBaseItem *dbItem, ID_t idParent)
     if(false == newItem->getIsRoot())
     {
         newItem->setIdParent(idParent);
-        //родителя взять предков и добавить ребенку
-        DataBaseItem *parent = dataBaseItems.at(idParent);
-        //newItem->addAncestors(parent);
+    }
+
+    if(true == newItem->getIsRoot())
+    {
+        newItem->setLeftKey(1);
+        newItem->setRightKey(2);
+    }
+    else
+    {
+        DataBaseItem *item = dataBaseItems.at(idParent);
+        Key_t rk = item->getRightKey();
+
+        // обновить ключи дерева за родительским узлом
+        updateKeysRightItems(rk);
+
+        // обновить правые ключи родительской ветки
+        updateKeysAncestors(rk);
+
+        // устанавливаем свои
+        newItem->setLeftKey(rk);
+        newItem->setRightKey(rk + 1);
     }
 
     dataBaseItems.append(newItem);
@@ -81,4 +99,29 @@ DataBaseItem* DataBase::getChild(DataBaseItem *parent, int ind)
     ID_t childId = parent->getCildID(ind);
     DataBaseItem *item = dataBaseItems.at(childId);
     return item;
+}
+
+void DataBase::updateKeysRightItems(Key_t rk)
+{
+    for(int i = 0; i < dataBaseItems.size(); ++i)
+    {
+        DataBaseItem *item = dataBaseItems.at(i);
+        if(item->getLeftKey() > rk)
+        {
+            item->setLeftKey(item->getLeftKey() + 2);
+            item->setRightKey(item->getRightKey() + 2);
+        }
+    }
+}
+
+void DataBase::updateKeysAncestors(Key_t rk)
+{
+    for(int i = 0; i < dataBaseItems.size(); ++i)
+    {
+        DataBaseItem *item = dataBaseItems.at(i);
+        if((item->getRightKey()>=rk)&&(item->getLeftKey()<rk))
+        {
+            item->setRightKey(item->getRightKey() + 2);
+        }
+    }
 }
