@@ -30,6 +30,7 @@ CacheItem* Cache::newItem(QString val)
 
 bool Cache::isDelitedAncestors(DataBaseItem *dataBaseItem)
 {
+    /*
     int numAncestors = dataBaseItem->getNumAncestors();
     for (int i = 0; i < cacheItems.size(); ++i)
     {
@@ -47,6 +48,7 @@ bool Cache::isDelitedAncestors(DataBaseItem *dataBaseItem)
             }
         }
     }
+    */
     return false;
 }
 
@@ -182,6 +184,7 @@ void Cache::deleteItem(CacheItem* delItem)
 
 void Cache::deleteAllDescendants(ID_t id)
 {
+    /*
     for (int i = 0; i < cacheItems.size(); ++i)
     {
         CacheItem *item = cacheItems.at(i);
@@ -199,6 +202,7 @@ void Cache::deleteAllDescendants(ID_t id)
             }
         }
     }
+    */
 }
 
 

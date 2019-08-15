@@ -21,7 +21,7 @@ ID_t DataBase::addItemFromCashe(DataBaseItem *dbItem, ID_t idParent)
         newItem->setIdParent(idParent);
         //родителя взять предков и добавить ребенку
         DataBaseItem *parent = dataBaseItems.at(idParent);
-        newItem->addAncestors(parent);
+        //newItem->addAncestors(parent);
     }
 
     dataBaseItems.append(newItem);
