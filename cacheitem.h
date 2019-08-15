@@ -26,7 +26,7 @@ public:
     void setIsOldItem(void) {isNew = false;}
     bool isTop(void) const {return (NULL == Parent);}
 
-    DataBaseItem* geCasheData(void) {return &cacheData;}
+    DataBaseItem* geCacheData(void) {return &cacheData;}
 private:
     DataBaseItem cacheData;
     bool isNew;
