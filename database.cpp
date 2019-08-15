@@ -31,13 +31,8 @@ ID_t DataBase::addItemFromCashe(DataBaseItem *dbItem, ID_t idParent)
         DataBaseItem *item = dataBaseItems.at(idParent);
         Key_t rk = item->getRightKey();
 
-        // обновить ключи дерева за родительским узлом
         updateKeysRightItems(rk);
-
-        // обновить правые ключи родительской ветки
         updateKeysAncestors(rk);
-
-        // устанавливаем свои
         newItem->setLeftKey(rk);
         newItem->setRightKey(rk + 1);
     }
