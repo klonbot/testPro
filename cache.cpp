@@ -7,9 +7,13 @@ Cache::Cache() :
     isDeletedRoot = false;
 }
 
-CacheItem* Cache::newItem(CacheItem *parent)
+CacheItem* Cache::newItem(CacheItem *parent, DataBaseItem *dataBaseItem)
 {
     CacheItem* item = new CacheItem(parent);
+    if(NULL != dataBaseItem)
+    {
+
+    }
     cacheItems.append(item);
     return item;
 }
@@ -25,6 +29,35 @@ CacheItem* Cache::newItem(QString val)
 {
     CacheItem *item = newItem();
     item->setValue(val);
+    return item;
+}
+
+CacheItem* Cache::newItem(DataBaseItem *dataBaseItem)
+{
+    CacheItem *parent = searchParent(dataBaseItem);
+    CacheItem *item = newItem(parent, dataBaseItem);
+    DataBaseItem *cacheBaseItem = item->getCacheData();
+    *cacheBaseItem = *dataBaseItem;
+    item->setIsOldItem();
+
+    if(NULL != parent)
+    {
+        parent->addChild(item);
+        item->setParent(parent);
+    }
+
+    CacheItem* child = NULL;
+    do
+    {
+        child = searchLostChildren(dataBaseItem);
+        if (NULL != child)
+        {
+            child->setParent(item);
+            item->addChild(child);
+        }
+    }
+    while (NULL != child);
+
     return item;
 }
 
@@ -47,35 +80,6 @@ bool Cache::isDelitedAncestors(DataBaseItem *casheData)
         }
     }
     return false;
-}
-
-CacheItem* Cache::newItem(DataBaseItem *dataBaseItem)
-{
-    CacheItem *item = newItem();
-    DataBaseItem *cacheBaseItem = item->getCacheData();
-    *cacheBaseItem = *dataBaseItem;
-    item->setIsOldItem();
-
-    CacheItem *parent = searchParent(dataBaseItem);
-    if(NULL != parent)
-    {
-        parent->addChild(item);
-        item->setParent(parent);
-    }
-
-    CacheItem* child = NULL;
-    do
-    {
-        child = searchLostChildren(dataBaseItem);
-        if (NULL != child)
-        {
-            child->setParent(item);
-            item->addChild(child);
-        }
-    }
-    while (NULL != child);
-
-    return item;
 }
 
 void Cache::reset(void)
