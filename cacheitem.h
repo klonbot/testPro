@@ -10,7 +10,7 @@ class CacheItem
 public:
     CacheItem(CacheItem *parent = NULL);
 
-    void addChild(CacheItem *child) {children.append(child);}
+    void addChild(CacheItem *child);// {children.append(child);}
     int getNumChildren(void) const {return children.size();}
     CacheItem* getChild(int i) const {return children.at(i);}
 
