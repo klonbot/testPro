@@ -92,10 +92,37 @@ void DataBase::clear (void)
     resetIdCounter();
 }
 
+// use only for TreeWidget!
 DataBaseItem* DataBase::getChild(DataBaseItem *parent, int ind)
 {
+    int cntChild = 0;
     for (int i = 0; i < dataBaseItems.size(); ++i)
     {
-
+        DataBaseItem* item = dataBaseItems.at(i);
+        if (item->getIsRoot())
+            continue;
+        if (item->getIdParent() == parent->getID())
+        {
+            if(cntChild == ind)
+                return item;
+            ++cntChild;
+        }
     }
+    return NULL;
+}
+
+// use only for TreeWidget!
+int DataBase::getNumChildren(DataBaseItem *parent)
+{
+    int numChildren = 0;
+    for (int i = 0; i < dataBaseItems.size(); ++i)
+    {
+        if (dataBaseItems.at(i)->getIsRoot())
+            continue;
+        if (dataBaseItems.at(i)->getIdParent() == parent->getID())
+        {
+            ++numChildren;
+        }
+    }
+    return numChildren;
 }

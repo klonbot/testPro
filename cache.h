@@ -30,6 +30,7 @@ public:
     void deleteItem(CacheItem*  item);
     void deleteAllDescendants(Key_t left, Key_t right);
     void resetIsDeletedRoot(void) {isDeletedRoot = false;}
+    int getNumChildren(CacheItem *item) {return item->getNumChildren();}
 
     void updateKeys(ID_t idParent);
 private:

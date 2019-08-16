@@ -18,6 +18,7 @@ public:
     DataBaseItem* atData (int i) {return getItem(i);}
     int getSize(void) {return dataBaseItems.size();}
     void resetIdCounter (void) {idCounter = 0;}
+    int getNumChildren(DataBaseItem *item);
 
     DataBaseItem* getChild(DataBaseItem *parent, int ind);
 private:

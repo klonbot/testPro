@@ -31,8 +31,7 @@ private:
     Bd &bd;
 
     void connectItem(QTreeWidgetItem *pWidgetItem, Item *pCasheChild);
-    void connectChildrenPointMode(QTreeWidgetItem *pWidgetItem, Item *pCacheItem);
-    void connectChildrenIdMode(QTreeWidgetItem *pWidgetItem, Item *pCacheItem);
+    void connectChildren(QTreeWidgetItem *pWidgetItem, Item *pCacheItem);
     void refreshTreeWidgetItemData (QTreeWidgetItem *wItem, Item *item);
 };
 
@@ -121,39 +120,18 @@ void Connector<Item, Bd>::connectItem(QTreeWidgetItem *pWidgetItem, Item *pCashe
         treeWiget.addTopLevelItem (pWidgetChild);
     add(pWidgetChild, pCasheChild);
     refreshTreeWidgetItemData (pWidgetChild, pCasheChild);
-    if (bd.isEditable)
-        connectChildrenPointMode(pWidgetChild, pCasheChild);
-    else
-        connectChildrenIdMode(pWidgetChild, pCasheChild);
+    connectChildren(pWidgetChild, pCasheChild);
 
     treeWiget.expandItem(pWidgetChild);
 }
 
 template<typename Item, typename Bd>
-void Connector<Item, Bd>::connectChildrenPointMode(QTreeWidgetItem *pWidgetItem, Item *pItem)
+void Connector<Item, Bd>::connectChildren(QTreeWidgetItem *pWidgetItem, Item *pItem)
 {
-    for (int ind = 0; ind < pItem->getNumChildren(); ++ind)
+    for (int ind = 0; ind <  bd.getNumChildren(pItem); ++ind)
     {
         Item *pChild = bd.getChild(pItem, ind);
         connectItem(pWidgetItem, pChild);
-    }
-}
-
-template<typename Item, typename Bd>
-void Connector<Item, Bd>::connectChildrenIdMode(QTreeWidgetItem *pWidgetItem, Item *pItem)
-{
-    for (int ind = 0; ind < bd.getSize(); ++ind)
-    {
-        ID_t idParent = pItem->getID();
-        DataBaseItem* item = bd.atData(ind);
-        if (true == item->getIsRoot())
-            continue;
-
-        if(idParent == item->getIdParent())
-        {
-            Item *pChild = bd.getItem(ind);
-            connectItem(pWidgetItem, pChild);
-        }
     }
 }
 
