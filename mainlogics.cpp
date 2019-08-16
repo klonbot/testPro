@@ -155,6 +155,7 @@ void MainLogics::initTestTree(void)
     /*CacheItem *item_1331 =*/cache.newItem(item_133, "Node 1331");
     /*CacheItem *item_1332 =*/cache.newItem(item_133, "Node 1332");
     /*CacheItem *item_134 =*/cache.newItem(item_13, "Node 134");
+
     apply();
     clearCache();
     refreshCasheTreeView();
@@ -226,7 +227,6 @@ void MainLogics::applyItem(CacheItem *pCacheItem, ID_t idParent)
         id = dataBase.refreshItemFromCashe(pCacheItem->getCacheData());
     }
     applyChildren(pCacheItem, id);
-    refreshDBTreeView();
 }
 
 void MainLogics::applyChildren(CacheItem *pCacheItem, ID_t idParent)
