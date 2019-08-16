@@ -218,6 +218,8 @@ void MainLogics::applyItem(CacheItem *pCacheItem, ID_t idParent)
         {
             pCacheItem->getCacheData()->setIdChildren(id);
         }
+        cache.updateKeysRightItems(pCacheItem->getCacheData()->getRightKey());
+        cache.updateKeysAncestors(pCacheItem->getCacheData()->getRightKey());
     }
     else
     {

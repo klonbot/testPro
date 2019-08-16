@@ -27,6 +27,9 @@ public:
     void deleteItem(CacheItem*  item);
     void deleteAllDescendants(Key_t left, Key_t right);
     void resetIsDeletedRoot(void) {isDeletedRoot = false;}
+
+    void updateKeysRightItems(Key_t rk);
+    void updateKeysAncestors(Key_t rk);
 private:
     QVector<CacheItem*>cacheItems;
     bool isDeletedRoot;
