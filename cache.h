@@ -4,7 +4,7 @@
 #include "cacheitem.h"
 #include "updatekeys.h"
 
-class Cache: public UpdateKeys<Cache>
+class Cache: private UpdateKeys<Cache>
 {
 public:
     Cache();
@@ -19,9 +19,9 @@ public:
     bool isDelitedAncestors(DataBaseItem *dataBaseItem);
 
     void reset(void);
-    CacheItem* getItem (int i) {return cacheItems_.at(i);}
-    int getSize(void) {return cacheItems_.size();}
-    void insertItem (int i, CacheItem* item) {return cacheItems_.insert(i, item);}
+    CacheItem* getItem (int i) {return cacheItems.at(i);}
+    int getSize(void) {return cacheItems.size();}
+    void insertItem (int i, CacheItem* item) {return cacheItems.insert(i, item);}
     DataBaseItem* atData (int i) {return getItem(i)->getCacheData();}
 
     CacheItem* getChild(CacheItem *parent, int ind);
@@ -30,8 +30,10 @@ public:
     void deleteItem(CacheItem*  item);
     void deleteAllDescendants(Key_t left, Key_t right);
     void resetIsDeletedRoot(void) {isDeletedRoot = false;}
+
+    void updateKeys(ID_t idParent);
 private:
-    QVector<CacheItem*>cacheItems_;
+    QVector<CacheItem*>cacheItems;
     bool isDeletedRoot;
 
     CacheItem* searchParent(DataBaseItem *dataBaseItem);

@@ -99,7 +99,6 @@ void MainLogics::slotUploadToCash(void)
                     cache.newItem(pCurrBaseItem);
                 }
             }
-
             refreshCasheTreeView();
         }
     }
@@ -214,13 +213,7 @@ void MainLogics::applyItem(CacheItem *pCacheItem, ID_t idParent)
     {
         id = dataBase.addItemFromCashe(pCacheItem->getCacheData(), idParent);
         pCacheItem->resetIsNew();
-        CacheItem *pCacheItem = cache.searchInCache(idParent);
-        /*if(NULL != pCacheItem)
-        {
-            pCacheItem->getCacheData()->setIdChildren(id);
-        }*/
-        cache.updateKeysRightItems(pCacheItem->getCacheData()->getRightKey());
-        cache.updateKeysAncestors(pCacheItem->getCacheData()->getRightKey());
+        cache.updateKeys(idParent);
     }
     else
     {

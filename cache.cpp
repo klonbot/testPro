@@ -25,7 +25,7 @@ CacheItem* Cache::newItem(CacheItem *parent, DataBaseItem *dataBaseItem)
             }
         }
     }
-    cacheItems_.append(item);
+    cacheItems.append(item);
     return item;
 }
 
@@ -92,7 +92,7 @@ void Cache::reset(void)
 
          delete(item);
     }
-    cacheItems_.clear();
+    cacheItems.clear();
     isDeletedRoot = false;
 }
 
@@ -127,7 +127,6 @@ CacheItem* Cache::searchInCache(ID_t baseID)
 
 CacheItem* Cache::searchParent(DataBaseItem *dataBaseItem)
 {
-    ID_t clildId = dataBaseItem->getID();
     ID_t parentId = dataBaseItem->getIdParent();
     for (int i = 0; i < getSize(); ++i)
     {
@@ -141,18 +140,6 @@ CacheItem* Cache::searchParent(DataBaseItem *dataBaseItem)
         {
             return item;
         }
-#if 0
-
-        int numChildren = baseItem->getNumChildren();
-        for (int j = 0; j < numChildren; ++j)
-        {
-            ID_t childID = baseItem->getCildID(j);
-            if (childID == dataBaseItem->getID())
-            {
-                return item;
-            }
-        }
-#endif
     }
     return NULL;
 }
@@ -177,26 +164,6 @@ CacheItem* Cache::searchLostChildren(CacheItem *parentItem)
             return item;
         }
     }
-#if 0
-    int numChildren = dataBaseItem->getNumChildren();
-    for (int i = 0; i < numChildren; ++i)
-    {
-        ID_t childID = dataBaseItem->getCildID(i);
-        for (int j = 0; j < cacheItems.size(); ++j)
-        {
-            CacheItem *item = cacheItems.at(j);
-            if(false == item->isTop())
-                continue;
-            if(item->isNewItem())
-                continue;
-            ID_t ID = item->getCacheData()->getID();
-            if (childID == ID)
-            {
-                return item;
-            }
-        }
-    }
-#endif
     return NULL;
 }
 
@@ -225,5 +192,12 @@ void Cache::deleteAllDescendants(Key_t left, Key_t right)
             item->deleteItem();
         }
     }
+}
+
+void Cache::updateKeys(ID_t idParent)
+{
+    CacheItem *pCacheItem = searchInCache(idParent);
+    updateKeysRightItems(pCacheItem->getCacheData()->getRightKey());
+    updateKeysAncestors(pCacheItem->getCacheData()->getRightKey());
 }
 
