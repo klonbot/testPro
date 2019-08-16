@@ -91,7 +91,7 @@ void MainLogics::slotUploadToCash(void)
         DataBaseItem *pCurrBaseItem = dbConnector.getItem(pCurrItem);
         if (false == pCurrBaseItem->getIsDeleted())
         {
-            CacheItem *cashItem = cache.searchInCache(pCurrBaseItem);
+            CacheItem *cashItem = cache.searchInCache(pCurrBaseItem->getID());
             if(NULL == cashItem)
             {
                 if (false == cache.isDelitedAncestors(pCurrBaseItem))
@@ -212,12 +212,19 @@ void MainLogics::applyItem(CacheItem *pCacheItem, ID_t idParent)
     if(pCacheItem->isNewItem())
     {
         id = dataBase.addItemFromCashe(pCacheItem->getCacheData(), idParent);
+        pCacheItem->resetIsNew();
+        CacheItem *pCacheItem = cache.searchInCache(idParent);
+        if(NULL != pCacheItem)
+        {
+            pCacheItem->getCacheData()->setIdChildren(id);
+        }
     }
     else
     {
         id = dataBase.refreshItemFromCashe(pCacheItem->getCacheData());
     }
     applyChildren(pCacheItem, id);
+    refreshDBTreeView();
 }
 
 void MainLogics::applyChildren(CacheItem *pCacheItem, ID_t idParent)

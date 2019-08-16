@@ -38,6 +38,7 @@ ID_t DataBase::addItemFromCashe(DataBaseItem *dbItem, ID_t idParent)
     }
 
     dataBaseItems.append(newItem);
+    *dbItem = *newItem;
     if(false == newItem->getIsRoot())
     {
         DataBaseItem *item = dataBaseItems.at(idParent);
@@ -55,6 +56,8 @@ ID_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
         return id;
     }
     DataBaseItem *item = dataBaseItems.at(id);
+    dbItem->setLeftKey(item->getLeftKey());
+    dbItem->setRightKey(item->getRightKey());
     *item = *dbItem;
 
     if (item->getIsDeleted())

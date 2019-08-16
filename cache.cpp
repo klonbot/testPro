@@ -107,7 +107,7 @@ CacheItem* Cache::getChild(CacheItem *parent, int ind)
     return item;
 }
 
-CacheItem* Cache::searchInCache(DataBaseItem* baseItem)
+CacheItem* Cache::searchInCache(ID_t baseID)
 {
     for (int i = 0; i < cacheItems.size(); ++i)
     {
@@ -116,7 +116,7 @@ CacheItem* Cache::searchInCache(DataBaseItem* baseItem)
              continue;
          DataBaseItem* cacheDbItem = item->getCacheData();
          ID_t casheID = cacheDbItem->getID();
-         ID_t baseID = baseItem->getID();
+         //ID_t baseID = baseItem->getID();
          if (casheID == baseID)
          {
              return item;

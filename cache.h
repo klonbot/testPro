@@ -22,7 +22,7 @@ public:
     int size(void) {return cacheItems.size();}
     CacheItem* getChild(CacheItem *parent, int ind);
 
-    CacheItem* searchInCache(DataBaseItem* baseItem);
+    CacheItem* searchInCache(ID_t baseID);
     bool getIsDeletedRoot(void) {return isDeletedRoot;}
     void deleteItem(CacheItem*  item);
     void deleteAllDescendants(Key_t left, Key_t right);

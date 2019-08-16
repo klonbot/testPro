@@ -23,6 +23,7 @@ public:
 
     void deleteItem(void);
     bool isNewItem(void) const {return isNew;}
+    void resetIsNew(void) {isNew = false;}
     bool isTop(void) const {return (NULL == Parent);}
 
     DataBaseItem* getCacheData(void) {return &cacheData;}
