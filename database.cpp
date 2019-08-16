@@ -43,11 +43,6 @@ ID_t DataBase::addItemFromCashe(DataBaseItem *dbItem, ID_t idParent)
 
     dataBaseItems.append(newItem);
     *dbItem = *newItem;
-    /*if(false == newItem->getIsRoot())
-    {
-        DataBaseItem *item = dataBaseItems.at(idParent);
-        item->setIdChildren(id);
-    }*/
     return id;
 }
 
@@ -74,7 +69,6 @@ ID_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
 
 void DataBase::deleteCildrenInDB(DataBaseItem *parentItem)
 {
-    //int numChildren = dbItem->getNumChildren();
     Key_t lkp = parentItem->getLeftKey();
     Key_t rkp = parentItem->getRightKey();
     for (int i = 0; i < dataBaseItems.size(); ++i)
@@ -89,8 +83,6 @@ void DataBase::deleteCildrenInDB(DataBaseItem *parentItem)
         {
             item->setIsDeleted(true);
         }
-
-        //deleteCildrenInDB(child);
     }
 }
 
@@ -102,15 +94,8 @@ void DataBase::clear (void)
 
 DataBaseItem* DataBase::getChild(DataBaseItem *parent, int ind)
 {
-#if 0
-    int numChildren = parent->getNumChildren();
-    if (ind >= numChildren)
+    for (int i = 0; i < dataBaseItems.size(); ++i)
     {
-        qDebug("ERROR getChild: child ID in database!");
-        return NULL;
+
     }
-    ID_t childId = parent->getCildID(ind);
-    DataBaseItem *item = dataBaseItems.at(childId);
-#endif
-    return NULL;
 }

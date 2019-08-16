@@ -4,7 +4,7 @@
 #include "databaseitem.h"
 #include "updatekeys.h"
 
-class DataBase: public UpdateKeys<DataBase>
+class DataBase: private UpdateKeys<DataBase>
 {
 public:
     DataBase();
