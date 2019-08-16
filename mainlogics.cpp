@@ -215,10 +215,10 @@ void MainLogics::applyItem(CacheItem *pCacheItem, ID_t idParent)
         id = dataBase.addItemFromCashe(pCacheItem->getCacheData(), idParent);
         pCacheItem->resetIsNew();
         CacheItem *pCacheItem = cache.searchInCache(idParent);
-        if(NULL != pCacheItem)
+        /*if(NULL != pCacheItem)
         {
             pCacheItem->getCacheData()->setIdChildren(id);
-        }
+        }*/
         cache.updateKeysRightItems(pCacheItem->getCacheData()->getRightKey());
         cache.updateKeysAncestors(pCacheItem->getCacheData()->getRightKey());
     }

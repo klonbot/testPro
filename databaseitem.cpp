@@ -21,7 +21,7 @@ void DataBaseItem::init(ID_t id, ID_t idP, bool isR)
     isRoot = isR;
     idThis = id;
     setIdParent(idP);
-    idChildren.clear();
+    //idChildren.clear();
     isDeleted = false;
     value.clear();
 }

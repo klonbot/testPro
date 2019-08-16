@@ -26,25 +26,28 @@ ID_t DataBase::addItemFromCashe(DataBaseItem *dbItem, ID_t idParent)
     {
         newItem->setLeftKey(1);
         newItem->setRightKey(2);
+        newItem->setLevel(1);
     }
     else
     {
         DataBaseItem *item = dataBaseItems.at(idParent);
         Key_t rk = item->getRightKey();
+        int level = item->getLevel();
 
         updateKeysRightItems(rk);
         updateKeysAncestors(rk);
         newItem->setLeftKey(rk);
         newItem->setRightKey(rk + 1);
+        newItem->setLevel(level);
     }
 
     dataBaseItems.append(newItem);
     *dbItem = *newItem;
-    if(false == newItem->getIsRoot())
+    /*if(false == newItem->getIsRoot())
     {
         DataBaseItem *item = dataBaseItems.at(idParent);
         item->setIdChildren(id);
-    }
+    }*/
     return id;
 }
 
@@ -59,6 +62,7 @@ ID_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
     DataBaseItem *item = dataBaseItems.at(id);
     dbItem->setLeftKey(item->getLeftKey());
     dbItem->setRightKey(item->getRightKey());
+    dbItem->setLevel(item->getLevel());
     *item = *dbItem;
 
     if (item->getIsDeleted())
@@ -68,16 +72,25 @@ ID_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
     return id;
 }
 
-void DataBase::deleteCildrenInDB(DataBaseItem *dbItem)
+void DataBase::deleteCildrenInDB(DataBaseItem *parentItem)
 {
-    int numChildren = dbItem->getNumChildren();
-    for (int i = 0; i < numChildren; ++i)
+    //int numChildren = dbItem->getNumChildren();
+    Key_t lkp = parentItem->getLeftKey();
+    Key_t rkp = parentItem->getRightKey();
+    for (int i = 0; i < dataBaseItems.size(); ++i)
     {
-        DataBaseItem *child = getChild(dbItem, i);
-        if (true == child->getIsDeleted())
+        DataBaseItem *item =  dataBaseItems.at(i);
+        Key_t lki = item->getLeftKey();
+        Key_t rki = item->getRightKey();
+
+        if (true == item->getIsDeleted())
             continue;
-        child->setIsDeleted(true);
-        deleteCildrenInDB(child);
+        if ((lkp < lki)&&(rki<rkp))
+        {
+            item->setIsDeleted(true);
+        }
+
+        //deleteCildrenInDB(child);
     }
 }
 
@@ -89,6 +102,7 @@ void DataBase::clear (void)
 
 DataBaseItem* DataBase::getChild(DataBaseItem *parent, int ind)
 {
+#if 0
     int numChildren = parent->getNumChildren();
     if (ind >= numChildren)
     {
@@ -97,5 +111,6 @@ DataBaseItem* DataBase::getChild(DataBaseItem *parent, int ind)
     }
     ID_t childId = parent->getCildID(ind);
     DataBaseItem *item = dataBaseItems.at(childId);
-    return item;
+#endif
+    return NULL;
 }

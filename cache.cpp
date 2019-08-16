@@ -127,12 +127,21 @@ CacheItem* Cache::searchInCache(ID_t baseID)
 
 CacheItem* Cache::searchParent(DataBaseItem *dataBaseItem)
 {
+    ID_t clildId = dataBaseItem->getID();
     for (int i = 0; i < cacheItems.size(); ++i)
     {
         CacheItem *item = cacheItems.at(i);
         if(item->isNewItem())
             continue;
         DataBaseItem *baseItem = item->getCacheData();
+        ID_t id = baseItem->getID();
+
+        if (clildId == id)
+        {
+            return item;
+        }
+#if 0
+
         int numChildren = baseItem->getNumChildren();
         for (int j = 0; j < numChildren; ++j)
         {
@@ -142,12 +151,28 @@ CacheItem* Cache::searchParent(DataBaseItem *dataBaseItem)
                 return item;
             }
         }
+#endif
     }
     return NULL;
 }
 
 CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
 {
+    ID_t parentId = dataBaseItem->getID();
+    for (int i = 0; i < cacheItems.size(); ++i)
+    {
+        CacheItem *item = cacheItems.at(i);
+        if(item->isNewItem())
+            continue;
+        DataBaseItem *baseItem = item->getCacheData();
+        ID_t id = baseItem->getIdParent();
+
+        if (parentId == id)
+        {
+            return item;
+        }
+    }
+#if 0
     int numChildren = dataBaseItem->getNumChildren();
     for (int i = 0; i < numChildren; ++i)
     {
@@ -166,6 +191,7 @@ CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
             }
         }
     }
+#endif
     return NULL;
 }
 
