@@ -26,19 +26,15 @@ ID_t DataBase::addItemFromCashe(DataBaseItem *dbItem, ID_t idParent)
     {
         newItem->setLeftKey(1);
         newItem->setRightKey(2);
-        newItem->setLevel(1);
     }
     else
     {
         DataBaseItem *item = dataBaseItems.at(idParent);
         Key_t rk = item->getRightKey();
-        int level = item->getLevel();
-
         updateKeysRightItems(rk);
         updateKeysAncestors(rk);
         newItem->setLeftKey(rk);
         newItem->setRightKey(rk + 1);
-        newItem->setLevel(level);
     }
 
     dataBaseItems.append(newItem);
@@ -57,7 +53,6 @@ ID_t DataBase::refreshItemFromCashe(DataBaseItem *dbItem)
     DataBaseItem *item = dataBaseItems.at(id);
     dbItem->setLeftKey(item->getLeftKey());
     dbItem->setRightKey(item->getRightKey());
-    dbItem->setLevel(item->getLevel());
     *item = *dbItem;
 
     if (item->getIsDeleted())

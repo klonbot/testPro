@@ -33,11 +33,6 @@ public:
     Key_t getLeftKey(void) const {return leftKey;}
     void setRightKey(Key_t rk) {rightKey = rk;}
     Key_t getRightKey(void) const {return rightKey;}
-
-    int getNumChildren(void) const {return 0;}
-
-    void setLevel (int lv) {level = lv;}
-    int getLevel (void) {return level;}
 private:
     ID_t idThis;
 
@@ -49,7 +44,6 @@ private:
     ID_t idParent;
     Key_t leftKey;
     Key_t rightKey;
-    int level;
 
     void init(ID_t id, ID_t idP, bool isR);
 };
