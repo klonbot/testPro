@@ -2,6 +2,7 @@
 
 
 Cache::Cache() :
+    UpdateKeys<Cache>(*this),
     isEditable(true)
 {    
     isDeletedRoot = false;
@@ -116,7 +117,6 @@ CacheItem* Cache::searchInCache(ID_t baseID)
              continue;
          DataBaseItem* cacheDbItem = item->getCacheData();
          ID_t casheID = cacheDbItem->getID();
-         //ID_t baseID = baseItem->getID();
          if (casheID == baseID)
          {
              return item;
@@ -195,31 +195,4 @@ void Cache::deleteAllDescendants(Key_t left, Key_t right)
         }
     }
 }
-
-void Cache::updateKeysRightItems(Key_t rk)
-{
-    for(int i = 0; i < cacheItems.size(); ++i)
-    {
-        DataBaseItem *item = cacheItems.at(i)->getCacheData();
-        if(item->getLeftKey() > rk)
-        {
-            item->setLeftKey(item->getLeftKey() + 2);
-            item->setRightKey(item->getRightKey() + 2);
-        }
-    }
-}
-
-void Cache::updateKeysAncestors(Key_t rk)
-{
-    for(int i = 0; i < cacheItems.size(); ++i)
-    {
-        DataBaseItem *item = cacheItems.at(i)->getCacheData();
-        if((item->getRightKey()>=rk)&&(item->getLeftKey()<rk))
-        {
-            item->setRightKey(item->getRightKey() + 2);
-        }
-    }
-}
-
-
 

@@ -1,6 +1,7 @@
 #include "database.h"
 
 DataBase::DataBase() :
+    UpdateKeys<DataBase>(*this),
     isEditable(false)
 {
     idCounter = 0;
@@ -97,29 +98,4 @@ DataBaseItem* DataBase::getChild(DataBaseItem *parent, int ind)
     ID_t childId = parent->getCildID(ind);
     DataBaseItem *item = dataBaseItems.at(childId);
     return item;
-}
-
-void DataBase::updateKeysRightItems(Key_t rk)
-{
-    for(int i = 0; i < dataBaseItems.size(); ++i)
-    {
-        DataBaseItem *item = dataBaseItems.at(i);
-        if(item->getLeftKey() > rk)
-        {
-            item->setLeftKey(item->getLeftKey() + 2);
-            item->setRightKey(item->getRightKey() + 2);
-        }
-    }
-}
-
-void DataBase::updateKeysAncestors(Key_t rk)
-{
-    for(int i = 0; i < dataBaseItems.size(); ++i)
-    {
-        DataBaseItem *item = dataBaseItems.at(i);
-        if((item->getRightKey()>=rk)&&(item->getLeftKey()<rk))
-        {
-            item->setRightKey(item->getRightKey() + 2);
-        }
-    }
 }

@@ -2,8 +2,9 @@
 #define CACHE_H
 
 #include "cacheitem.h"
+#include "updatekeys.h"
 
-class Cache
+class Cache: public UpdateKeys<Cache>
 {
 public:
     Cache();
@@ -20,16 +21,14 @@ public:
     void reset(void);
     CacheItem* at (int i) {return cacheItems.at(i);}
     int size(void) {return cacheItems.size();}
-    CacheItem* getChild(CacheItem *parent, int ind);
+    DataBaseItem* atData (int i) {return at(i)->getCacheData();}
 
+    CacheItem* getChild(CacheItem *parent, int ind);
     CacheItem* searchInCache(ID_t baseID);
     bool getIsDeletedRoot(void) {return isDeletedRoot;}
     void deleteItem(CacheItem*  item);
     void deleteAllDescendants(Key_t left, Key_t right);
     void resetIsDeletedRoot(void) {isDeletedRoot = false;}
-
-    void updateKeysRightItems(Key_t rk);
-    void updateKeysAncestors(Key_t rk);
 private:
     QVector<CacheItem*>cacheItems;
     bool isDeletedRoot;

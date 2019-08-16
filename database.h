@@ -2,8 +2,9 @@
 #define DATABASE_H
 
 #include "databaseitem.h"
+#include "updatekeys.h"
 
-class DataBase
+class DataBase: public UpdateKeys<DataBase>
 {
 public:
     DataBase();
@@ -14,6 +15,7 @@ public:
     ID_t refreshItemFromCashe(DataBaseItem *dbItem);
     void clear (void);
     DataBaseItem* at (int i) {return dataBaseItems.at(i);}
+    DataBaseItem* atData (int i) {return at(i);}
     int size(void) {return dataBaseItems.size();}
 
     DataBaseItem* getChild(DataBaseItem *parent, int ind);
@@ -23,8 +25,6 @@ private:
 
     ID_t getNextID() {return idCounter++;}
     void deleteCildrenInDB(DataBaseItem *dbItem);
-    void updateKeysRightItems(Key_t rk);
-    void updateKeysAncestors(Key_t rk);
 };
 
 #endif // DATABASE_H
