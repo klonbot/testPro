@@ -26,6 +26,7 @@ HEADERS  += mainwindow.h \
     mainlogics.h \
     databaseitem.h \
     cacheitem.h \
-    connector.h
+    connector.h \
+    updatekeys.h
 
 FORMS    += mainwindow.ui
