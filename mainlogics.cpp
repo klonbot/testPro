@@ -44,12 +44,6 @@ void MainLogics::slotNewItem(void)
             }
         }
     }
-    else
-    {
-        cache.newItem("New root");
-        cache.resetIsDeletedRoot();
-        refreshCasheTreeView();
-    }
 }
 
 void MainLogics::slotDeleteItem(void)
@@ -98,17 +92,7 @@ void MainLogics::slotUploadToCash(void)
         if (false == pCurrBaseItem->getIsDeleted())
         {
             CacheItem *cashItem = cache.searchInCache(pCurrBaseItem);
-            if(NULL != cashItem)
-            {
-#if 0 // запретил обнавлятся
-                if(isDeleted_false == cashItem->getIsDeleted())
-                {
-                    DataBaseItem *cacheBaseItem = cashItem->getDataBaseItem();
-                    *cacheBaseItem = *pCurrBaseItem;
-                }
-#endif
-            }
-            else
+            if(NULL == cashItem)
             {
                 if (false == cache.isDelitedAncestors(pCurrBaseItem))
                 {
@@ -150,10 +134,6 @@ void MainLogics::slotControlAddDelete(void)
         {
             window->setCtrlBtnEnabled(false);
         }
-    }
-    else
-    {
-        window->setCtrlBtnEnabled();
     }
 }
 
