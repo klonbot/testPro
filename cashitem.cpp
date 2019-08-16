@@ -1,16 +1,22 @@
 #include "cacheitem.h"
 
-CacheItem::CacheItem(CacheItem *parent):
+CacheItem::CacheItem(CacheItem *parent, DataBaseItem *cData):
     cacheData(0)
 {
-    isNew = true;    
-    bool isRoot = (NULL == parent);
-    cacheData.setIsRoot(isRoot);
-    Parent = parent;
-    cacheData.setIsDeleted(false);
-    if (false == isRoot)
+    isNew = (NULL == cData);
+    if (isNew)
     {
-        parent->addChild(this);
+        cacheData.setIsRoot((NULL == parent));
+        cacheData.setIsDeleted(false);
+    }
+    else
+    {
+        cacheData = *cData;
+    }
+    Parent = parent;
+    if (NULL != parent)
+    {
+        Parent->addChild(this);
     }
 }
 

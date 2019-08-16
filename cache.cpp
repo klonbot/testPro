@@ -7,9 +7,23 @@ Cache::Cache() :
     isDeletedRoot = false;
 }
 
-CacheItem* Cache::newItem(CacheItem *parent)
+CacheItem* Cache::newItem(CacheItem *parent, DataBaseItem *dataBaseItem)
 {
-    CacheItem* item = new CacheItem(parent);
+    CacheItem* item = new CacheItem(parent, dataBaseItem);
+    if(NULL != dataBaseItem)
+    {
+        DataBaseItem *cacheData = item->getCacheData();
+        Key_t lk = cacheData->getLeftKey();
+        for(int i = 0; i < size(); ++i)
+        {
+            Key_t lki = cacheItems.at(i)->getCacheData()->getLeftKey();
+            if(lk < lki)
+            {
+                cacheItems.insert(i, item);
+                return item;
+            }
+        }
+    }
     cacheItems.append(item);
     return item;
 }
@@ -25,6 +39,26 @@ CacheItem* Cache::newItem(QString val)
 {
     CacheItem *item = newItem();
     item->setValue(val);
+    return item;
+}
+
+CacheItem* Cache::newItem(DataBaseItem *dataBaseItem)
+{
+    CacheItem *parent = searchParent(dataBaseItem);
+    CacheItem *item = newItem(parent, dataBaseItem);
+
+    CacheItem* child = NULL;
+    do
+    {
+        child = searchLostChildren(dataBaseItem);
+        if (NULL != child)
+        {
+            child->setParent(item);
+            item->addChild(child);
+        }
+    }
+    while (NULL != child);
+
     return item;
 }
 
@@ -47,35 +81,6 @@ bool Cache::isDelitedAncestors(DataBaseItem *casheData)
         }
     }
     return false;
-}
-
-CacheItem* Cache::newItem(DataBaseItem *dataBaseItem)
-{
-    CacheItem *item = newItem();
-    DataBaseItem *cacheBaseItem = item->getCacheData();
-    *cacheBaseItem = *dataBaseItem;
-    item->setIsOldItem();
-
-    CacheItem *parent = searchParent(dataBaseItem);
-    if(NULL != parent)
-    {
-        parent->addChild(item);
-        item->setParent(parent);
-    }
-
-    CacheItem* child = NULL;
-    do
-    {
-        child = searchLostChildren(dataBaseItem);
-        if (NULL != child)
-        {
-            child->setParent(item);
-            item->addChild(child);
-        }
-    }
-    while (NULL != child);
-
-    return item;
 }
 
 void Cache::reset(void)

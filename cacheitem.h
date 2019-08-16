@@ -8,7 +8,7 @@
 class CacheItem
 {
 public:
-    CacheItem(CacheItem *parent = NULL);
+    CacheItem(CacheItem *parent = NULL, DataBaseItem *cData = NULL);
 
     void addChild(CacheItem *child);// {children.append(child);}
     int getNumChildren(void) const {return children.size();}
@@ -23,7 +23,6 @@ public:
 
     void deleteItem(void);
     bool isNewItem(void) const {return isNew;}
-    void setIsOldItem(void) {isNew = false;}
     bool isTop(void) const {return (NULL == Parent);}
 
     DataBaseItem* getCacheData(void) {return &cacheData;}

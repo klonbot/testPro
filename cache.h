@@ -10,7 +10,7 @@ public:
 
     const bool isEditable;
 
-    CacheItem* newItem(CacheItem *parent = NULL);
+    CacheItem* newItem(CacheItem *parent = NULL, DataBaseItem *dataBaseItem = NULL);
     CacheItem* newItem(CacheItem *parent, QString val);
     CacheItem* newItem(QString val);   
     CacheItem* newItem(DataBaseItem *dataBaseItem);
