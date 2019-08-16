@@ -36,10 +36,10 @@ bool Cache::isDelitedAncestors(DataBaseItem *casheData)
     for (int i = 0; i < cacheItems.size(); ++i)
     {
         CacheItem *item = cacheItems.at(i);
-        if (item->geCacheData()->getIsDeleted())
+        if (item->getCacheData()->getIsDeleted())
         {
-            Key_t lk = item->geCacheData()->getLeftKey();
-            Key_t rk = item->geCacheData()->getRightKey();
+            Key_t lk = item->getCacheData()->getLeftKey();
+            Key_t rk = item->getCacheData()->getRightKey();
             if((lk < left)&&(right < rk))
             {
                 return true;
@@ -52,7 +52,7 @@ bool Cache::isDelitedAncestors(DataBaseItem *casheData)
 CacheItem* Cache::newItem(DataBaseItem *dataBaseItem)
 {
     CacheItem *item = newItem();
-    DataBaseItem *cacheBaseItem = item->geCacheData();
+    DataBaseItem *cacheBaseItem = item->getCacheData();
     *cacheBaseItem = *dataBaseItem;
     item->setIsOldItem();
 
@@ -109,7 +109,7 @@ CacheItem* Cache::searchInCache(DataBaseItem* baseItem)
          CacheItem *item = cacheItems.at(i);
          if (item->isNewItem())
              continue;
-         DataBaseItem* cacheDbItem = item->geCacheData();
+         DataBaseItem* cacheDbItem = item->getCacheData();
          ID_t casheID = cacheDbItem->getID();
          ID_t baseID = baseItem->getID();
          if (casheID == baseID)
@@ -127,7 +127,7 @@ CacheItem* Cache::searchParent(DataBaseItem *dataBaseItem)
         CacheItem *item = cacheItems.at(i);
         if(item->isNewItem())
             continue;
-        DataBaseItem *baseItem = item->geCacheData();
+        DataBaseItem *baseItem = item->getCacheData();
         int numChildren = baseItem->getNumChildren();
         for (int j = 0; j < numChildren; ++j)
         {
@@ -154,7 +154,7 @@ CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
                 continue;
             if(item->isNewItem())
                 continue;
-            ID_t ID = item->geCacheData()->getID();
+            ID_t ID = item->getCacheData()->getID();
             if (childID == ID)
             {
                 return item;
@@ -166,8 +166,8 @@ CacheItem* Cache::searchLostChildren(DataBaseItem *dataBaseItem)
 
 void Cache::deleteItem(CacheItem* item)
 {
-    Key_t lk = item->geCacheData()->getLeftKey();
-    Key_t rk = item->geCacheData()->getRightKey();
+    Key_t lk = item->getCacheData()->getLeftKey();
+    Key_t rk = item->getCacheData()->getRightKey();
     deleteAllDescendants(lk, rk);
     item->deleteItem();
 
@@ -182,8 +182,8 @@ void Cache::deleteAllDescendants(Key_t left, Key_t right)
     for (int i = 0; i < cacheItems.size(); ++i)
     {
         CacheItem *item = cacheItems.at(i);
-        Key_t lk = item->geCacheData()->getLeftKey();
-        Key_t rk = item->geCacheData()->getRightKey();
+        Key_t lk = item->getCacheData()->getLeftKey();
+        Key_t rk = item->getCacheData()->getRightKey();
         if((left < lk)&&(rk < right))
         {
             item->deleteItem();

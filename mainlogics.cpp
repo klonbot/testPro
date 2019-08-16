@@ -211,11 +211,11 @@ void MainLogics::applyItem(CacheItem *pCacheItem, ID_t idParent)
     ID_t id = 0;
     if(pCacheItem->isNewItem())
     {
-        id = dataBase.addItemFromCashe(pCacheItem->geCacheData(), idParent);
+        id = dataBase.addItemFromCashe(pCacheItem->getCacheData(), idParent);
     }
     else
     {
-        id = dataBase.refreshItemFromCashe(pCacheItem->geCacheData());
+        id = dataBase.refreshItemFromCashe(pCacheItem->getCacheData());
     }
     applyChildren(pCacheItem, id);
 }
