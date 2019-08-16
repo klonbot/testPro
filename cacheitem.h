@@ -10,10 +10,12 @@ class CacheItem
 public:
     CacheItem(CacheItem *parent = NULL, DataBaseItem *cData = NULL);
 
+    ID_t getID(void) {return cacheData.getID();}
+
     void addChild(CacheItem *child);
     int getNumChildren(void) const {return children.size();}
     CacheItem* getChild(int i) const {return children.at(i);}
-    ID_t getID(void) {return cacheData.getID();}
+    bool isChild(ID_t id);
 
     void setValue (QString val) {cacheData.setValue(val);}
     QString getValue(void) {return cacheData.getValue();}

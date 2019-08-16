@@ -19,9 +19,10 @@ public:
     bool isDelitedAncestors(DataBaseItem *dataBaseItem);
 
     void reset(void);
-    CacheItem* at (int i) {return cacheItems.at(i);}
-    int size(void) {return cacheItems.size();}
-    DataBaseItem* atData (int i) {return at(i)->getCacheData();}
+    CacheItem* getItem (int i) {return cacheItems_.at(i);}
+    int getSize(void) {return cacheItems_.size();}
+    void insertItem (int i, CacheItem* item) {return cacheItems_.insert(i, item);}
+    DataBaseItem* atData (int i) {return getItem(i)->getCacheData();}
 
     CacheItem* getChild(CacheItem *parent, int ind);
     CacheItem* searchInCache(ID_t baseID);
@@ -30,11 +31,11 @@ public:
     void deleteAllDescendants(Key_t left, Key_t right);
     void resetIsDeletedRoot(void) {isDeletedRoot = false;}
 private:
-    QVector<CacheItem*>cacheItems;
+    QVector<CacheItem*>cacheItems_;
     bool isDeletedRoot;
 
     CacheItem* searchParent(DataBaseItem *dataBaseItem);
-    CacheItem* searchLostChildren(DataBaseItem *dataBaseItem);
+    CacheItem* searchLostChildren(CacheItem *item);
 };
 
 #endif // CACHE_H

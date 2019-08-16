@@ -165,9 +165,9 @@ void MainLogics::initTestTree(void)
 void MainLogics::refreshCasheTreeView(void)
 {
     cacheConnector.clear();
-    for (int ind = 0; ind < cache.size(); ++ind)
+    for (int ind = 0; ind < cache.getSize(); ++ind)
     {
-        CacheItem *pCacheItem = cache.at(ind);
+        CacheItem *pCacheItem = cache.getItem(ind);
         if (pCacheItem->isTop())
         {
             cacheConnector.connectTree(pCacheItem);
@@ -179,9 +179,9 @@ void MainLogics::refreshDBTreeView(void)
 {
     dbConnector.clear();
 
-    for (int ind = 0; ind < dataBase.size(); ++ind)
+    for (int ind = 0; ind < dataBase.getSize(); ++ind)
     {
-        DataBaseItem *pDbItem = dataBase.at(ind);
+        DataBaseItem *pDbItem = dataBase.getItem(ind);
         if (pDbItem->getIsRoot())
         {
             dbConnector.connectTree(pDbItem);
@@ -196,9 +196,9 @@ void MainLogics::slotApply(void)
 
 void MainLogics::apply(void)
 {
-    for (int ind = 0; ind < cache.size(); ++ind)
+    for (int ind = 0; ind < cache.getSize(); ++ind)
     {
-        CacheItem *pCacheItem = cache.at(ind);
+        CacheItem *pCacheItem = cache.getItem(ind);
         if (pCacheItem->isTop())
         {
             applyItem(pCacheItem, 0);

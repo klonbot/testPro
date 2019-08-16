@@ -18,7 +18,7 @@ private:
 template <typename Bd>
 void UpdateKeys<Bd>::updateKeysRightItems(Key_t rk)
 {
-    for(int i = 0; i < bd.size(); ++i)
+    for(int i = 0; i < bd.getSize(); ++i)
     {
         DataBaseItem *item = bd.atData(i);
         if(item->getLeftKey() > rk)
@@ -32,7 +32,7 @@ void UpdateKeys<Bd>::updateKeysRightItems(Key_t rk)
 template <typename Bd>
 void UpdateKeys<Bd>::updateKeysAncestors(Key_t rk)
 {
-    for(int i = 0; i < bd.size(); ++i)
+    for(int i = 0; i < bd.getSize(); ++i)
     {
         DataBaseItem *item = bd.atData(i);
         if((item->getRightKey()>=rk)&&(item->getLeftKey()<rk))

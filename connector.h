@@ -142,7 +142,7 @@ void Connector<Item, Bd>::connectChildrenPointMode(QTreeWidgetItem *pWidgetItem,
 template<typename Item, typename Bd>
 void Connector<Item, Bd>::connectChildrenIdMode(QTreeWidgetItem *pWidgetItem, Item *pItem)
 {
-    for (int ind = 0; ind < bd.size(); ++ind)
+    for (int ind = 0; ind < bd.getSize(); ++ind)
     {
         ID_t idParent = pItem->getID();
         DataBaseItem* item = bd.atData(ind);
@@ -151,7 +151,7 @@ void Connector<Item, Bd>::connectChildrenIdMode(QTreeWidgetItem *pWidgetItem, It
 
         if(idParent == item->getIdParent())
         {
-            Item *pChild = bd.at(ind);
+            Item *pChild = bd.getItem(ind);
             connectItem(pWidgetItem, pChild);
         }
     }

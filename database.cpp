@@ -4,7 +4,7 @@ DataBase::DataBase() :
     UpdateKeys<DataBase>(*this),
     isEditable(false)
 {
-    idCounter = 0;
+    resetIdCounter();
 }
 
 ID_t DataBase::addItemFromCashe(DataBaseItem *dbItem, ID_t idParent)
@@ -97,7 +97,7 @@ void DataBase::deleteCildrenInDB(DataBaseItem *parentItem)
 void DataBase::clear (void)
 {
     dataBaseItems.clear();
-    idCounter = 0;
+    resetIdCounter();
 }
 
 DataBaseItem* DataBase::getChild(DataBaseItem *parent, int ind)

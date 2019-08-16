@@ -53,3 +53,14 @@ void CacheItem::addChild(CacheItem *child)
     }
 }
 
+bool CacheItem::isChild(ID_t id)
+{
+    for (int i = 0; i < getNumChildren(); ++i)
+    {
+        ID_t childId = getChild(i)->getID();
+        if (childId == id)
+            return true;
+    }
+    return false;
+}
+
