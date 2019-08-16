@@ -120,6 +120,7 @@ void MainLogics::slotControlEdit(void)
 
 void MainLogics::slotControlAddDelete(void)
 {
+    bool enBtn = false;
     if (false == cache.getIsDeletedRoot())
     {
         QTreeWidget *pCachedTreeView = window->getCachedTreeView();
@@ -127,14 +128,10 @@ void MainLogics::slotControlAddDelete(void)
         if(NULL != pCurrItem)
         {
             CacheItem *pCurrCashItem = cacheConnector.getItem(pCurrItem);
-            bool enBtn = (false ==pCurrCashItem->getIsDeleted());
-            window->setCtrlBtnEnabled(enBtn);
-        }
-        else
-        {
-            window->setCtrlBtnEnabled(false);
+            enBtn = (false == pCurrCashItem->getIsDeleted());
         }
     }
+    window->setCtrlBtnEnabled(enBtn);
 }
 
 void MainLogics::initTestTree(void)
