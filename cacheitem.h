@@ -13,6 +13,7 @@ public:
     void addChild(CacheItem *child);
     int getNumChildren(void) const {return children.size();}
     CacheItem* getChild(int i) const {return children.at(i);}
+    ID_t getID(void) {return cacheData.getID();}
 
     void setValue (QString val) {cacheData.setValue(val);}
     QString getValue(void) {return cacheData.getValue();}
