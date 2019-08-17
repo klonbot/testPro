@@ -13,32 +13,16 @@ CacheItem* Cache::newItem(CacheItem *parent, DataBaseItem *dataBaseItem)
     CacheItem* item = new CacheItem(parent, dataBaseItem);
     if(NULL != dataBaseItem)
     {
-        DataBaseItem *cacheData = item->getCacheData();
-        Key_t lk = cacheData->getLeftKey();
-        for(int i = 0; i < getSize(); ++i)
-        {
-            Key_t lki = getItem(i)->getCacheData()->getLeftKey();
-            if(lk < lki)
-            {
-                insertItem(i, item);
-                return item;
-            }
-        }
+        if (insertByKey(item))
+            return item;
     }
     cacheItems.append(item);
     return item;
 }
 
-CacheItem* Cache::newItem(CacheItem *parent, QString val)
+CacheItem* Cache::newItem(QString val, CacheItem *parent)
 {
     CacheItem *item = newItem(parent);
-    item->setValue(val);
-    return item;
-}
-
-CacheItem* Cache::newItem(QString val)
-{
-    CacheItem *item = newItem();
     item->setValue(val);
     return item;
 }
@@ -47,19 +31,7 @@ CacheItem* Cache::newItem(DataBaseItem *dataBaseItem)
 {
     CacheItem *parent = searchParent(dataBaseItem);
     CacheItem *item = newItem(parent, dataBaseItem);
-
-    CacheItem* child = NULL;
-    do
-    {
-        child = searchLostChildren(item);
-        if (NULL != child)
-        {
-            child->setParent(item);
-            item->addChild(child);
-        }
-    }
-    while (NULL != child);
-
+    addLostChildren(item);
     return item;
 }
 
@@ -67,7 +39,6 @@ bool Cache::isDelitedAncestors(DataBaseItem *casheData)
 {
     Key_t left = casheData->getLeftKey();
     Key_t right = casheData->getRightKey();
-
     for (int i = 0; i < getSize(); ++i)
     {
         CacheItem *item = getItem(i);
@@ -108,7 +79,7 @@ CacheItem* Cache::getChild(CacheItem *parent, int ind)
     return item;
 }
 
-CacheItem* Cache::searchInCache(ID_t baseID)
+CacheItem* Cache::searchInCache(ID_t ID)
 {
     for (int i = 0; i < getSize(); ++i)
     {
@@ -117,7 +88,7 @@ CacheItem* Cache::searchInCache(ID_t baseID)
              continue;
          DataBaseItem* cacheDbItem = item->getCacheData();
          ID_t casheID = cacheDbItem->getID();
-         if (casheID == baseID)
+         if (casheID == ID)
          {
              return item;
          }
@@ -167,6 +138,37 @@ CacheItem* Cache::searchLostChildren(CacheItem *parentItem)
     return NULL;
 }
 
+bool Cache::insertByKey(CacheItem *item)
+{
+    DataBaseItem *cacheData = item->getCacheData();
+    Key_t lk = cacheData->getLeftKey();
+    for(int i = 0; i < getSize(); ++i)
+    {
+        Key_t lki = getItem(i)->getCacheData()->getLeftKey();
+        if(lk < lki)
+        {
+            insertItem(i, item);
+            return true;
+        }
+    }
+    return false;
+}
+
+void Cache::addLostChildren(CacheItem *item)
+{
+    CacheItem* child = NULL;
+    do
+    {
+        child = searchLostChildren(item);
+        if (NULL != child)
+        {
+            child->setParent(item);
+            item->addChild(child);
+        }
+    }
+    while (NULL != child);
+}
+
 void Cache::deleteItem(CacheItem* item)
 {
     Key_t lk = item->getCacheData()->getLeftKey();
@@ -200,4 +202,5 @@ void Cache::updateKeys(ID_t idParent)
     updateKeysRightItems(pCacheItem->getCacheData()->getRightKey());
     updateKeysAncestors(pCacheItem->getCacheData()->getRightKey());
 }
+
 

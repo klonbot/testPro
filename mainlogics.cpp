@@ -39,7 +39,7 @@ void MainLogics::slotNewItem(void)
             {
                 QString text ="New node ";
                 text += QString::number(newIndex++);
-                cache.newItem(pCurrCashItem, text);
+                cache.newItem(text, pCurrCashItem);
                 refreshCasheTreeView();
             }
         }
@@ -140,20 +140,20 @@ void MainLogics::initTestTree(void)
     newIndex = 1;
 
     CacheItem *item_1 = cache.newItem("Node 1");
-    /*CacheItem *item_11 =*/cache.newItem(item_1, "Node 11");
-    CacheItem *item_12 = cache.newItem(item_1, "Node 12");
-    /*CacheItem *item_121 =*/cache.newItem(item_12, "Node 121");
-    CacheItem *item_122 = cache.newItem(item_12, "Node 122");
-    /*CacheItem *item_1221 =*/cache.newItem(item_122, "Node 1221");
-    /*CacheItem *item_123 =*/cache.newItem(item_12, "Node 123");
-    /*CacheItem *item_124 =*/cache.newItem(item_12, "Node 124");
-    CacheItem *item_13 = cache.newItem(item_1, "Node 13");
-    /*CacheItem *item_131 =*/cache.newItem(item_13, "Node 131");
-    /*CacheItem *item_132 =*/cache.newItem(item_13, "Node 132");
-    CacheItem *item_133 = cache.newItem(item_13, "Node 133");
-    /*CacheItem *item_1331 =*/cache.newItem(item_133, "Node 1331");
-    /*CacheItem *item_1332 =*/cache.newItem(item_133, "Node 1332");
-    /*CacheItem *item_134 =*/cache.newItem(item_13, "Node 134");
+    /*CacheItem *item_11 =*/cache.newItem("Node 11", item_1);
+    CacheItem *item_12 = cache.newItem("Node 12", item_1);
+    /*CacheItem *item_121 =*/cache.newItem("Node 121", item_12);
+    CacheItem *item_122 = cache.newItem("Node 122", item_12);
+    /*CacheItem *item_1221 =*/cache.newItem("Node 1221", item_122);
+    /*CacheItem *item_123 =*/cache.newItem("Node 123", item_12);
+    /*CacheItem *item_124 =*/cache.newItem("Node 124", item_12);
+    CacheItem *item_13 = cache.newItem("Node 13", item_1);
+    /*CacheItem *item_131 =*/cache.newItem("Node 131", item_13);
+    /*CacheItem *item_132 =*/cache.newItem("Node 132", item_13);
+    CacheItem *item_133 = cache.newItem("Node 133", item_13);
+    /*CacheItem *item_1331 =*/cache.newItem("Node 1331", item_133);
+    /*CacheItem *item_1332 =*/cache.newItem("Node 1332", item_133);
+    /*CacheItem *item_134 =*/cache.newItem("Node 134", item_13);
 
     apply();
     clearCache();

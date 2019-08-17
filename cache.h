@@ -12,8 +12,7 @@ public:
     const bool isEditable;
 
     CacheItem* newItem(CacheItem *parent = NULL, DataBaseItem *dataBaseItem = NULL);
-    CacheItem* newItem(CacheItem *parent, QString val);
-    CacheItem* newItem(QString val);   
+    CacheItem* newItem(QString val, CacheItem *parent = NULL);
     CacheItem* newItem(DataBaseItem *dataBaseItem);
 
     bool isDelitedAncestors(DataBaseItem *dataBaseItem);
@@ -25,7 +24,7 @@ public:
     DataBaseItem* atData (int i) {return getItem(i)->getCacheData();}
 
     CacheItem* getChild(CacheItem *parent, int ind);
-    CacheItem* searchInCache(ID_t baseID);
+    CacheItem* searchInCache(ID_t ID);
     bool getIsDeletedRoot(void) {return isDeletedRoot;}
     void deleteItem(CacheItem*  item);
     void deleteAllDescendants(Key_t left, Key_t right);
@@ -39,6 +38,8 @@ private:
 
     CacheItem* searchParent(DataBaseItem *dataBaseItem);
     CacheItem* searchLostChildren(CacheItem *item);
+    void addLostChildren(CacheItem *item);
+    bool insertByKey(CacheItem *item);
 };
 
 #endif // CACHE_H
