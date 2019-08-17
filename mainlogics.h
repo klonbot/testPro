@@ -44,7 +44,7 @@ private:
     void applyItem(CacheItem *pCacheItem, ID_t idParent);
     void applyChildren(CacheItem *pCacheItem, ID_t idParent);
 
-    void clearCache();
+    void clearCache(void);
 };
 
 #endif // MAILLOGICS_H
